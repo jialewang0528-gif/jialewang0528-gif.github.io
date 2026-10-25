@@ -88,7 +88,7 @@ h1, h2, h3 { text-wrap: balance; }
 .cpanel { position: absolute; inset: 0; background: #ebe8e1; will-change: transform; display: grid; place-items: center; box-shadow: -30px 0 60px rgba(0, 0, 0, .35); }
 .cpanel-ui { display: grid; justify-items: center; gap: 14px; color: #0f0f0e; }
 .c-name { font: 400 clamp(40px, 6vw, 84px)/1 var(--serif); letter-spacing: .01em; min-height: 1em; }
-.c-cap { font: 500 11px/14px var(--sans); letter-spacing: .3em; text-transform: uppercase; color: rgba(15, 15, 14, .55); min-height: 14px; }
+.c-cap { font: 500 11px/14px var(--sans); letter-spacing: .3em; text-transform: uppercase; color: rgba(15, 15, 14, .7); min-height: 14px; }
 .kid { position: absolute; left: 0; bottom: 14vh; width: clamp(150px, 17vw, 240px); will-change: transform; filter: drop-shadow(2px 0 0 #ebe8e1) drop-shadow(-2px 0 0 #ebe8e1) drop-shadow(0 2px 0 #ebe8e1) drop-shadow(0 -2px 0 #ebe8e1); }
 .kid-svg { display: block; width: 100%; height: auto; overflow: visible; }
 .k-ink { fill: #0f0f0e; } .k-inks { stroke: #0f0f0e; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
@@ -98,7 +98,7 @@ h1, h2, h3 { text-wrap: balance; }
 @keyframes dust { from { opacity: .85; transform: translate(0, 0) scale(.4); } to { opacity: 0; transform: translate(18px, -16px) scale(1.5); } }
 .c-skip.wait { right: 50%; transform: translateX(50%); bottom: 18vh; color: rgba(15, 15, 14, .6); animation: waitPulse 1.6s ease-in-out infinite; }
 @keyframes waitPulse { 50% { opacity: .35; } }
-.c-skip { position: absolute; right: var(--gutter); bottom: 22px; font: 500 11px/14px var(--sans); letter-spacing: .16em; text-transform: uppercase; color: rgba(15, 15, 14, .45); z-index: 3; }
+.c-skip { position: absolute; right: var(--gutter); bottom: 22px; font: 500 11px/14px var(--sans); letter-spacing: .16em; text-transform: uppercase; color: rgba(15, 15, 14, .7); z-index: 3; }
 @keyframes introGone { to { visibility: hidden; } }
 .rot { display: inline-block; border-bottom: 1px solid var(--line-strong); font-variant-ligatures: none; }
 /* hero entrance runs when the intro hands off (html.ready); without JS everything is simply visible */
@@ -153,6 +153,17 @@ html.ready .peek .float:nth-of-type(2) { animation: toss2 1.2s cubic-bezier(.2, 
 .name .ln { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 .05em .24em 0; margin-bottom: -.16em; }
 .name .ln > span { display: inline-block; }
 .name em { font-style: italic; }
+.name-pic { display: inline-block; position: relative; width: 1.5em; height: .62em; margin: 0 .12em 0 .1em; vertical-align: .14em; border-radius: .31em; overflow: hidden; background: #1a1a19; box-shadow: 0 0 0 1px rgba(235, 232, 225, .12); }
+.name-pic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; animation: picCycle 9s infinite; }
+.name-pic img:nth-child(1) { opacity: 1; }
+.name-pic img:nth-child(2) { animation-delay: 3s; }
+.name-pic img:nth-child(3) { animation-delay: 6s; }
+@keyframes picCycle { 0% { opacity: 0; transform: scale(1.12); } 6%, 33% { opacity: 1; } 40%, 100% { opacity: 0; transform: scale(1); } }
+html.intro-on .name-pic { opacity: 0; }
+html.ready .name-pic { animation: picIn 1.1s cubic-bezier(.77, 0, .18, 1) .5s backwards; }
+@keyframes picIn { from { clip-path: inset(0 50% round .31em); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .name-pic img:nth-child(n+2) { display: none; } }
+
 @keyframes rise { from { transform: translateY(105%); } }
 .ch { display: inline-block; }
 @keyframes chIn { from { transform: translateY(70%) rotate(12deg) scale(.9); filter: blur(16px); opacity: 0; } }
@@ -263,7 +274,7 @@ html.ready .peek .float:nth-of-type(2) { animation: toss2 1.2s cubic-bezier(.2, 
 
 /* ---------- reel (huyml card stream) ---------- */
 .reel { --cards: 8; position: relative; height: calc(var(--cards) * 32vh + 100vh); margin: 0 calc(var(--gutter) * -1) var(--space-9); }
-.reel-pin { position: sticky; top: 0; height: 100vh; overflow: hidden; perspective: 1500px; }
+.reel-pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; perspective: 1500px; }
 .reel-stage { position: absolute; inset: 0; transform-style: preserve-3d; }
 .reel-bg { position: absolute; inset: -10%; pointer-events: none; }
 .reel-bg img { position: absolute; left: 50%; top: 42%; width: 70%; transform: translate(-50%, -50%) scale(1.3); filter: blur(70px) saturate(1.4); opacity: 0; transition: opacity 1.1s var(--ease-out); }
@@ -271,7 +282,7 @@ html.ready .peek .float:nth-of-type(2) { animation: toss2 1.2s cubic-bezier(.2, 
 @media (max-width: 760px) { .reel-bg img { filter: blur(40px) saturate(1.3); } }
 .rc { position: absolute; left: 50%; top: 40%; width: min(40vw, 540px); margin: 0; transform-style: preserve-3d; will-change: transform, opacity; cursor: pointer; backface-visibility: hidden; }
 .rc img { width: 100%; height: auto; display: block; box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .75); outline: 1px solid rgba(235, 232, 225, .08); }
-.rc.poster { width: min(19vw, 250px); }
+.rc.poster { width: max(170px, min(19vw, 250px)); }
 .rc .float { transform: none !important; max-width: none; }
 .rc .float .sticker { display: none; }
 .reel-count { position: absolute; top: 92px; left: var(--gutter); display: flex; gap: 8px; z-index: 200; }
@@ -307,7 +318,7 @@ html.ready .peek .float:nth-of-type(2) { animation: toss2 1.2s cubic-bezier(.2, 
   .reel { height: calc(var(--cards) * 28vh + 100vh); }
   .rc { width: 78vw; top: 36%; } .rc.poster { width: 46vw; }
   .reel-count { top: 76px; } .reel-side { display: none; }
-  .reel-info { bottom: 12vh; } .reel-tabs { top: auto; bottom: 3vh; } .reel-tab { padding: 10px 16px; } .tab-more { display: none; } .reel-arrows, .reel-skip { display: none; } .reel-read { display: none; }
+  .reel-info { bottom: 12vh; } .reel-tabs { top: auto; bottom: 3vh; } .reel-tab { padding: 10px 16px; } .tab-more { display: none; } .reel-arrows, .reel-skip { display: none; } .reel-read { height: 38px; padding: 0 16px; }
 }
 @media (prefers-reduced-motion: reduce) { .reel { display: none; } }
 
@@ -457,11 +468,34 @@ section { padding-block: var(--space-10) 0; }
   .pcard.feat { grid-template-columns: minmax(0, 1fr); min-height: 0; }
   .pcard.feat .pc-info { order: 2; padding: var(--space-6); }
   .pc-phones { min-height: 380px; border-left: 0; border-bottom: 1px solid var(--line); }
-  .ph { width: 34%; }
+  .ph { width: 26%; }
 }
 .pv-store { display: none; }
 html.js .projects#pvStore { display: none; }
 
+/* ---------- front page: projects as an expanding strip (Cynx). The open panel widens, the others fold to spines ---------- */
+.pc-spine { display: none; }
+@media (min-width: 1100px) {
+  .pgrid.pstrip { display: flex; gap: 12px; height: min(640px, 78vh); }
+  .pstrip .pcard.feat { flex: 1 1 0; min-width: 0; min-height: 0; grid-template-columns: calc(var(--ew, 900px) * .42) calc(var(--ew, 900px) * .58); transition: flex-grow .85s cubic-bezier(.77, 0, .18, 1), border-color .4s var(--ease-out); }
+  .pstrip .pcard.feat.on { flex-grow: 4.2; }
+  .pstrip .pcard.feat:hover { transform: none; }
+  .pstrip .pcard.flip .pc-art { order: 0; border-right: 0; border-left: 1px solid var(--line); }
+  .pstrip .pcard.feat .pc-info { padding: var(--space-6); }
+  .pstrip .pcard.feat .pc-title { font-size: clamp(44px, 4.2vw, 64px); }
+  .pstrip .pc-ui .ui-stage { transform: scale(.5); }
+  .pstrip .pc-ui, .pstrip .pc-phones { min-height: 0; }
+  @media (min-width: 1300px) { .pstrip .pc-ui .ui-stage { transform: scale(.6); } }
+  @media (min-width: 1500px) { .pstrip .pc-ui .ui-stage { transform: scale(.7); } }
+  .pstrip .pcard > .pc-info, .pstrip .pcard > .pc-art { transition: opacity .45s var(--ease-out) .48s; }
+  .pstrip .pcard:not(.on) > .pc-info, .pstrip .pcard:not(.on) > .pc-art { opacity: 0; pointer-events: none; transition-delay: 0s; transition-duration: .2s; }
+  .pc-spine { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 26px 0 30px; pointer-events: none; transition: opacity .35s var(--ease-out) .2s; }
+  .pc-spine b { font: 500 13px/1 var(--sans); letter-spacing: .14em; color: var(--muted); }
+  .pc-spine span { writing-mode: vertical-rl; transform: rotate(180deg); font: 400 clamp(30px, 2.8vw, 44px)/1 var(--serif); letter-spacing: -.01em; white-space: nowrap; }
+  .pc-spine em { font-style: italic; }
+  .pstrip .pcard.on .pc-spine { opacity: 0; transition-delay: 0s; transition-duration: .15s; }
+  .pstrip .pcard:not(.on):hover { border-color: var(--line-strong); }
+}
 /* ---------- project view: full-screen, its own card stream, then the case study ---------- */
 .pv { position: fixed; inset: 0; z-index: 80; background: var(--surface); visibility: hidden; clip-path: inset(100% 0 0 0); transition: clip-path .85s cubic-bezier(.77, 0, .18, 1), visibility 0s linear .85s; }
 .pv.open { visibility: visible; clip-path: inset(0 0 0 0); transition: clip-path .85s cubic-bezier(.77, 0, .18, 1), visibility 0s; }
@@ -515,6 +549,7 @@ html.pv-lock .latest { display: none; }
 .vt-wm i { font-style: normal; color: #2ee68a; }
 
 /* ---------- Veraitas walkthrough player ---------- */
+.vtp, .pc-ui, .pc-phones, .lg { --ink: #ebe8e1; --muted: #a8a59e; --ghost: #8f8c86; --volt: #ebe8e1; --on-volt: #0f0f0e; --line: #2a2a28; --line-strong: #6e6c67; --surface: #0f0f0e; }
 .vt-demo { grid-column: 1 / -1; margin-bottom: var(--space-6); }
 .vtp { width: 100%; max-width: min(1120px, calc((100vh - 250px) * 1.6)); margin: 0 auto; border: 1px solid #2f2f2d; border-radius: 16px; overflow: hidden; background: #0b0b0b; box-shadow: 0 50px 100px -50px rgba(0, 0, 0, .95), 0 0 0 1px rgba(255, 255, 255, .02); }
 .vtp-chrome { position: relative; display: flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px; border-bottom: 1px solid #1f1f1e; background: #121211; }
@@ -651,9 +686,9 @@ html.pv-lock .latest { display: none; }
 /* ---------- experience logo tiles: brand-tinted light follows the cursor, click jumps to the role ---------- */
 .xp-logos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-3); margin-bottom: var(--space-8); }
 .lg { --mx: 50%; --my: 50%; position: relative; display: grid; place-items: center; aspect-ratio: 5 / 4; overflow: hidden; border-radius: var(--radius-md); border: 1px solid var(--line); background: #141413; color: var(--ink); text-decoration: none; isolation: isolate; transition: transform .6s var(--ease-out), border-color .4s var(--ease-out); }
-.lg::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(260px circle at var(--mx) var(--my), color-mix(in srgb, var(--c) 30%, transparent), transparent 70%); opacity: 0; transition: opacity .5s var(--ease-out); }
+.lg::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(260px circle at var(--mx) var(--my), rgba(235, 232, 225, .1), transparent 70%); background: radial-gradient(260px circle at var(--mx) var(--my), color-mix(in srgb, var(--c) 30%, transparent), transparent 70%); opacity: 0; transition: opacity .5s var(--ease-out); }
 .lg::after { content: ""; position: absolute; inset: 0; z-index: -1; background-image: radial-gradient(rgba(235, 232, 225, .07) 1px, transparent 1.4px); background-size: 14px 14px; mask-image: radial-gradient(240px circle at var(--mx) var(--my), #000, transparent 75%); -webkit-mask-image: radial-gradient(240px circle at var(--mx) var(--my), #000, transparent 75%); opacity: .5; }
-.lg:hover, .lg:focus-visible { transform: translateY(-6px); border-color: color-mix(in srgb, var(--c) 55%, var(--line)); }
+.lg:hover, .lg:focus-visible { transform: translateY(-6px); border-color: var(--line-strong); border-color: color-mix(in srgb, var(--c) 55%, var(--line)); }
 .lg:hover::before, .lg:focus-visible::before { opacity: 1; }
 .lg:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 .lg-mark { display: grid; place-items: center; width: 62%; transition: transform .7s var(--ease-out), opacity .4s; }
@@ -667,8 +702,8 @@ html.pv-lock .latest { display: none; }
 .lg:hover .lg-meta, .lg:focus-visible .lg-meta { opacity: 1; transform: none; }
 .lg-now { position: absolute; top: 14px; left: 16px; display: inline-flex; align-items: center; gap: 7px; color: var(--muted); }
 .lg-now b { width: 7px; height: 7px; border-radius: 50%; background: var(--c); animation: pcPulse 1.8s infinite; }
-.xp.flash { animation: xpFlash 1.6s var(--ease-out); }
-@keyframes xpFlash { 0% { background: color-mix(in srgb, var(--ink) 10%, transparent); } 100% { background: transparent; } }
+.xp.flash { animation: xpFlash 2s var(--ease-out); }
+@keyframes xpFlash { 0%, 30% { background: rgba(128, 128, 128, .16); } 100% { background: transparent; } }
 @media (hover: none) { .lg-meta { opacity: 1; transform: none; } .lg-mark { transform: translateY(-12px); } }
 @media (max-width: 900px) { .xp-logos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 480px) { .lg-meta { flex-direction: column; gap: 2px; left: 14px; right: 14px; bottom: 12px; } .lg-mark { width: 70%; } }
@@ -771,9 +806,10 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 .ring { position: fixed; left: 0; top: 0; width: 36px; height: 36px; margin: -18px 0 0 -18px; border: 1.5px solid var(--line-strong); border-radius: 50%; pointer-events: none; z-index: 90; opacity: 0; transition: width var(--dur-base) var(--ease-out), height var(--dur-base) var(--ease-out), margin var(--dur-base) var(--ease-out), border-color var(--dur-fast), opacity var(--dur-fast); }
 .ring.on { opacity: 1; }
 .ring span { position: absolute; inset: 0; display: grid; place-items: center; font: 700 9px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: #ebe8e1; opacity: 0; transition: opacity var(--dur-fast); }
-.ring.label { width: 56px; height: 56px; margin: -28px 0 0 -28px; background: rgba(15, 15, 14, .55); border-color: var(--ink); backdrop-filter: blur(4px); }
+.ring.label { width: auto; height: 30px; margin: 14px 0 0 14px; padding: 0 14px; border-radius: 999px; background: var(--ink); border-color: var(--ink); }
+.ring.label span { position: static; display: block; height: 30px; line-height: 30px; color: var(--surface); white-space: nowrap; }
 .ring.label span { opacity: 1; }
-.grain { position: fixed; inset: -50%; z-index: 95; pointer-events: none; opacity: .045; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); animation: grain 2.4s steps(4) infinite; }
+.grain { position: fixed; inset: -10%; z-index: 85; pointer-events: none; opacity: .03; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); animation: grain 2.4s steps(4) infinite; }
 @keyframes grain { 0% { transform: translate(0, 0); } 20% { transform: translate(-3%, 2%); } 40% { transform: translate(2%, -4%); } 60% { transform: translate(-4%, -1%); } 80% { transform: translate(3%, 3%); } 100% { transform: translate(0, 0); } }
 @media (max-width: 760px), (prefers-reduced-motion: reduce) { .grain { display: none; } }
 .ring.big { width: 72px; height: 72px; margin: -36px 0 0 -36px; border-color: var(--ink); }
@@ -859,7 +895,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       </figure>
 
       <div class="hero-side">
-        <h1 class="name" id="heroName" aria-label="Michael Wang"><span class="ln"><span>Michael</span></span> <span class="ln"><span><em>Wang</em></span></span></h1>
+        <h1 class="name" id="heroName" aria-label="Michael Wang"><span class="ln"><span>Michael</span></span><span class="name-pic" aria-hidden="true"><img src="pitch-01.jpg" alt=""><img src="vt-02.jpg" alt=""><img src="reel-cs-1.jpg" alt=""></span><span class="ln"><span><em>Wang</em></span></span></h1>
         <div class="focus" aria-hidden="true">
           <div class="focus-top caps-s"><span id="rotIdx">01 / 08</span><span>NYU &#xb7; Economics &#xb7; Data Science</span></div>
           <div class="focus-word" id="rot">PRODUCT MANAGEMENT</div>
@@ -903,8 +939,8 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       <p>Click a project to scroll through it.</p>
     </header>
 
-    <div class="pgrid">
-      <a class="pcard feat" href="#project/whoop" aria-label="Open WHOOP Calendar Sync">
+    <div class="pgrid pstrip">
+      <a class="pcard feat" href="#project/whoop" aria-label="Open WHOOP Calendar Sync"><span class="pc-spine" aria-hidden="true"><b>01</b><span>WHOOP Calendar <em>Sync</em></span></span>
         <div class="pc-info">
           <span class="pc-cat caps-s"><b>01</b>0&#x2192;1 feature &#xb7; NYU PM Club</span>
           <h3 class="pc-title">WHOOP Calendar <em>Sync</em></h3>
@@ -919,7 +955,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
         </div>
       </a>
 
-      <a class="pcard feat flip" href="#project/veraitas" aria-label="Open Veraitas">
+      <a class="pcard feat flip" href="#project/veraitas" aria-label="Open Veraitas"><span class="pc-spine" aria-hidden="true"><b>02</b><span>Veraitas</span></span>
         <div class="pc-info">
           <span class="pc-cat caps-s"><b>02</b>Fintech &#xb7; Tech@NYU Buildathon</span>
           <h3 class="pc-title">Veraitas</h3>
@@ -953,7 +989,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
         </div>
       </a>
 
-      <a class="pcard feat" href="#project/cs2" aria-label="Open CS2 Integrity Watch">
+      <a class="pcard feat" href="#project/cs2" aria-label="Open CS2 Integrity Watch"><span class="pc-spine" aria-hidden="true"><b>03</b><span>CS2 Integrity <em>Watch</em></span></span>
         <div class="pc-info">
           <span class="pc-cat caps-s"><b>03</b>Machine learning &#xb7; IBM Z Datathon</span>
           <h3 class="pc-title">CS2 Integrity <em>Watch</em></h3>
@@ -1155,7 +1191,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
             <div class="btns">
               <a class="btn btn-primary" href="https://youtu.be/xO6F2ehuW4A" target="_blank" rel="noopener">Watch the video <span class="arr" aria-hidden="true">&#x2192;</span></a>
               <a class="btn" href="http://148.100.79.57:38888/" target="_blank" rel="noopener">Live dashboard <span class="arr" aria-hidden="true">&#x2192;</span></a>
-              <a class="btn" href="https://www.figma.com/slides/O5UdHDEbmIeoyUa1FUXixK" target="_blank" rel="noopener">Pitch deck <span class="arr" aria-hidden="true">&#x2192;</span></a>
+              <a class="btn" href="https://www.figma.com/deck/O5UdHDEbmIeoyUa1FUXixK" target="_blank" rel="noopener">Pitch deck <span class="arr" aria-hidden="true">&#x2192;</span></a>
               <a class="btn" href="https://github.com/jialewang0528-gif/IBMZProject" target="_blank" rel="noopener">GitHub repo <span class="arr" aria-hidden="true">&#x2192;</span></a>
             </div>
           </div>
@@ -1285,6 +1321,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
   }
 
   // intro: little me walks in and pushes the curtain off screen. Frame-driven so it only plays on screen
+  var curLast = null, curRefresh = function () {};
   var root = document.documentElement, curtain = document.getElementById("curtain"), replayIntro = function () {};
   if (curtain && !reduce) {
     var panel = document.getElementById("cpanel"), kid = document.getElementById("kid"), kidSvg = document.getElementById("kidSvg");
@@ -1330,7 +1367,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     function skip() { if (!iRun || performance.now() - startedAt < 500) return; if (iT < PUSH) iT = PUSH; iSpeed = 2.4; }
     curtain.addEventListener("click", skip);
     ["keydown", "wheel", "touchstart"].forEach(function (ev) { window.addEventListener(ev, function () { if (iRun) skip(); }, { passive: true }); });
-    replayIntro = function () { window.scrollTo({ top: 0, behavior: "instant" }); void root.offsetWidth; armed = true; startedAt = performance.now(); start(); };
+    replayIntro = function () { var sb = root.style.scrollBehavior; root.style.scrollBehavior = "auto"; window.scrollTo(0, 0); root.style.scrollBehavior = sb; void root.offsetWidth; armed = true; startedAt = performance.now(); start(); };
     // wait on the curtain until the visitor is actually here (the viewer can load the page before it is on screen)
     var hint = curtain.querySelector(".c-skip"), armed = false, startedAt = 0;
     function arm() {
@@ -1513,10 +1550,13 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
   }
   function firstImg() { var d = PROJ[pvKey]; for (var k = 0; k < d.cards.length; k++) if (d.cards[k].src) return d.cards[k].src; return ""; }
   function span() { return Math.max(1, reel.offsetHeight - pvScroll.clientHeight); }
-  function targetFromScroll() { fTarget = Math.max(0, Math.min(1, pvScroll.scrollTop / span())) * (N - 1); }
+  var rvRaf = 0;
+  function rvKick() { if (rvRun && !rvRaf && !reduce) rvRaf = requestAnimationFrame(render); }
+  function targetFromScroll() { fTarget = Math.max(0, Math.min(1, pvScroll.scrollTop / span())) * (N - 1); rvKick(); }
   function goTo(i) { i = Math.max(0, Math.min(N - 1, i)); pvScroll.scrollTo({ top: (i / (N - 1)) * span() + 1, behavior: "smooth" }); }
   function toCase() { pvScroll.scrollTo({ top: pvCase.offsetTop + 24, behavior: reduce ? "auto" : "smooth" }); }
   function render() {
+    rvRaf = 0;
     if (!rvRun) return;
     fCur += (fTarget - fCur) * 0.09;
     var vw = window.innerWidth, vh = window.innerHeight, mob = vw < 760;
@@ -1538,7 +1578,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     }
     rBar.style.width = (fCur / (N - 1) * 100).toFixed(1) + "%";
     arrows[0].disabled = fTarget < 0.5; arrows[1].disabled = fTarget > N - 1.5;
-    requestAnimationFrame(render);
+    if (Math.abs(fTarget - fCur) > 0.0005) rvRaf = requestAnimationFrame(render);
   }
   pvScroll.addEventListener("scroll", targetFromScroll, { passive: true });
   window.addEventListener("resize", function () { if (pvKey) targetFromScroll(); });
@@ -1556,42 +1596,57 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     var nk = ORDER[(k + 1) % ORDER.length], nl = document.getElementById("pvNextLink");
     nl.innerHTML = PROJ[nk].title; nl.setAttribute("href", "#project/" + nk);
     buildReel(d); pvScroll.scrollTop = 0; targetFromScroll(); fCur = fTarget;
-    if (!rvRun && !reduce) { rvRun = true; requestAnimationFrame(render); }
+    if (rvRaf) { cancelAnimationFrame(rvRaf); rvRaf = 0; }
+    rvRun = !reduce; rvKick();
   }
+  var pvSwapT = 0, pvPending = null, pvPushed = false;
   function openProject(key) {
     if (!PROJ[key]) return;
-    if (pvKey === key && pv.classList.contains("open")) return;
+    if (pv.classList.contains("open") && (pvPending || pvKey) === key) return;
     if (!pv.classList.contains("open")) {
       pvReturn = document.activeElement; pvFill(key);
       root.classList.add("pv-lock"); pv.classList.add("open"); pv.setAttribute("aria-hidden", "false");
       setTimeout(function () { document.getElementById("pvClose").focus({ preventScroll: true }); }, 60);
     } else {
-      pv.classList.add("swapping");
-      setTimeout(function () { pvFill(key); pv.classList.remove("swapping"); }, 260);
+      pvPending = key; pv.classList.add("swapping"); clearTimeout(pvSwapT);
+      pvSwapT = setTimeout(function () { var k2 = pvPending; pvPending = null; pvFill(k2); pv.classList.remove("swapping"); }, 260);
     }
   }
-  function closeProject() {
+  function closeProject(viaPop) {
     if (!pv.classList.contains("open")) return;
-    if (pv.contains(document.activeElement)) { if (pvReturn && pvReturn.focus && !pv.contains(pvReturn)) pvReturn.focus({ preventScroll: true }); else document.activeElement.blur(); }
+    // we added a history entry when it opened, so step back instead of leaving a dead entry behind
+    if (viaPop !== true && pvPushed && location.hash.indexOf("#project/") === 0) {
+      pvPushed = false; try { history.back(); } catch (e) {}
+      setTimeout(function () { if (pv.classList.contains("open")) closeProject(true); }, 400);
+      return;
+    }
+    clearTimeout(pvSwapT); pvPending = null; pv.classList.remove("swapping");
+    if (pv.contains(document.activeElement)) {
+      var back = (pvReturn && pvReturn !== document.body && pvReturn.focus && !pv.contains(pvReturn)) ? pvReturn : document.querySelector('.pcard[href="#project/' + pvKey + '"]');
+      if (back) back.focus({ preventScroll: true }); else document.activeElement.blur();
+    }
     pv.classList.remove("open"); pv.setAttribute("aria-hidden", "true"); root.classList.remove("pv-lock");
     if (location.hash.indexOf("#project/") === 0) { try { history.replaceState(null, "", "#work"); } catch (e) {} }
     setTimeout(function () {
       if (pv.classList.contains("open")) return;
-      rvRun = false; if (pvKey) { var a = document.getElementById(PROJ[pvKey].el); if (a) pvStore.appendChild(a); } pvKey = null;
+      rvRun = false; if (rvRaf) { cancelAnimationFrame(rvRaf); rvRaf = 0; } if (pvKey) { var a = document.getElementById(PROJ[pvKey].el); if (a) pvStore.appendChild(a); } pvKey = null;
     }, 900);
   }
-  function fromHash() { var m = /^#project\/([a-z0-9]+)/.exec(location.hash); if (m) openProject(m[1]); else closeProject(); }
+  function fromHash() { var m = /^#project\/([a-z0-9]+)/.exec(location.hash); if (m) openProject(m[1]); else { pvPushed = false; closeProject(true); } }
   window.addEventListener("hashchange", fromHash);
   document.addEventListener("click", function (e) {
     var a = e.target.closest && e.target.closest('a[href^="#project/"]'); if (!a) return;
-    var key = a.getAttribute("href").slice(9); e.preventDefault();
-    try { history.pushState(null, "", "#project/" + key); } catch (err) {}
+    var key = a.getAttribute("href").slice(9);
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0 || !PROJ[key]) return;
+    e.preventDefault();
+    if (pv.classList.contains("open")) { try { history.replaceState(null, "", "#project/" + key); } catch (err) {} }
+    else { try { history.pushState(null, "", "#project/" + key); pvPushed = true; } catch (err) {} }
     openProject(key);
   });
   window.addEventListener("popstate", fromHash);
-  document.getElementById("pvClose").addEventListener("click", closeProject);
-  document.getElementById("pvPrev").addEventListener("click", function () { var k = ORDER.indexOf(pvKey); var nk = ORDER[(k + ORDER.length - 1) % ORDER.length]; try { history.replaceState(null, "", "#project/" + nk); } catch (e) {} openProject(nk); });
-  document.getElementById("pvNext").addEventListener("click", function () { var k = ORDER.indexOf(pvKey); var nk = ORDER[(k + 1) % ORDER.length]; try { history.replaceState(null, "", "#project/" + nk); } catch (e) {} openProject(nk); });
+  document.getElementById("pvClose").addEventListener("click", function () { closeProject(); });
+  document.getElementById("pvPrev").addEventListener("click", function () { var k = ORDER.indexOf(pvPending || pvKey); var nk = ORDER[(k + ORDER.length - 1) % ORDER.length]; try { history.replaceState(null, "", "#project/" + nk); } catch (e) {} openProject(nk); });
+  document.getElementById("pvNext").addEventListener("click", function () { var k = ORDER.indexOf(pvPending || pvKey); var nk = ORDER[(k + 1) % ORDER.length]; try { history.replaceState(null, "", "#project/" + nk); } catch (e) {} openProject(nk); });
   document.addEventListener("keydown", function (e) {
     if (!pv.classList.contains("open")) return;
     if (e.key === "Escape") { e.preventDefault(); closeProject(); return; }
@@ -1609,7 +1664,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     var VT = [
       { f: [714, 60, 1416, 378], h: [1300, 250], n: [116, 146], t: "Live portfolio", s: "Profit and loss from real trades." },
       { f: [256, 60, 1044, 884], h: [895, 385], n: [116, 768], t: "Trade", s: "Live price chart and order book." },
-      { f: [256, 60, 732, 522], h: [420, 330], n: [309, 212], t: "Beginner Mode", s: "One switch shows every cost and adds plain-English help." },
+      { f: [12, 60, 736, 804], h: [150, 768], n: [309, 212], t: "Beginner Mode", s: "One switch shows every cost and adds plain-English help." },
       { f: [277, 200, 813, 486], h: [640, 400], n: [528, 346], t: "Tap to explain", s: "Tap any number to see it explained." },
       { f: [277, 236, 711, 754], h: [470, 600], n: [1276, 353], t: "Explain a move", s: "Click the chart and the agent explains that move." },
       { f: [1081, 522, 1391, 900], h: [1240, 760], n: [894, 663], t: "Before you buy", s: "Fee, hidden cost and sell-back value from a live quote." },
@@ -1690,8 +1745,8 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       var secs = Math.floor(T / 1000); vTime.textContent = Math.floor(secs / 60) + ":" + String(secs % 60).padStart(2, "0");
     }
     function vSeek(T) { vT0 = Math.max(0, Math.min(VEND, T)); vClicked = Math.floor(vT0 / VD) - (vT0 % VD > VD - 330 ? 0 : 1); vtp.classList.remove("ended"); vRender(vT0); }
-    function vPlay() { if (!vReady) return; if (vT0 >= VEND) vSeek(0); vPlaying = true; vLast = 0; vtp.classList.add("started"); vtp.classList.remove("paused"); document.getElementById("vtpPlay").setAttribute("aria-label", "Pause walkthrough"); }
-    function vPause() { vPlaying = false; vtp.classList.add("paused"); document.getElementById("vtpPlay").setAttribute("aria-label", "Play walkthrough"); }
+    function vPlay() { if (!vReady) return; if (vT0 >= VEND - 1 || vtp.classList.contains("ended")) vSeek(0); vPlaying = true; vLast = 0; vtp.classList.add("started"); vtp.classList.remove("paused"); document.getElementById("vtpPlay").setAttribute("aria-label", "Pause walkthrough");  curRefresh(); }
+    function vPause() { vPlaying = false; vtp.classList.add("paused"); document.getElementById("vtpPlay").setAttribute("aria-label", "Play walkthrough"); curRefresh(); }
     function vFrame(now) {
       if (vPlaying && vVisible && !document.hidden) {
         var dt = vLast ? Math.min(now - vLast, 50) : 0; vLast = now;
@@ -1712,7 +1767,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     }, { threshold: 0.6 }).observe(vScreen);
     else vVisible = true;
     // decode every screen before the first frame so nothing pops in mid-move
-    Promise.all(Array.prototype.map.call(vImgs, function (im) { im.loading = "eager"; return im.decode ? im.decode().catch(function () {}) : Promise.resolve(); })).then(function () {
+    Promise.race([Promise.all(Array.prototype.map.call(vImgs, function (im) { im.loading = "eager"; return im.decode ? im.decode().catch(function () {}) : Promise.resolve(); })), new Promise(function (r) { setTimeout(r, 2500); })]).then(function () {
       vReady = true; vMeasure(); vRender(0);
       if (vVisible && vAuto && !reduce) { vAuto = false; vPlay(); }
     });
@@ -1725,9 +1780,19 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     t.addEventListener("click", function (e) {
       var row = document.querySelector(t.getAttribute("href")); if (!row) return; e.preventDefault();
       row.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
-      row.classList.remove("flash"); void row.offsetWidth; row.classList.add("flash");
+      row.classList.remove("flash"); setTimeout(function () { void row.offsetWidth; row.classList.add("flash"); }, 650);
     });
   });
+
+  // front-page strip: hovering or focusing a project opens its panel; widths are fixed so the content never reflows
+  var pStrip = document.querySelector(".pstrip");
+  if (pStrip) {
+    var pCards = Array.prototype.slice.call(pStrip.querySelectorAll(".pcard"));
+    function pOpen(c) { pCards.forEach(function (k) { k.classList.toggle("on", k === c); }); }
+    function pMeasure() { var gaps = 12 * (pCards.length - 1); pStrip.style.setProperty("--ew", ((pStrip.clientWidth - gaps) * 4.2 / (4.2 + pCards.length - 1)).toFixed(1) + "px"); }
+    pCards.forEach(function (c) { c.addEventListener("mouseenter", function () { pOpen(c); }); c.addEventListener("mousemove", function () { if (!c.classList.contains("on")) pOpen(c); }); c.addEventListener("focus", function () { pOpen(c); }); });
+    pOpen(pCards[0]); pMeasure(); window.addEventListener("resize", pMeasure);
+  }
 
   // word fill (onlines)
   var fill = document.getElementById("fill");
@@ -1753,7 +1818,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     links.forEach(function (a, i) { a.classList.toggle("is-current", i === active); });
     nav.classList.toggle("scrolled", window.scrollY > 8);
     var lt = document.querySelector(".latest"), ft = document.querySelector("footer");
-    if (lt && ft) lt.classList.toggle("gone", ft.getBoundingClientRect().top < vh - 40);
+    var rs = document.getElementById("resume"); if (lt && ft) lt.classList.toggle("gone", ft.getBoundingClientRect().top < vh - 40 || (rs && rs.getBoundingClientRect().top < vh * 0.85));
   }
   onScroll(); window.addEventListener("scroll", onScroll, { passive: true }); window.addEventListener("resize", onScroll);
 
@@ -1785,7 +1850,13 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     function loop() { rx += (x - rx) * 0.2; ry += (y - ry) * 0.2; ring.style.transform = "translate(" + rx + "px," + ry + "px)"; if (Math.abs(x - rx) + Math.abs(y - ry) > 0.3) requestAnimationFrame(loop); else running = false; }
     window.addEventListener("mousemove", function (e) { x = e.clientX; y = e.clientY; ring.classList.add("on"); if (!running) { running = true; requestAnimationFrame(loop); } });
     document.addEventListener("mouseleave", function () { ring.classList.remove("on"); });
-    document.addEventListener("mouseover", function (e) { var card = e.target.closest(".float, .rc, .resume-img, .pcard"); ring.classList.toggle("label", !!card); ring.classList.toggle("big", !card && !!e.target.closest("a, button, summary")); });
+    var ringTxt = ring.querySelector("span");
+    curRefresh = function () { if (curLast) curSet(curLast); };
+    var CUR = [[".pcard[href='#project/veraitas']", "Watch the demo"], [".pcard", "Open project"], [".lg", "Jump to role"], [".resume-img", "Open PDF"], [".rc", "View"], [".vtp-screen", function () { return document.getElementById("vtp").classList.contains("paused") ? "Play" : "Pause"; }], [".name-pic", "Projects"]];
+    function curLabel(t) { for (var q = 0; q < CUR.length; q++) { if (t.closest && t.closest(CUR[q][0])) return typeof CUR[q][1] === "function" ? CUR[q][1]() : CUR[q][1]; } return ""; }
+    function curSet(t) { curLast = t; var l = curLabel(t); if (l) ringTxt.textContent = l; ring.classList.toggle("label", !!l); ring.classList.toggle("big", !l && !!(t.closest && t.closest("a, button, summary"))); }
+    document.addEventListener("mouseover", function (e) { curSet(e.target); });
+    document.addEventListener("click", function (e) { if (e.target.closest && e.target.closest(".vtp-screen")) setTimeout(function () { curSet(e.target); }, 30); });
   }
 })();
 </script>
