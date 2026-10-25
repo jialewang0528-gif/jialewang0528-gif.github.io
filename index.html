@@ -980,12 +980,12 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
             <h3>WHOOP Calendar <em>Sync</em></h3>
             <dl class="tldr">
               <div><dt class="caps-s">Problem</dt><dd>WHOOP&#x2019;s sleep and recovery advice ignores members&#x2019; real schedules.</dd></div>
-              <div><dt class="caps-s">Proposed solution</dt><dd>Connect a calendar, so each check-in fits a real time slot.</dd></div>
+              <div><dt class="caps-s">Proposed solution</dt><dd>Connect a calendar so each check-in fits the member&#x2019;s schedule.</dd></div>
             </dl>
             <ol class="steps">
               <li><span class="k caps-s">Research</span><div><b>Interviewed 10 members</b><span>Plus r/whoop, App Store and Google Play reviews.</span></div></li>
               <li><span class="k caps-s">Synthesize</span><div><b>7 pain points</b><span>Scored on frequency, severity and business impact.</span></div></li>
-              <li><span class="k caps-s">Test</span><div><b>3 concept interviews</b><span>Week-one connect: 7, 10 and 8&#x2013;9 out of 10.</span></div></li>
+              <li><span class="k caps-s">Test</span><div><b>3 concept interviews</b><span>Members rated week-one connect 7, 10 and 8&#x2013;9 out of 10.</span></div></li>
               <li><span class="k caps-s">Scope</span><div><b>Value vs. effort</b><span>Three MVP features. Travel mode and the bedtime block wait.</span></div></li>
               <li><span class="k caps-s">Prototype</span><div><b>14-screen coded prototype</b><span>HTML, CSS and JavaScript, measured from WHOOP&#x2019;s real UI. Also in Figma.</span></div></li>
               <li><span class="k caps-s">Privacy</span><div><b>Busy/free only by default</b><span>One read-only Google scope, <code>calendar.freebusy</code>. Event names ask for a second consent.</span></div></li>
@@ -1013,7 +1013,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
             <div class="mock">
               <span class="caps-s muted">What members see</span>
               <div class="notif"><span class="caps-s">WHOOP AI &#xb7; 7:02 AM</span><p>Busy 8 AM&#x2013;3 PM and recovery is 64%. 45 minutes of training after 3 PM fits your week.</p></div>
-              <blockquote>Told to sleep at 7 PM on a Friday he had plans. His word for it: &#x201c;useless.&#x201d;<cite class="caps-s">Nick, WHOOP member</cite></blockquote>
+              <blockquote>Told to sleep at 7 PM on a Friday he had plans. He called it &#x201c;useless.&#x201d;<cite class="caps-s">Nick, WHOOP member</cite></blockquote>
             </div>
             <div class="mvp">
               <div><span class="caps-s muted">MVP</span><ul><li><b>Calendar connection.</b> Read-only, busy or free by default.</li><li><b>Schedule-aware check-ins.</b> One a day, tied to a real slot.</li><li><b>Busy-week mode.</b> Sleep targets you can hit.</li></ul></div>
@@ -1121,7 +1121,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
               <li><span class="k caps-s">Model</span><div><b>Logistic regression, isotonic calibration</b><span>Match-level holdout. Brier 0.178 on 9,163 rounds vs. 0.25 for a coin flip.</span></div></li>
               <li><span class="k caps-s">Benchmark</span><div><b>XGBoost</b><span>We kept logistic regression: its coefficients explain each alert exactly, and SHAP has no s390x build.</span></div></li>
               <li><span class="k caps-s">Deploy</span><div><b>IBM LinuxONE (s390x)</b><span>Ingest, training, scoring and dashboard on one machine. About 9 ms per score, 33 tests.</span></div></li>
-              <li><span class="k caps-s">Alert</span><div><b>15+ point gap for 2+ rounds</b><span>Only when the market moved first. 474 of 1,014 maps raise nothing.</span></div></li>
+              <li><span class="k caps-s">Alert</span><div><b>15+ point gap for 2+ rounds</b><span>Only when the market moved first. 474 of 1,014 market-matched maps raise nothing.</span></div></li>
             </ol>
             <div class="tags"><span class="tag-k caps-s">Built with</span><span class="tag">Python</span><span class="tag">pandas</span><span class="tag">scikit-learn</span><span class="tag">XGBoost</span><span class="tag">IBM LinuxONE</span><span class="tag">Polymarket API</span></div>
             <div class="btns">
@@ -1144,7 +1144,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       <span class="sh-i caps">(02) Experience</span>
       <h2>Where I&#x2019;ve <em>worked</em></h2>    </header>
 
-    <div class="span-line caps-s"><span><strong>1.5</strong>years, May 2025&#x2013;now</span><span><strong>4</strong>internships</span></div>
+    <div class="span-line caps-s"><span><strong>4</strong>internships</span></div>
 
     <figure class="tl" aria-label="Timeline of roles from May 2025 to today">
       <div class="tl-row"><span>Rockbridge Growth Equity</span><div class="tl-track"><i class="tl-bar" style="--s:0;--e:2"></i></div></div>
@@ -1157,11 +1157,11 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 
     <div class="xp">
       <div class="xp-head"><span class="xp-no caps-s">01</span><span class="xp-years caps-s">Aug 2026&#x2013;Present</span><span class="xp-co">Patlytics</span><span class="xp-role"><b>Product &amp; Go-to-Market Strategy Intern</b>New York, NY</span></div>
-      <div class="xp-body"><p class="xp-line">I test the AI agent before it reaches clients and built the tools that find Patlytics its next government patent-office contracts.</p><div class="xp-links"><a class="mw-link" href="https://www.patlytics.ai/agent" target="_blank" rel="noopener">Patlytics Agent &#x2197;</a><a class="mw-link" href="https://www.patlytics.ai/" target="_blank" rel="noopener">patlytics.ai &#x2197;</a></div></div>
+      <div class="xp-body"><p class="xp-line">Tested the AI agent before launch and built the tools that find new government patent-office contracts.</p><div class="xp-links"><a class="mw-link" href="https://www.patlytics.ai/agent" target="_blank" rel="noopener">Patlytics Agent &#x2197;</a><a class="mw-link" href="https://www.patlytics.ai/" target="_blank" rel="noopener">patlytics.ai &#x2197;</a></div></div>
     </div>
     <div class="xp">
       <div class="xp-head"><span class="xp-no caps-s">02</span><span class="xp-years caps-s">Aug&#x2013;Oct 2026</span><span class="xp-co">Moonshot (YC S26)</span><span class="xp-role"><b>Product &amp; Growth Intern</b>Remote, part-time</span></div>
-      <div class="xp-body"><p class="xp-line">Took 20+ user interviews to a shipped AI memory feature, then ran the ad tests and creator program behind the launch.</p><div class="xp-links"><a class="mw-link" href="https://moonshot.computer/" target="_blank" rel="noopener">moonshot.computer &#x2197;</a><a class="mw-link" href="https://www.linkedin.com/company/heymoonshot" target="_blank" rel="noopener">Moonshot on LinkedIn &#x2197;</a></div></div>
+      <div class="xp-body"><p class="xp-line">Turned 20+ user interviews into a shipped AI memory feature, then ran the launch ad tests and creator program.</p><div class="xp-links"><a class="mw-link" href="https://moonshot.computer/" target="_blank" rel="noopener">moonshot.computer &#x2197;</a><a class="mw-link" href="https://www.linkedin.com/company/heymoonshot" target="_blank" rel="noopener">Moonshot on LinkedIn &#x2197;</a></div></div>
     </div>
     <div class="xp">
       <div class="xp-head"><span class="xp-no caps-s">03</span><span class="xp-years caps-s">Jun&#x2013;Aug 2026</span><span class="xp-co">Yanfeng Automotive Interiors</span><span class="xp-role"><b>Commercial Strategy &amp; Operations Intern</b>Novi, MI</span></div>
@@ -1169,7 +1169,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     </div>
     <div class="xp">
       <div class="xp-head"><span class="xp-no caps-s">04</span><span class="xp-years caps-s">May&#x2013;Jun 2025</span><span class="xp-co">Rockbridge Growth Equity</span><span class="xp-role"><b>Private Equity Intern</b>Detroit, MI</span></div>
-      <div class="xp-body"><p class="xp-line">Screened deals and sat in on 50+ partner calls at a Detroit growth equity fund.</p></div>
+      <div class="xp-body"><p class="xp-line">Screened deals across 6 subsectors and helped move 2 into partner-reviewed memos.</p></div>
     </div>
 
   </section>
@@ -1586,12 +1586,12 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       { f: [714, 60, 1416, 378], h: [1300, 250], n: [116, 146], t: "Live portfolio", s: "Profit and loss from real trades." },
       { f: [256, 60, 1044, 884], h: [895, 385], n: [116, 768], t: "Trade", s: "Live price chart and order book." },
       { f: [256, 60, 732, 522], h: [420, 330], n: [309, 212], t: "Beginner Mode", s: "One switch shows every cost and adds plain-English help." },
-      { f: [277, 200, 813, 486], h: [640, 400], n: [528, 346], t: "Tap to explain", s: "Any number explains itself." },
-      { f: [277, 236, 711, 754], h: [470, 600], n: [1276, 353], t: "Explain a move", s: "Click the chart and the agent explains that moment." },
-      { f: [1081, 586, 1391, 900], h: [1240, 760], n: [894, 663], t: "Before you buy", s: "Fee, hidden cost and sell-back value from a live quote." },
+      { f: [277, 200, 813, 486], h: [640, 400], n: [528, 346], t: "Tap to explain", s: "Tap any number to see it explained." },
+      { f: [277, 236, 711, 754], h: [470, 600], n: [1276, 353], t: "Explain a move", s: "Click the chart and the agent explains that move." },
+      { f: [1081, 522, 1391, 900], h: [1240, 760], n: [894, 663], t: "Before you buy", s: "Fee, hidden cost and sell-back value from a live quote." },
       { f: [744, 60, 1044, 884], h: [895, 760], n: [398, 716], t: "Read the order book", s: "The agent explains the live book in plain English." },
-      { f: [256, 534, 732, 884], h: [470, 780], n: [116, 194], t: "Ask the agent", s: "Claude with 5 live-data tools, answering with sources." },
-      { f: [636, 60, 1416, 633], h: [1010, 520], n: null, t: "Swing Check", s: "What a normal day means for your money." }
+      { f: [256, 534, 732, 884], h: [470, 780], n: [116, 194], t: "Ask the agent", s: "Claude Haiku with 5 tools, answering with sources." },
+      { f: [636, 60, 1416, 633], h: [1010, 520], n: null, t: "Swing Check", s: "A normal day\u2019s swing, in dollars." }
     ];
     var VD = 5200, VEND = VT.length * VD, VW = 1440, VH = 900;
     var vScreen = document.getElementById("vtpScreen"), vCam = document.getElementById("vtpCam"), vImgs = vCam.querySelectorAll(".vtp-img");
