@@ -402,6 +402,9 @@ section { padding-block: var(--space-10) 0; }
 .figs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .figs figure { margin: 0; display: grid; gap: var(--space-3); }
 .figs img { width: 100%; height: auto; border: 1px solid var(--line); }
+.proj-more.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.figs.pitch img { border-radius: 10px; }
+@media (max-width: 1020px) { .proj-more.two { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 1020px) { .proj { grid-template-columns: minmax(0, 1fr); } .proj .float { max-width: 320px; } .proj-more { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 640px) { .work { grid-template-columns: minmax(0, 1fr); } .counter-col { display: none; } }
 
@@ -994,10 +997,10 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
             <div class="tags"><span class="tag-k caps-s">Built with</span><span class="tag">Figma</span><span class="tag">HTML/CSS</span><span class="tag">JavaScript</span><span class="tag">Google Calendar API</span><span class="tag">OAuth scopes</span></div>
             <div class="btns">
               <a class="btn btn-primary" href="whoop-prototype.html" target="_blank" rel="noopener">Try the prototype <span class="arr" aria-hidden="true">&#x2192;</span></a>
-              <a class="btn" href="https://drive.google.com/file/d/1imVsdUs_znre15ceowegTRAY8Q3JNqdS/view?usp=sharing" target="_blank" rel="noopener">Pain points deck <span class="arr" aria-hidden="true">&#x2192;</span></a>
+              <a class="btn" href="https://www.figma.com/deck/Y5J3QRvyXD6KsaMWPsHucJ" target="_blank" rel="noopener">Pitch deck <span class="arr" aria-hidden="true">&#x2192;</span></a>
             </div>
           </div>
-          <div class="proj-more">
+          <div class="proj-more two">
             <div class="pains">
               <span class="caps-s muted">The 7 pain points</span>
               <ol>
@@ -1015,10 +1018,10 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
               <div class="notif"><span class="caps-s">WHOOP AI &#xb7; 7:02 AM</span><p>Busy 8 AM&#x2013;3 PM and recovery is 64%. 45 minutes of training after 3 PM fits your week.</p></div>
               <blockquote>Told to sleep at 7 PM on a Friday he had plans. He called it &#x201c;useless.&#x201d;<cite class="caps-s">Nick, WHOOP member</cite></blockquote>
             </div>
-            <div class="mvp">
-              <div><span class="caps-s muted">MVP</span><ul><li><b>Calendar connection.</b> Read-only, busy or free by default.</li><li><b>Schedule-aware check-ins.</b> One a day, tied to a real slot.</li><li><b>Busy-week mode.</b> Sleep targets you can hit.</li></ul></div>
-              <div><span class="caps-s muted">Later</span><ul><li><b>Travel mode.</b> Low value for the effort.</li><li><b>Bedtime block.</b> Needs write access to the calendar.</li></ul></div>
             </div>
+          <div class="proj-more figs pitch">
+            <figure><img src="pitch-12.jpg" alt="Pitch MVP slide: calendar connect and morning check-in are quick wins, busy-week mode is the big bet, travel mode and bedtime block wait" width="1600" height="900" loading="lazy"><figcaption class="caps-s muted">From the pitch: the MVP on value vs. effort.</figcaption></figure>
+            <figure><img src="pitch-15.jpg" alt="Pitch KPI slide: adoption, satisfaction, revenue and a guardrail metric" width="1600" height="900" loading="lazy"><figcaption class="caps-s muted">From the pitch: connect, act, renew.</figcaption></figure>
           </div>
         </article>
 
@@ -1452,7 +1455,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
   // projects: cards on the page open a full-screen view with that project's card stream, then its case study
   var PROJ = {
     whoop: { el: "p-whoop", name: "WHOOP Calendar Sync", title: "WHOOP Calendar <em>Sync</em>", cat: "0\u21921 feature \u00b7 NYU PM Club", desc: "Coaching that fits your real schedule.", stats: "<b>14</b> screens <i></i> <b>7</b> pain points <i></i> <b>3</b> KPIs",
-      cards: [{ poster: 1 }, { src: "reel-wh-1.jpg", alt: "WHOOP user pain points deck, title slide" }, { src: "wh-p2.jpg", tall: 1, alt: "Google Calendar integration screen" }, { src: "wh-p3.jpg", tall: 1, alt: "Google consent screen, availability only" }, { src: "wh-p4.jpg", tall: 1, alt: "My Memory screen with a busy-week card" }, { src: "wh-p5.jpg", tall: 1, alt: "Lock-screen check-in: early start today" }, { src: "wh-p6.jpg", tall: 1, alt: "WHOOP AI morning check-in that fits the schedule" }] },
+      cards: [{ poster: 1 }, { src: "pitch-01.jpg", alt: "Pitch deck title slide: Calendar Sync for WHOOP" }, { src: "pitch-07.jpg", alt: "Pitch insight: members check WHOOP every day, but its advice does not fit their schedule" }, { src: "wh-p2.jpg", tall: 1, alt: "Google Calendar integration screen" }, { src: "wh-p5.jpg", tall: 1, alt: "Lock-screen check-in: early start today" }, { src: "wh-p6.jpg", tall: 1, alt: "WHOOP AI morning check-in that fits the schedule" }, { src: "pitch-12.jpg", alt: "Pitch MVP slide with the value-effort matrix" }, { src: "pitch-15.jpg", alt: "Pitch KPI slide" }] },
     veraitas: { el: "p-vt", name: "Veraitas", title: "Veraitas", cat: "Fintech \u00b7 Tech@NYU Buildathon", desc: "Crypto trading, explained for beginners.", stats: "Claude agent <i></i> Live order book <i></i> True Markets API",
       cards: [{ poster: 1 }, { src: "vt-01.jpg", alt: "Portfolio with live profit and loss" }, { src: "vt-02.jpg", alt: "Live chart and order book" }, { src: "vt-04.jpg", alt: "Tap to explain" }, { src: "vt-06.jpg", alt: "Before you buy" }, { src: "vt-08.jpg", alt: "Veraitas Agent answer" }, { src: "vt-09.jpg", alt: "Swing Check" }] },
     cs2: { el: "p-ibm", name: "CS2 Integrity Watch", title: "CS2 Integrity <em>Watch</em>", cat: "Machine learning \u00b7 IBM Z Datathon", desc: "Flags possible match-fixing, round by round.", stats: "<b>42,009</b> rounds <i></i> Brier <b>0.178</b> <i></i> <b>9</b> ms per score",
