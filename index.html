@@ -674,9 +674,7 @@ html.pv-lock .latest { display: none; }
 .xp-group { color: var(--muted); margin: var(--space-8) 0 var(--space-3); }
 .xp { border-top: 1px solid var(--line); }
 .xp:last-of-type { border-bottom: 1px solid var(--line); }
-.xp summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 40px 170px minmax(0, 1.3fr) minmax(0, 1fr) 24px; gap: var(--space-5); align-items: baseline; padding: var(--space-5) 0; transition: padding var(--dur-base) var(--ease-out); }
-.xp summary::-webkit-details-marker { display: none; }
-.xp summary:hover { padding-left: var(--space-3); }
+.xp-head { display: grid; grid-template-columns: 40px 170px minmax(0, 1.3fr) minmax(0, 1fr); gap: var(--space-5); align-items: baseline; padding: var(--space-5) 0; transition: padding var(--dur-base) var(--ease-out); }
 .xp-no { color: var(--volt-text); }
 .xp-years { color: var(--muted); }
 .xp-co { font: 400 clamp(26px, 3vw, 36px)/1.05 var(--serif); letter-spacing: -.01em; }
@@ -685,6 +683,7 @@ html.pv-lock .latest { display: none; }
 .xp-plus { font: 300 26px/1 var(--sans); color: var(--muted); justify-self: end; transition: transform var(--dur-base) var(--ease-out), color var(--dur-fast); }
 .xp[open] .xp-plus { transform: rotate(45deg); color: var(--volt-text); }
 .xp-body { display: grid; grid-template-columns: 40px 170px minmax(0, 1fr); gap: var(--space-5); padding-bottom: var(--space-6); }
+.xp-line { grid-column: 3; margin: 0; max-width: 62ch; font-size: 18px; line-height: 28px; letter-spacing: -.005em; }
 .xp-body ul { grid-column: 3; margin: 0; padding: 0; list-style: none; display: grid; gap: var(--space-3); max-width: 72ch; }
 .xp-body li { position: relative; padding-left: var(--space-5); color: var(--muted); }
 .xp-body li::before { content: "+"; position: absolute; left: 0; color: var(--volt-text); }
@@ -693,12 +692,12 @@ html.pv-lock .latest { display: none; }
 .mw-link { color: var(--ink); text-decoration: none; background: linear-gradient(var(--ink), var(--ink)) 0 calc(100% - 12px) / 100% 1px no-repeat; padding: 12px 0; display: inline-block; transition: background-size var(--dur-fast) var(--ease-out), color var(--dur-fast); }
 .mw-link:hover { color: var(--muted); background-size: 0 1px; background-position: 100% calc(100% - 12px); }
 @media (max-width: 760px) {
-  .xp summary { grid-template-columns: minmax(0, 1fr) 24px; gap: var(--space-1) var(--space-3); }
+  .xp-head { grid-template-columns: minmax(0, 1fr); gap: var(--space-1) var(--space-3); }
   .xp-no { display: none; }
   .xp-years, .xp-co, .xp-role { grid-column: 1; }
   .xp-plus { grid-row: 1 / span 3; grid-column: 2; align-self: center; }
   .xp-body { grid-template-columns: minmax(0, 1fr); }
-  .xp-body ul, .xp-links { grid-column: 1; }
+  .xp-body ul, .xp-links, .xp-line { grid-column: 1; }
 }
 
 /* ---------- resume (spec sheet on paper) ---------- */
@@ -1156,40 +1155,22 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       <figcaption class="tl-key caps-s"><span><i></i>Internship</span><span><i class="dot"></i>Current</span></figcaption>
     </figure>
 
-    <details class="xp" open>
-      <summary><span class="xp-no caps-s">01</span><span class="xp-years caps-s">Aug 2026&#x2013;Present</span><span class="xp-co">Patlytics</span><span class="xp-role"><b>Product &amp; Go-to-Market Strategy Intern</b>New York, NY</span><span class="xp-plus" aria-hidden="true">+</span></summary>
-      <div class="xp-body"><ul>
-        <li>Evaluated a code-running AI agent before launch, turning client requests into <strong>35 staging-vs-prod test cases</strong> and flagging bugs to engineers.</li>
-        <li>Shipped an automated Python monitor of procurement portals, expanding deal coverage <strong>20x</strong> and surfacing <strong>$80M</strong> in bid-eligible contracts.</li>
-        <li>Built an intel dashboard of <strong>25+ incumbent vendors</strong> holding patent-office contracts, tracking value, expiry date and competitor analytics.</li>
-      </ul>
-      <div class="xp-links"><a class="mw-link" href="https://www.patlytics.ai/agent" target="_blank" rel="noopener">Patlytics Agent &#x2197;</a><a class="mw-link" href="https://www.patlytics.ai/" target="_blank" rel="noopener">patlytics.ai &#x2197;</a></div></div>
-    </details>
-    <details class="xp">
-      <summary><span class="xp-no caps-s">02</span><span class="xp-years caps-s">Aug&#x2013;Oct 2026</span><span class="xp-co">Moonshot (YC S26)</span><span class="xp-role"><b>Product &amp; Growth Intern</b>Remote, part-time</span><span class="xp-plus" aria-hidden="true">+</span></summary>
-      <div class="xp-body"><ul>
-        <li>Ran <strong>20+ user interviews</strong> ranking privacy as the top barrier, then worked cross-functionally to ship a user-owned AI memory mind map.</li>
-        <li>A/B tested Meta ad angles across parent, ADHD and tech audiences, generating profitable ads at a <strong>1.91 ROAS</strong> and 15&#x2013;20% margin.</li>
-        <li>Recruited and onboarded <strong>30 social media creators</strong> for the fellow program, whose content passed 1 million impressions post-launch.</li>
-      </ul>
-      <div class="xp-links"><a class="mw-link" href="https://moonshot.computer/" target="_blank" rel="noopener">moonshot.computer &#x2197;</a><a class="mw-link" href="https://www.linkedin.com/company/heymoonshot" target="_blank" rel="noopener">Moonshot on LinkedIn &#x2197;</a></div></div>
-    </details>
-    <details class="xp">
-      <summary><span class="xp-no caps-s">03</span><span class="xp-years caps-s">Jun&#x2013;Aug 2026</span><span class="xp-co">Yanfeng Automotive Interiors</span><span class="xp-role"><b>Commercial Strategy &amp; Operations Intern</b>Novi, MI</span><span class="xp-plus" aria-hidden="true">+</span></summary>
-      <div class="xp-body"><ul>
-        <li>Audited direct-buy bump charts on <strong>200+ GM part numbers</strong> in Excel against QAD part records, uncovering <strong>$1.4M</strong> in discrepancies.</li>
-        <li>Engineered a standardized Excel tracker from legacy spreadsheets, rolled it out to <strong>6 product sectors</strong> and trained each team to maintain it.</li>
-        <li>Automated recurring anomaly detection with an AI workflow tool, cutting manual document verification from <strong>2&#x2013;3 days to under 1 hour</strong>.</li>
-      </ul></div>
-    </details>
-    <details class="xp">
-      <summary><span class="xp-no caps-s">04</span><span class="xp-years caps-s">May&#x2013;Jun 2025</span><span class="xp-co">Rockbridge Growth Equity</span><span class="xp-role"><b>Private Equity Intern</b>Detroit, MI</span><span class="xp-plus" aria-hidden="true">+</span></summary>
-      <div class="xp-body"><ul>
-        <li>Screened <strong>15+ teasers and ~10 CIMs</strong> across 6 subsectors, advancing 2 live deals through partner-reviewed memos with quantified impact.</li>
-        <li>Joined <strong>50+ deal and portfolio calls</strong> with associates, shadowing partners through sourcing and post-close discussions daily.</li>
-        <li>Researched AI&#x2019;s effects on market dynamics and deal valuation across 4 major sectors and synthesized findings for the partners.</li>
-      </ul></div>
-    </details>
+    <div class="xp">
+      <div class="xp-head"><span class="xp-no caps-s">01</span><span class="xp-years caps-s">Aug 2026&#x2013;Present</span><span class="xp-co">Patlytics</span><span class="xp-role"><b>Product &amp; Go-to-Market Strategy Intern</b>New York, NY</span></div>
+      <div class="xp-body"><p class="xp-line">I test the AI agent before it reaches clients and built the tools that find Patlytics its next government patent-office contracts.</p><div class="xp-links"><a class="mw-link" href="https://www.patlytics.ai/agent" target="_blank" rel="noopener">Patlytics Agent &#x2197;</a><a class="mw-link" href="https://www.patlytics.ai/" target="_blank" rel="noopener">patlytics.ai &#x2197;</a></div></div>
+    </div>
+    <div class="xp">
+      <div class="xp-head"><span class="xp-no caps-s">02</span><span class="xp-years caps-s">Aug&#x2013;Oct 2026</span><span class="xp-co">Moonshot (YC S26)</span><span class="xp-role"><b>Product &amp; Growth Intern</b>Remote, part-time</span></div>
+      <div class="xp-body"><p class="xp-line">Took 20+ user interviews to a shipped AI memory feature, then ran the ad tests and creator program behind the launch.</p><div class="xp-links"><a class="mw-link" href="https://moonshot.computer/" target="_blank" rel="noopener">moonshot.computer &#x2197;</a><a class="mw-link" href="https://www.linkedin.com/company/heymoonshot" target="_blank" rel="noopener">Moonshot on LinkedIn &#x2197;</a></div></div>
+    </div>
+    <div class="xp">
+      <div class="xp-head"><span class="xp-no caps-s">03</span><span class="xp-years caps-s">Jun&#x2013;Aug 2026</span><span class="xp-co">Yanfeng Automotive Interiors</span><span class="xp-role"><b>Commercial Strategy &amp; Operations Intern</b>Novi, MI</span></div>
+      <div class="xp-body"><p class="xp-line">Found $1.4M in GM pricing discrepancies and turned a 2&#x2013;3 day document check into an hour with an AI workflow.</p></div>
+    </div>
+    <div class="xp">
+      <div class="xp-head"><span class="xp-no caps-s">04</span><span class="xp-years caps-s">May&#x2013;Jun 2025</span><span class="xp-co">Rockbridge Growth Equity</span><span class="xp-role"><b>Private Equity Intern</b>Detroit, MI</span></div>
+      <div class="xp-body"><p class="xp-line">Screened deals and sat in on 50+ partner calls at a Detroit growth equity fund.</p></div>
+    </div>
 
   </section>
 
@@ -1202,7 +1183,6 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       <aside class="resume-side">
         <div class="btns">
           <a class="btn btn-primary" href="https://drive.google.com/file/d/1h1qchiQbV89G0vqxpo0-2ppkPtA0hh_6/view?usp=sharing" target="_blank" rel="noopener">Open PDF <span class="arr" aria-hidden="true">&#x2192;</span></a>
-          <button class="btn copy" type="button" data-copy="michaelwang@nyu.edu">Copy email</button>
         </div>
       </aside>
       <a class="resume-img" href="https://drive.google.com/file/d/1h1qchiQbV89G0vqxpo0-2ppkPtA0hh_6/view?usp=sharing" target="_blank" rel="noopener" aria-label="Open Michael Wang's resume PDF on Google Drive">
@@ -1434,7 +1414,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       h.setAttribute("aria-label", h.textContent.replace(/\s+/g, " ").trim()); Array.prototype.forEach.call(h.querySelectorAll(".wd"), function (w) { w.setAttribute("aria-hidden", "true"); });
       h.classList.add("split"); io.observe(h);
     });
-    var groups = [".sh p", ".sh-i", ".about-facts > div", ".proj-meta", ".proj h3", ".proj .lede", ".steps li", ".tags", ".proj-more > *", ".span-line", ".tl-row", "details.xp", ".resume-side", ".c-row", ".foot-row"];
+    var groups = [".sh p", ".sh-i", ".about-facts > div", ".proj-meta", ".proj h3", ".proj .lede", ".steps li", ".tags", ".proj-more > *", ".span-line", ".tl-row", ".xp", ".resume-side", ".c-row", ".foot-row"];
     groups.forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (el, i) {
         if (el.closest(".hero") || el.closest(".reel")) return;
