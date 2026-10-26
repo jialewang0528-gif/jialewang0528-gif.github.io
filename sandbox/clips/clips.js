@@ -1,0 +1,69 @@
+/* generated from clips.json for file:// viewing; regenerate when clips.json changes */
+window.SBX_CLIPS = [
+ {
+  "id": "midair",
+  "title": "midair",
+  "src": "../clips/midair.mp4",
+  "poster": "../clips/midair.jpg",
+  "duration": 2.98,
+  "w": 1280,
+  "h": 538,
+  "shock": 8.5,
+  "moment": "No-scope shot takes down an egg flying over a wall."
+ },
+ {
+  "id": "tracer",
+  "title": "tracer",
+  "src": "../clips/tracer.mp4",
+  "poster": "../clips/tracer.jpg",
+  "duration": 3.0,
+  "w": 1280,
+  "h": 536,
+  "shock": 8.5,
+  "moment": "Hip shot at a far egg, the bullet crosses the whole yard, then he scopes in as it bursts."
+ },
+ {
+  "id": "triple",
+  "title": "triple",
+  "src": "../clips/triple.mp4",
+  "poster": "../clips/triple.jpg",
+  "duration": 6.88,
+  "w": 1280,
+  "h": 538,
+  "shock": 8,
+  "moment": "Three one-shot kills in about six seconds, including a big egg caught in the air."
+ },
+ {
+  "id": "two-far",
+  "title": "two far",
+  "src": "../clips/two-far.mp4",
+  "poster": "../clips/two-far.jpg",
+  "duration": 5.08,
+  "w": 1280,
+  "h": 538,
+  "shock": 8,
+  "moment": "Two no-scope kills on tiny far-away eggs back to back."
+ },
+ {
+  "id": "doorway",
+  "title": "doorway",
+  "src": "../clips/doorway.mp4",
+  "poster": "../clips/doorway.jpg",
+  "duration": 2.98,
+  "w": 1280,
+  "h": 538,
+  "shock": 7,
+  "moment": "No-scope kill on a tiny egg standing in a far doorway."
+ },
+ {
+  "id": "quickscope",
+  "title": "quickscope",
+  "src": "../clips/quickscope.mp4",
+  "poster": "../clips/quickscope.jpg",
+  "duration": 2.98,
+  "w": 1280,
+  "h": 538,
+  "shock": 7,
+  "moment": "Pops the scope up for a quarter second and one-shots an egg."
+ }
+];

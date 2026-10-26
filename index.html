@@ -133,6 +133,27 @@ html.ready .portrait figcaption { animation: riseIn 300ms ease-out .7s backwards
 .nav-links a.is-current { color: var(--ink); }
 @media (hover: hover) and (pointer: fine) { .nav-links a:hover { color: var(--ink); } }
 .nav-links sup { color: var(--volt-text); font-size: 8px; margin-left: 3px; letter-spacing: .08em; }
+/* 05 ???: a small, inviting door to the Sandbox. Halftone dots drift through the ???; hover inks in the word and a manga "!" pops */
+.nav-sbx { position: relative; display: inline-flex; align-items: baseline; -webkit-tap-highlight-color: transparent; }
+.sbx-l { position: relative; display: inline-block; }
+.sbx-w { position: absolute; left: 0; bottom: -2px; white-space: nowrap; }
+.nav-sbx sup { display: inline-block; }
+.nav-sbx sup, .sbx-bang { transition: opacity 150ms ease-out, transform 300ms var(--ease-out); }
+.sbx-q { color: transparent; background: radial-gradient(circle, var(--ink) 38%, transparent 42%) 0 0 / 3px 3px, var(--muted); -webkit-background-clip: text; background-clip: text; transition: opacity 150ms ease-out; }
+.sbx-w { color: var(--ink); font: italic 400 15px/14px var(--serif); letter-spacing: 0; text-transform: none; -webkit-mask: linear-gradient(90deg, #000 40%, transparent 60%) 100% 0 / 260% 100% no-repeat; mask: linear-gradient(90deg, #000 40%, transparent 60%) 100% 0 / 260% 100% no-repeat; opacity: 0; transition: opacity 150ms ease-out, -webkit-mask-position 300ms var(--ease-out), mask-position 300ms var(--ease-out); }
+.sbx-bang { position: absolute; left: 100%; margin-left: 2px; top: -12px; font: 900 13px/1 var(--sans); font-style: normal; color: #9B6BFF; opacity: 0; transform: translateY(4px) scale(.6) rotate(-12deg); transform-origin: 50% 100%; transition: opacity 150ms ease-out, transform 300ms var(--ease-out); pointer-events: none; }
+.nav-sbx.rev .sbx-q { opacity: 0; }
+.nav-sbx.rev .sbx-w { opacity: 1; -webkit-mask-position: 0 0; mask-position: 0 0; }
+.nav-sbx.rev .sbx-bang { opacity: 1; transform: translateX(var(--sbx-dx, 0)); }
+.nav-sbx.rev sup { transform: translateX(var(--sbx-dx, 0)); }
+@media (hover: hover) and (pointer: fine) {
+  .nav-sbx:hover .sbx-q { opacity: 0; }
+  .nav-sbx:hover .sbx-w { opacity: 1; -webkit-mask-position: 0 0; mask-position: 0 0; }
+  .nav-sbx:hover .sbx-bang { opacity: 1; transform: translateX(var(--sbx-dx, 0)); }
+  .nav-sbx:hover sup { transform: translateX(var(--sbx-dx, 0)); }
+}
+@media (prefers-reduced-motion: no-preference) { .sbx-q { animation: sbxTone 3.2s linear infinite; } }
+@keyframes sbxTone { to { background-position: 12px 6px, 0 0; } }
 .live { display: inline-flex; align-items: center; gap: var(--space-2); padding: 6px 10px; border-radius: var(--radius-sm); box-shadow: inset 0 0 0 1px var(--line); color: var(--muted); white-space: nowrap; }
 .live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--volt); animation: pulse 2.4s var(--ease-inout) infinite; }
 @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--dot); } 50% { box-shadow: 0 0 0 5px transparent; } }
@@ -981,6 +1002,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     <li><a href="#experience">Experience<sup>02</sup></a></li>
     <li><a href="#resume">Resume<sup>03</sup></a></li>
     <li><a href="#contact">Reach out<sup>04</sup></a></li>
+    <li><a class="nav-sbx" href="sandbox/" aria-label="Sandbox: side projects"><span class="sbx-l"><span class="sbx-q" aria-hidden="true">???</span><span class="sbx-w" aria-hidden="true">Sandbox</span><i class="sbx-bang" aria-hidden="true">!</i></span><sup>05</sup></a></li>
   </ul>
   <span class="live">Open to work</span>
   <button class="menu-btn caps" id="menuBtn" aria-expanded="false" aria-controls="navLinks">Menu</button>
@@ -1416,6 +1438,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 
 <div class="latest">Latest project <span class="muted">/</span> <a href="#project/veraitas">Veraitas</a></div>
 
+<script src="sandbox/ink.js"></script>
 <script>
 (function () {
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1820,12 +1843,17 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       ["pointermove", "pointerdown", "keydown", "wheel", "touchstart", "focus"].forEach(function (ev) { window.removeEventListener(ev, arm, true); });
       startedAt = performance.now(); start();
     }
+    var sbxBack = null; try { sbxBack = JSON.parse(sessionStorage.getItem("sbx-back") || "null"); sessionStorage.removeItem("sbx-back"); } catch (e) {}
+    if (sbxBack && Date.now() - (sbxBack.t || 0) < 15000 && window.SandboxInk) {
+      curtain.style.display = "none"; root.classList.add("ready"); SandboxInk.cover({ title: false }); SandboxInk.drain(sbxBack.x, sbxBack.y);
+    } else {
     root.classList.add("intro-on"); curtain.classList.add("live");
     decode(cName, NAME, 1); decode(cCap, CAP, 1); iMeasure(); draw(main, pose(0, iVW, iVH, iKW), iKW); ghosts.forEach(function (G) { G.el.style.opacity = 0; });
     if (document.visibilityState === "visible" && document.hasFocus()) arm();
     else {
       hint.textContent = "Move your mouse to enter"; hint.classList.add("wait");
       ["pointermove", "pointerdown", "keydown", "wheel", "touchstart", "focus"].forEach(function (ev) { window.addEventListener(ev, arm, { capture: true, passive: true }); });
+    }
     }
   }
 
@@ -1873,7 +1901,23 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
   // mobile menu
   var nav = document.getElementById("nav"), mb = document.getElementById("menuBtn");
   mb.addEventListener("click", function () { var o = nav.classList.toggle("open"); mb.setAttribute("aria-expanded", o); mb.textContent = o ? "Close" : "Menu"; });
-  document.querySelectorAll("#navLinks a").forEach(function (a) { a.addEventListener("click", function () { nav.classList.remove("open"); mb.setAttribute("aria-expanded", "false"); mb.textContent = "Menu"; }); });
+  document.querySelectorAll("#navLinks a").forEach(function (a) { a.addEventListener("click", function () { if (a.classList.contains("nav-sbx")) return; nav.classList.remove("open"); mb.setAttribute("aria-expanded", "false"); mb.textContent = "Menu"; }); });
+
+  // 05 ???: the door to the Sandbox
+  document.querySelectorAll(".nav-sbx").forEach(function (a) {
+    // how far "05" slides when ??? becomes the word (measured once the fonts are in)
+    var fit = function () { a.style.setProperty("--sbx-dx", Math.max(0, a.querySelector(".sbx-w").offsetWidth - a.querySelector(".sbx-q").offsetWidth + 3) + "px"); };
+    fit(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+    // measured again on use: inside the closed mobile menu it has no width yet
+    a.addEventListener("pointerenter", fit);
+    a.addEventListener("click", function (e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0) return;
+      e.preventDefault(); fit(); a.classList.add("rev");
+      var r = a.getBoundingClientRect(), x = e.clientX || r.left + r.width / 2, y = e.clientY || r.top + r.height / 2, href = a.getAttribute("href") + (location.protocol === "file:" ? "index.html" : "");
+      try { sessionStorage.setItem("sbx-ink", JSON.stringify({ x: x, y: y, t: Date.now() })); } catch (err) {}
+      if (window.SandboxInk && !reduce) SandboxInk.flood(x, y, function () { location.href = href; }); else location.href = href;
+    });
+  });
 
   // hero name: split into letters for the blur-in
   if (!reduce) document.querySelectorAll("#heroName .ln > span").forEach(function (sp, k) {
@@ -2297,7 +2341,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     document.addEventListener("mouseleave", function () { ring.classList.remove("on"); });
     var ringTxt = ring.querySelector("span");
     curRefresh = function () { if (curLast) curSet(curLast); };
-    var CUR = [[".pcard[href='#project/veraitas']", "Watch the demo"], [".pcard", "Open project"], [".lg", "Jump to role"], [".resume-img", "Open PDF"], [".rc", "View"], [".vtp-screen", function () { return document.getElementById("vtp").classList.contains("paused") ? "Play" : "Pause"; }]];
+    var CUR = [[".nav-sbx", "Don't"], [".pcard[href='#project/veraitas']", "Watch the demo"], [".pcard", "Open project"], [".lg", "Jump to role"], [".resume-img", "Open PDF"], [".rc", "View"], [".vtp-screen", function () { return document.getElementById("vtp").classList.contains("paused") ? "Play" : "Pause"; }]];
     function curLabel(t) { for (var q = 0; q < CUR.length; q++) { if (t.closest && t.closest(CUR[q][0])) return typeof CUR[q][1] === "function" ? CUR[q][1]() : CUR[q][1]; } return ""; }
     function curSet(t) { curLast = t; var l = curLabel(t); if (l) ringTxt.textContent = l; ring.classList.toggle("label", !!l); ring.classList.toggle("big", !l && !!(t.closest && t.closest("a, button, summary"))); }
     document.addEventListener("mouseover", function (e) { curSet(e.target); });
