@@ -82,6 +82,7 @@ h1, h2, h3 { text-wrap: balance; }
 /* ---------- preloader (huyml wipe) ---------- */
 .curtain { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 100; pointer-events: none; overflow: hidden; animation: introGone 0s linear 3.2s forwards; }
 .curtain.live { pointer-events: auto; cursor: pointer; }
+.curtain { -webkit-tap-highlight-color: transparent; }
 .curtain.js { animation: none; }
 .cpanel { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: #ebe8e1; will-change: transform; display: grid; place-items: center; box-shadow: -30px 0 60px rgba(0, 0, 0, .35); }
 .cpanel-ui { display: grid; justify-items: center; gap: 14px; color: #0f0f0e; }
@@ -1363,8 +1364,9 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     window.addEventListener("resize", iMeasure);
     function rig(el) { var o = { el: el }; Array.prototype.forEach.call(el.querySelectorAll("[data-j]"), function (n) { o[n.getAttribute("data-j")] = n; }); return o; }
     var main = rig(kid);
-    // two faint copies trail the flips
-    var ghosts = [0, 1].map(function () {
+    // three faint copies a few ms behind smear fast spins
+    var SMEAR = [[4, .3], [8, .18], [12, .08]];
+    var ghosts = SMEAR.map(function () {
       var g = kid.cloneNode(true); g.removeAttribute("id"); g.classList.add("ghost");
       Array.prototype.forEach.call(g.querySelectorAll("[id]"), function (n) { n.removeAttribute("id"); });
       curtain.insertBefore(g, kid); return rig(g);
@@ -1386,7 +1388,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     var TUCK = P({ tilt: 8, head: 14, hipB: -118, kneeB: 140, hipF: -110, kneeF: 142, shB: -66, elB: -78, shF: -58, elF: -80 });
     var CROUCH = P({ tilt: 14, head: -8, hipB: -46, kneeB: 86, hipF: -54, kneeF: 92, shB: -30, elB: -40, shF: -64, elF: -36 });
     var REACH = P({ tilt: 4, head: -10, hipB: 6, kneeB: 6, hipF: -10, kneeF: 10, shB: 120, elB: 20, shF: -120, elF: -20 });
-    var STAR = P({ hipB: 40, hipF: -40, shB: 110, shF: -110 });
+    var STAR = P({ hipB: 55, kneeB: 4, hipF: -55, kneeF: 4, shB: 125, elB: 8, shF: -125, elF: -8 });
     var FLEX = P({ tilt: -8, head: -9, hipB: 18, kneeB: 6, hipF: -20, kneeF: 8, shB: 84, elB: 52, shF: -84, elF: -70, bulge: 1, pump: .62 });
     function runPose(c, lean) { var s = Math.sin(c); return P({ tilt: lean, head: -4 + Math.sin(c * 2) * 3, hipB: 38 * s, kneeB: 12 + 62 * Math.max(0, s), hipF: -38 * s, kneeF: 12 + 62 * Math.max(0, -s), shB: 10 - 42 * s, elB: -86, shF: -10 + 42 * s, elF: -86 }); }
     function pushPose(c) { var s = Math.sin(c); return P({ tilt: 24 + Math.cos(c * 2) * 1.6, head: -10 + Math.sin(c * 2 + 1) * 2.5, hipB: 34 * s, kneeB: 10 + 44 * Math.max(0, s), hipF: -34 * s, kneeF: 10 + 44 * Math.max(0, -s), shB: -96 - s * 6, elB: -12, shF: -104 + s * 6, elF: -10 }); }
@@ -1398,32 +1400,47 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       var eye = lerp(a[1], b[1], k), ph = (t % 1150) / 120, blink = ph < 1 ? 1 - 0.92 * Math.sin(Math.PI * ph) : 1;
       return { eye: eye, o: lerp(a[2], b[2], k), grin: lerp(a[3], b[3], k), blink: blink };
     }
+    // flip spin follows angular momentum: omega = L / I, and a tuck makes I about 3x smaller, so he spins faster tucked
+    function flipTuck(p) { return sm(seg(p, .1, .3)) * (1 - sm(seg(p, .62, .84))); }
+    function cumTable(rate) { var n = 160, a = [0], acc = 0; for (var i = 1; i <= n; i++) { acc += rate((i - .5) / n); a.push(acc); } for (i = 0; i <= n; i++) a[i] /= acc; return a; }
+    function lookup(tab, p) { p = clamp(p) * (tab.length - 1); var i = Math.min(tab.length - 2, Math.floor(p)); return lerp(tab[i], tab[i + 1], p - i); }
+    var SPIN = cumTable(function (p) { return 1 / (1 - (1 - 1 / 3) * flipTuck(p)); });
+    // the cartwheel never stops turning: it enters and leaves at half its cruising speed
+    var WHEEL = cumTable(function (c) { return c < .5 ? .12 + .88 * sm(seg(c, 0, .18)) : .5 + .5 * (1 - sm(seg(c, .85, 1))); });
     // the whole performance as a pure function of time
     function pose(t, vw, vh, kw) {
       var xLand = Math.min(vw * 0.64, vw - kw * 1.08), xEnd = Math.max(vw * 0.05, 8), s = { t: t, x: 0, y: 0, r: 0, mx: 1, sx: 1, sy: 1, w: 1, g: 0, sweat: 0, px: 0, j: STAND };
       if (t < A1) {                                   // backflip in from the right
-        var p = t / A1, k = sm(seg(p, .1, .3)) * (1 - sm(seg(p, .62, .84)));
-        s.x = lerp(vw + kw * 0.2, xLand, p);
+        var p = t / A1, k = flipTuck(p), xS = vw < 640 ? vw - kw * 0.35 : vw + kw * 0.2, xF = (xLand + 60 * xS / A1) / (1 + 60 / A1);
+        s.x = lerp(xS, xF, p);
         s.y = lerp(-0.34 * vh, 0, p) - 4 * 0.26 * vh * p * (1 - p);
-        s.r = -360 * easeIO(seg(p, .04, .94));
-        s.j = mix(mix(OPEN, TUCK, k), CROUCH, sm(seg(p, .82, 1)));
-        s.w = sm(seg(p, .9, 1)); s.g = Math.sin(Math.PI * p);
+        s.r = -345 * lookup(SPIN, p);
+        s.j = mix(mix(OPEN, TUCK, k), CROUCH, sm(seg(p, .78, 1)));
+        var st = .06 * Math.sin(Math.PI * seg(p, .93, 1)); s.sy = 1 + st; s.sx = 1 / s.sy;
+        s.w = sm(seg(p, .9, 1));
       } else if (t < L1) {                            // land: squash, crouch, rise
-        var q = seg(t, A1, L1), dip = q < .25 ? 1 : 1 - sm((q - .25) / .75), im = Math.exp(-(t - A1) / 70) * Math.cos((t - A1) / 30);
-        s.x = xLand; s.j = mix(STAND, CROUCH, dip); s.sy = 1 - 0.14 * im; s.sx = 1 + 0.1 * im;
+        var d1 = t - A1, xS1 = vw < 640 ? vw - kw * 0.35 : vw + kw * 0.2, xF1 = (xLand + 60 * xS1 / A1) / (1 + 60 / A1), v1 = (xF1 - xS1) / A1;
+        // momentum carries through: the last 15 degrees of spin and a short slide finish after touchdown, then he rises
+        var dip = d1 < 80 ? 1 + .2 * Math.pow(Math.sin(Math.PI / 2 * d1 / 80), 2) : lerp(1.2, .35, sm((d1 - 80) / (L1 - A1 - 80)));
+        var im = 1.73 * Math.sin(d1 / 28) * Math.exp(-d1 / 70) * (1 - sm(d1 / (L1 - A1)));
+        s.x = xF1 + v1 * 60 * (1 - Math.exp(-d1 / 60)) / (1 - Math.exp(-(L1 - A1) / 60)); s.r = -345 - 15 * (1 - Math.exp(-d1 / 80)) / (1 - Math.exp(-(L1 - A1) / 80));
+        s.j = mix(STAND, CROUCH, dip); s.sy = 1 - 0.12 * im; s.sx = 1 / s.sy;
       } else if (t < CW0) {                           // spin to face left, reach up
         var q2 = seg(t, L1, CW0);
-        s.x = xLand; s.mx = face(Math.cos(Math.PI * sm(q2))); s.j = mix(mix(STAND, CROUCH, .5 * Math.sin(Math.PI * Math.min(1, q2 * 1.6))), REACH, sm(seg(q2, .35, 1)));
-        s.y = -Math.max(0, Math.sin(Math.PI * (q2 - .6) / .4)) * 0.018 * vh; s.sy = 1 + .07 * sm(seg(q2, .55, .9)); s.sx = 1 - .04 * sm(seg(q2, .55, .9));
+        s.x = xLand; s.mx = face(Math.cos(Math.PI * sm(q2))); s.j = mix(mix(STAND, CROUCH, .35 + .25 * Math.sin(Math.PI * sm(seg(q2, 0, .6)))), REACH, sm(seg(q2, .35, 1)));
+        s.y = -Math.pow(Math.sin(Math.PI * seg(q2, .35, 1)), 2) * 0.02 * vh; s.sy = 1 + .07 * sm(seg(q2, .55, .9)); s.sx = 1 - .04 * sm(seg(q2, .55, .9));
       } else if (t < CW1) {                           // cartwheel to the left
-        var c = seg(t, CW0, CW1), ce = c - Math.sin(2 * Math.PI * c) / (2 * Math.PI);
-        // aerial: a hop lifts him so the big head clears the floor while upside down
-        s.mx = -1; s.x = lerp(xLand, xEnd, ce); s.r = -360 * ce; s.y = -Math.sin(Math.PI * ce) * 100 * (kw / 240);
+        var c = seg(t, CW0, CW1), ce = lookup(WHEEL, c);
+        // aerial: a hop lifts him so the big head clears the floor while upside down; x rolls with the rotation
+        s.mx = -1; s.x = xLand - (xLand - xEnd) * (340 / 360) * ce; s.r = -340 * ce; s.y = -Math.sin(Math.PI * ce) * 100 * (kw / 240);
         s.w = 1 - sm(seg(c, 0, .16)) * (1 - sm(seg(c, .84, 1))); s.sy = 1 + .07 * (1 - sm(seg(c, 0, .14))); s.sx = 1 - .04 * (1 - sm(seg(c, 0, .14)));
-        s.j = mix(mix(REACH, STAR, sm(seg(c, 0, .16))), REACH, sm(seg(c, .84, 1))); s.g = Math.sin(Math.PI * c) * 0.9;
+        s.j = mix(mix(REACH, STAR, sm(seg(c, 0, .16))), REACH, sm(seg(c, .84, 1)));
+        var sw = Math.sin(2 * Math.PI * c) * sm(seg(c, .1, .3)) * (1 - sm(seg(c, .7, .9))), cj = s.j;
+        cj.hipB += 14 * sw; cj.hipF += 14 * sw; cj.kneeB += 10 * Math.max(0, sw); cj.kneeF += 10 * Math.max(0, -sw); cj.shB -= 10 * sw; cj.shF -= 10 * sw; cj.head -= 6 * sw;
       } else if (t < L2) {                            // land the cartwheel
-        var q3 = seg(t, CW1, L2), im2 = Math.exp(-(t - CW1) / 70) * Math.cos((t - CW1) / 30);
-        s.mx = -1; s.x = xEnd; s.j = mix(mix(REACH, STAND, sm(q3)), CROUCH, Math.sin(Math.PI * q3) * .55); s.sy = 1 - 0.08 * im2; s.sx = 1 + 0.06 * im2;
+        var q3 = seg(t, CW1, L2), d2 = t - CW1, v0 = 340 * (WHEEL.length - 1) * (1 - WHEEL[WHEEL.length - 2]) / (CW1 - CW0) * (L2 - CW1) / 20, f2 = v0 * q3 * (1 - q3) * (1 - q3) + q3 * q3 * (3 - 2 * q3), im2 = 1.73 * Math.sin(d2 / 28) * Math.exp(-d2 / 70) * (1 - sm(q3));
+        s.mx = -1; s.r = -340 - 20 * f2; s.x = xLand - (xLand - xEnd) * (340 + 20 * f2) / 360;
+        s.j = mix(mix(REACH, STAND, sm(q3)), CROUCH, Math.pow(Math.sin(Math.PI * q3), 2) * .8); s.sy = 1 - 0.07 * im2; s.sx = 1 / s.sy;
       } else if (t < FX0) {                           // spin back to face right, arms come up
         var q4 = seg(t, L2, FX0);
         s.x = xEnd; s.mx = face(-Math.cos(Math.PI * sm(q4))); s.j = mix(STAND, FLEX, sm(q4) * .5); s.y = -Math.sin(Math.PI * q4) * 0.02 * vh;
@@ -1432,7 +1449,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
         var fp = mix(mix(STAND, FLEX, .5), FLEX, snap);
         fp.elF -= 16 * pump; fp.elB += 16 * pump; fp.shF -= 4 * pump; fp.shB += 4 * pump; fp.tilt -= 2 * pump;
         fp.head += 6 * Math.sin(Math.PI * 6 * f) * (1 - f * .4); fp.pump += .08 * pump; fp.bulge = lerp(.5, .6 + .55 * pump, snap); fp.spark = pump * (1 - rel);
-        s.j = mix(fp, runPose(0, 10), rel); s.x = xEnd; s.y = -pump * 0.008 * vh * (1 - rel); s.mx = face(Math.cos(Math.PI * rel));
+        s.j = mix(fp, runPose((t - RN0) / 45, 10), rel); s.x = xEnd; s.y = -pump * 0.008 * vh * (1 - rel); s.mx = face(Math.cos(Math.PI * rel));
       } else if (t < PUSH) {                          // sprint off the left edge
         var q5 = seg(t, RN0, PUSH), cyc = (t - RN0) / 45;
         s.mx = -1; s.x = lerp(xEnd, -kw * 1.1, Math.pow(q5, 1.5)); s.j = runPose(cyc, 10 + 6 * q5); s.y = -Math.abs(Math.sin(cyc)) * 0.012 * vh;
@@ -1446,9 +1463,9 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     function dirv(a) { var r = a * Math.PI / 180; return [-Math.sin(r), Math.cos(r)]; }
     function rotP(p, a, cx, cy) { var r = a * Math.PI / 180, c = Math.cos(r), n = Math.sin(r), dx = p[0] - cx, dy = p[1] - cy; return [cx + dx * c - dy * n, cy + dx * n + dy * c]; }
     function ends(j) {
-      function leg(hx, h, k) { var a = dirv(h), b = dirv(h + k); return [hx + 38 * a[0] + 43 * b[0], 206 + 38 * a[1] + 43 * b[1]]; }
+      function leg(hx, h, k, dx) { var a = dirv(h), kx = hx + 38 * a[0], ky = 206 + 38 * a[1]; return rotP([kx + (dx || 0), ky + 43], h + k, kx, ky); }
       function arm(x, y, s, e) { var o = rotP([x, y], j.tilt, 113, 206), a = dirv(s + j.tilt), b = dirv(s + j.tilt + e), k = 1 + j.pump; return [o[0] + 32 * k * a[0] + 46 * k * b[0], o[1] + 32 * k * a[1] + 46 * k * b[1]]; }
-      return [leg(104, j.hipB, j.kneeB), leg(122, j.hipF, j.kneeF), arm(118, 144, j.shB, j.elB), arm(112, 150, j.shF, j.elF)];
+      return [leg(104, j.hipB, j.kneeB), leg(122, j.hipF, j.kneeF), arm(118, 144, j.shB, j.elB), arm(112, 150, j.shF, j.elF), leg(104, j.hipB, j.kneeB, -18), leg(104, j.hipB, j.kneeB, 26), leg(122, j.hipF, j.kneeF, -18), leg(122, j.hipF, j.kneeF, 26)];
     }
     function T(n, v) { if (n) n.setAttribute("transform", v); }
     function rot(a, x, y) { return "rotate(" + a.toFixed(2) + " " + x + " " + y + ")"; }
@@ -1462,13 +1479,14 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       T(R.legF, rot(j.hipF, 122, 206)); T(R.kneeF, rot(j.kneeF, 122, 244));
       // follow-through: the head and hair tuft trail the body's spin and bounce, then settle
       if (R.pr === undefined) { R.pr = s.r; R.py = s.y; R.pt = s.t; R.lag = 0; R.lv = 0; R.tf = 0; R.tv = 0; }
-      var steps = Math.max(0, Math.min(5, Math.round((s.t - R.pt) / 8.3))), dr = s.r - R.pr, dyv = s.y - R.py;
-      if (Math.abs(dr) > 90 || !steps) dr = 0; if (Math.abs(dyv) > 120 || !steps) dyv = 0;
+      if (s.t - R.pt > 60 || s.t < R.pt) R.pt = s.t - 8.3;
+      var steps = Math.floor((s.t - R.pt) / 8.3), dr = ((s.r - R.pr) % 360 + 540) % 360 - 180, dyv = s.y - R.py;
+      if (Math.abs(dr) > 90) dr = 0; if (Math.abs(dyv) > 120) dyv = 0;
       for (var st = 0; st < steps; st++) {
         R.lv = R.lv * 0.74 + (Math.max(-16, Math.min(16, -dr / steps * 2.4)) - R.lag) * 0.2; R.lag += R.lv;
         R.tv = R.tv * 0.7 + (Math.max(-28, Math.min(28, R.lag * 1.6 + dyv / steps * 1.4)) - R.tf) * 0.22; R.tf += R.tv;
       }
-      R.pr = s.r; R.py = s.y; R.pt = s.t;
+      if (steps) { R.pr = s.r; R.py = s.y; R.pt += steps * 8.3; }
       T(R.body, rot(j.tilt, 113, 206)); T(R.head, rot(j.head + R.lag, 108, 124) + " translate(108 124) scale(1.16) translate(-108 -124)");
       T(R.tuft, rot(R.tf + Math.sin(s.t / 170) * 3, 109, 26));
       var fa = faceAt(s.t);
@@ -1499,10 +1517,10 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       panel.style.transform = "translateX(" + s.px.toFixed(1) + "px)";
       if (main.sweat) { main.sweat.setAttribute("opacity", s.sweat ? (0.55 + 0.45 * Math.sin(t / 160)).toFixed(2) : 0); main.sweat.setAttribute("transform", "translate(0 " + ((t / 18) % 14).toFixed(1) + ")"); }
       ghosts.forEach(function (G, i) {
-        var gs = pose(Math.max(0, t - 45 * (i + 1)), vw, vh, kw);
-        if (!s.g && !gs.g) { if (G.el.style.opacity !== "0") G.el.style.opacity = 0; return; }
+        var off = SMEAR[i][0], gs = pose(Math.max(0, t - off), vw, vh, kw), spd = Math.abs(((s.r - gs.r) % 360 + 540) % 360 - 180) / off, go = SMEAR[i][1] * Math.min(1, spd / 0.6);
+        if (go < .01) { if (G.el.style.opacity !== "0") G.el.style.opacity = 0; G.pr = undefined; return; }
         draw(G, gs, kw);
-        G.el.style.opacity = (Math.min(s.g, gs.g) * (i ? .1 : .2)).toFixed(3);
+        G.el.style.opacity = go.toFixed(3);
       });
       // impacts shake the name a little
       var sh = 0; [[A1, 7], [CW1, 4]].forEach(function (e) { if (t > e[0]) sh += e[1] * Math.exp(-(t - e[0]) / 110) * Math.sin((t - e[0]) / 16); });
@@ -1527,7 +1545,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     }
     var iRaf = 0;
     function start() { if (iRaf) cancelAnimationFrame(iRaf); iMeasure(); [main].concat(ghosts).forEach(function (R) { R.pr = undefined; }); iT = 0; iLast = 0; iSpeed = 1; iReady = false; iRun = true; iPrev = -1; lastStep = 0; lastLow = -1; curtain.style.display = ""; curtain.classList.add("live"); root.classList.remove("ready"); root.classList.add("intro-on"); paint(); iRaf = requestAnimationFrame(frame); }
-    function skip() { if (!iRun || performance.now() - startedAt < 500) return; if (iT < PUSH) { iT = PUSH; iPrev = PUSH; } iSpeed = 2.4; }
+    function skip() { if (!iRun || performance.now() - startedAt < 500) return; if (iT < PUSH) { iT = PUSH; iPrev = PUSH; [main].concat(ghosts).forEach(function (R) { R.pr = undefined; }); } iSpeed = 2.4; }
     curtain.addEventListener("click", skip);
     ["keydown", "wheel"].forEach(function (ev) { window.addEventListener(ev, function () { if (iRun) skip(); }, { passive: true }); });
     replayIntro = function () { var sb = root.style.scrollBehavior; root.style.scrollBehavior = "auto"; window.scrollTo(0, 0); root.style.scrollBehavior = sb; void root.offsetWidth; armed = true; startedAt = performance.now(); start(); };
