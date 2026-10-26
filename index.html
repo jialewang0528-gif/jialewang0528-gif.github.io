@@ -68,7 +68,7 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; overflow-x: clip; }
 body { margin: 0; background: var(--surface); color: var(--ink); font: 400 16px/26px var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 img { max-width: 100%; display: block; }
 a { color: inherit; }
@@ -82,20 +82,22 @@ h1, h2, h3 { text-wrap: balance; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 /* ---------- preloader (huyml wipe) ---------- */
-.curtain { position: fixed; inset: 0; z-index: 100; pointer-events: none; overflow: hidden; animation: introGone 0s linear 3.2s forwards; }
+.curtain { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 100; pointer-events: none; overflow: hidden; animation: introGone 0s linear 3.2s forwards; }
 .curtain.live { pointer-events: auto; cursor: pointer; }
 .curtain.js { animation: none; }
-.cpanel { position: absolute; inset: 0; background: #ebe8e1; will-change: transform; display: grid; place-items: center; box-shadow: -30px 0 60px rgba(0, 0, 0, .35); }
+.cpanel { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: #ebe8e1; will-change: transform; display: grid; place-items: center; box-shadow: -30px 0 60px rgba(0, 0, 0, .35); }
 .cpanel-ui { display: grid; justify-items: center; gap: 14px; color: #0f0f0e; }
 .c-name { font: 400 clamp(40px, 6vw, 84px)/1 var(--serif); letter-spacing: .01em; min-height: 1em; }
 .c-cap { font: 500 11px/14px var(--sans); letter-spacing: .3em; text-transform: uppercase; color: rgba(15, 15, 14, .7); min-height: 14px; }
-.kid { position: absolute; left: 0; bottom: 14vh; width: clamp(150px, 17vw, 240px); will-change: transform; filter: drop-shadow(2px 0 0 #ebe8e1) drop-shadow(-2px 0 0 #ebe8e1) drop-shadow(0 2px 0 #ebe8e1) drop-shadow(0 -2px 0 #ebe8e1); }
+.kid { position: absolute; left: 0; bottom: 14vh; width: clamp(150px, 17vw, 240px); will-change: transform; }
 .kid-svg { display: block; width: 100%; height: auto; overflow: visible; }
 .k-ink { fill: #0f0f0e; } .k-inks { stroke: #0f0f0e; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
 .k-skin { fill: #f6efe4; } .k-paper { fill: #fbf8f1; }
 .kid-svg g { transform-box: view-box; }
-.dust { position: absolute; width: 22px; height: 16px; border-radius: 50%; background: #ebe8e1; border: 2px solid rgba(235, 232, 225, .6); pointer-events: none; animation: dust .42s ease-out forwards; }
-@keyframes dust { from { opacity: .85; transform: translate(0, 0) scale(.4); } to { opacity: 0; transform: translate(18px, -16px) scale(1.5); } }
+.dust { position: absolute; width: 22px; height: 16px; border-radius: 50%; background: rgba(15, 15, 14, .1); border: 1.5px solid rgba(15, 15, 14, .28); pointer-events: none; animation: dust .46s ease-out forwards; }
+@keyframes dust { from { opacity: .9; transform: translate(0, 0) scale(calc(.4 * var(--s, 1))); } to { opacity: 0; transform: translate(var(--dx, 18px), -18px) scale(calc(1.5 * var(--s, 1))); } }
+.kid.ghost { opacity: 0; pointer-events: none; }
+.kid.ghost [data-j="root"] { filter: none; }
 .c-skip.wait { right: 50%; transform: translateX(50%); bottom: 18vh; color: rgba(15, 15, 14, .6); animation: waitPulse 1.6s ease-in-out infinite; }
 @keyframes waitPulse { 50% { opacity: .35; } }
 .c-skip { position: absolute; right: var(--gutter); bottom: 22px; font: 500 11px/14px var(--sans); letter-spacing: .16em; text-transform: uppercase; color: rgba(15, 15, 14, .7); z-index: 3; }
@@ -817,38 +819,70 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 <div class="curtain" id="curtain" aria-hidden="true">
   <div class="cpanel" id="cpanel"><div class="cpanel-ui"><span class="c-name" id="cName">Michael Wang</span><span class="c-cap" id="cCap">Product portfolio &#xb7; New York</span></div><span class="c-skip">Click to skip</span></div>
   <div class="kid" id="kid"><svg class="kid-svg" id="kidSvg" viewBox="0 0 240 300" aria-hidden="true">
-  <ellipse id="kShadow" cx="112" cy="290" rx="62" ry="6" fill="rgba(15,15,14,.22)"/>
-  <g id="kLegB" class="k-leg" style="transform-origin:104px 206px">
-      <path d="M104 206 L104 272" stroke="#0f0f0e" stroke-width="31" stroke-linecap="round"/>
-      <path d="M104 206 L104 272" stroke="#c9c5bb" stroke-width="24" stroke-linecap="round"/>
-      <path d="M97 232 l9 -7 M97 244 l11 -9 M98 256 l10 -8" stroke="#0f0f0e" stroke-width="1.3" stroke-linecap="round" opacity=".45"/>
-      <path class="k-paper k-inks" d="M86 284 q0 -15 20 -15 h12 q12 0 12 12 v4 h-44z"/>
-      <path d="M102 275 l4 2 M108 273 l4 2" stroke="#0f0f0e" stroke-width="1.4" stroke-linecap="round"/>
+  <defs><filter id="kidLine" x="-20%" y="-20%" width="140%" height="140%"><feMorphology in="SourceAlpha" operator="dilate" radius="2.2" result="d"/><feFlood flood-color="#ebe8e1"/><feComposite in2="d" operator="in" result="o"/><feMerge><feMergeNode in="o"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+  <ellipse data-j="shadow" cx="112" cy="290" rx="62" ry="6" fill="rgba(15,15,14,.22)"/>
+  <g data-j="root" filter="url(#kidLine)">
+    <g data-j="legB">
+      <path d="M104 206 L104 244" stroke="#0f0f0e" stroke-width="31" stroke-linecap="round"/>
+      <path d="M104 206 L104 244" stroke="#c9c5bb" stroke-width="24" stroke-linecap="round"/>
+      <path d="M97 222 l9 -7 M98 234 l10 -8" stroke="#0f0f0e" stroke-width="1.3" stroke-linecap="round" opacity=".45"/>
+      <g data-j="kneeB">
+        <path d="M104 244 L104 276" stroke="#0f0f0e" stroke-width="31" stroke-linecap="round"/>
+        <circle cx="104" cy="244" r="12" fill="#c9c5bb"/>
+        <path d="M104 244 L104 276" stroke="#c9c5bb" stroke-width="24" stroke-linecap="round"/>
+        <path d="M97 257 l11 -9" stroke="#0f0f0e" stroke-width="1.3" stroke-linecap="round" opacity=".45"/>
+        <path class="k-paper k-inks" d="M86 284 q0 -15 20 -15 h12 q12 0 12 12 v4 h-44z"/>
+        <path d="M102 275 l4 2 M108 273 l4 2" stroke="#0f0f0e" stroke-width="1.4" stroke-linecap="round"/>
+      </g>
     </g>
-  <g id="kLegF" class="k-leg" style="transform-origin:122px 206px">
-      <path d="M122 206 L122 272" stroke="#0f0f0e" stroke-width="31" stroke-linecap="round"/>
-      <path d="M122 206 L122 272" stroke="#d9d5cc" stroke-width="24" stroke-linecap="round"/>
-      <path d="M115 232 l9 -7 M115 244 l11 -9 M116 256 l10 -8" stroke="#0f0f0e" stroke-width="1.3" stroke-linecap="round" opacity=".45"/>
-      <path class="k-paper k-inks" d="M104 284 q0 -15 20 -15 h12 q12 0 12 12 v4 h-44z"/>
-      <path d="M120 275 l4 2 M126 273 l4 2" stroke="#0f0f0e" stroke-width="1.4" stroke-linecap="round"/>
+    <g data-j="legF">
+      <path d="M122 206 L122 244" stroke="#0f0f0e" stroke-width="31" stroke-linecap="round"/>
+      <path d="M122 206 L122 244" stroke="#d9d5cc" stroke-width="24" stroke-linecap="round"/>
+      <path d="M115 222 l9 -7 M116 234 l10 -8" stroke="#0f0f0e" stroke-width="1.3" stroke-linecap="round" opacity=".45"/>
+      <g data-j="kneeF">
+        <path d="M122 244 L122 276" stroke="#0f0f0e" stroke-width="31" stroke-linecap="round"/>
+        <circle cx="122" cy="244" r="12" fill="#d9d5cc"/>
+        <path d="M122 244 L122 276" stroke="#d9d5cc" stroke-width="24" stroke-linecap="round"/>
+        <path d="M115 257 l11 -9" stroke="#0f0f0e" stroke-width="1.3" stroke-linecap="round" opacity=".45"/>
+        <path class="k-paper k-inks" d="M104 284 q0 -15 20 -15 h12 q12 0 12 12 v4 h-44z"/>
+        <path d="M120 275 l4 2 M126 273 l4 2" stroke="#0f0f0e" stroke-width="1.4" stroke-linecap="round"/>
+      </g>
     </g>
-  <g id="kBody" style="transform-origin:112px 214px">
-    <g id="kArmB"><path d="M120 142 L186 132" stroke="#0f0f0e" stroke-width="24" stroke-linecap="round"/><circle class="k-skin k-inks" cx="192" cy="131" r="9"/></g>
-    <path class="k-ink" d="M80 134 q-8 42 2 80 h50 q10 -40 0 -82 q-26 -12 -52 2z"/>
-    <path d="M106 136 L106 212" stroke="#3a3a37" stroke-width="2"/>
-    <path d="M90 160 q10 4 14 14 M88 186 q8 3 12 10" stroke="#3a3a37" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-    <rect x="122" y="168" width="10" height="3" rx="1.5" fill="#3a3a37"/>
-    <path class="k-paper k-inks" d="M86 130 q20 14 42 -2 l-5 -12 q-16 9 -32 2z"/>
-    <g id="kArmF"><path d="M114 152 L188 154" stroke="#0f0f0e" stroke-width="25" stroke-linecap="round"/><path d="M114 152 L180 154" stroke="#2a2a28" stroke-width="2" stroke-linecap="round"/><circle class="k-skin k-inks" cx="194" cy="154" r="9.5"/></g>
-    <g id="kHead" style="transform-origin:108px 124px; transform: scale(1.16)">
-      <ellipse class="k-skin k-inks" cx="108" cy="78" rx="52" ry="49"/>
-      <ellipse class="k-skin k-inks" cx="84" cy="92" rx="8" ry="10"/><path d="M82 88 q4 3 1 8" fill="none" stroke="#0f0f0e" stroke-width="2" stroke-linecap="round"/>
-      <path class="k-ink" d="M56 92 Q44 30 104 24 Q154 20 162 66 Q154 60 146 64 L142 50 L134 66 L126 50 L118 68 L110 54 L100 70 Q88 66 86 80 Q74 74 70 98 Q60 100 56 92 Z"/>
-      <path class="k-ink" d="M98 26 q8 -14 22 -12 q-6 6 -6 12z"/>
-      <path d="M126 86 q8 -9 16 0" fill="none" class="k-inks" stroke-width="3.6"/>
-      <path d="M150 92 q5 4 0 8" fill="none" class="k-inks" stroke-width="2.6"/>
-      <path class="k-ink" d="M130 106 q10 12 22 0 q-11 4 -22 0z"/>
-      <path id="kSweat" d="M66 52 q-7 10 -2 15 q6 3 8 -4 q0 -5 -6 -11z" fill="#fbf8f1" stroke="#0f0f0e" stroke-width="2.4" stroke-linejoin="round" opacity="0"/>
+    <g data-j="body">
+      <g data-j="armB">
+        <path d="M118 144 L118 176" stroke="#fbf8f1" stroke-width="29" stroke-linecap="round"/><path d="M118 144 L118 176" stroke="#0f0f0e" stroke-width="24" stroke-linecap="round"/>
+        <ellipse data-j="bulgeB" cx="105" cy="160" rx="13" ry="10" fill="#0f0f0e" stroke="#fbf8f1" stroke-width="2.4" transform="scale(0)"/>
+        <g data-j="elbB">
+          <path d="M118 176 L118 206" stroke="#fbf8f1" stroke-width="27" stroke-linecap="round"/><path d="M118 176 L118 206" stroke="#0f0f0e" stroke-width="22" stroke-linecap="round"/>
+          <circle class="k-skin k-inks" cx="118" cy="214" r="9"/>
+        </g>
+      </g>
+      <path class="k-ink" d="M80 134 q-8 42 2 80 h50 q10 -40 0 -82 q-26 -12 -52 2z"/>
+      <path d="M106 136 L106 212" stroke="#3a3a37" stroke-width="2"/>
+      <path d="M90 160 q10 4 14 14 M88 186 q8 3 12 10" stroke="#3a3a37" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <rect x="122" y="168" width="10" height="3" rx="1.5" fill="#3a3a37"/>
+      <path class="k-paper k-inks" d="M86 130 q20 14 42 -2 l-5 -12 q-16 9 -32 2z"/>
+      <g data-j="armF">
+        <path d="M112 150 L112 182" stroke="#fbf8f1" stroke-width="30" stroke-linecap="round"/><path d="M112 150 L112 182" stroke="#0f0f0e" stroke-width="25" stroke-linecap="round"/>
+        <path d="M113 153 L113 180" stroke="#2a2a28" stroke-width="2" stroke-linecap="round"/>
+        <ellipse data-j="bulgeF" cx="125" cy="166" rx="13" ry="10" fill="#0f0f0e" stroke="#fbf8f1" stroke-width="2.4" transform="scale(0)"/>
+        
+        <g data-j="elbF">
+          <path d="M112 182 L112 212" stroke="#fbf8f1" stroke-width="28" stroke-linecap="round"/><path d="M112 182 L112 212" stroke="#0f0f0e" stroke-width="23" stroke-linecap="round"/>
+          <circle class="k-skin k-inks" cx="112" cy="220" r="9.5"/>
+          <path data-j="spark" d="M100 234 l-7 9 M112 237 l0 11 M124 234 l7 9" stroke="#0f0f0e" stroke-width="2.8" stroke-linecap="round" opacity="0"/>
+        </g>
+      </g>
+      <g data-j="head" transform="translate(108 124) scale(1.16) translate(-108 -124)">
+        <ellipse class="k-skin k-inks" cx="108" cy="78" rx="52" ry="49"/>
+        <ellipse class="k-skin k-inks" cx="84" cy="92" rx="8" ry="10"/><path d="M82 88 q4 3 1 8" fill="none" stroke="#0f0f0e" stroke-width="2" stroke-linecap="round"/>
+        <path class="k-ink" d="M56 92 Q44 30 104 24 Q154 20 162 66 Q154 60 146 64 L142 50 L134 66 L126 50 L118 68 L110 54 L100 70 Q88 66 86 80 Q74 74 70 98 Q60 100 56 92 Z"/>
+        <path class="k-ink" d="M98 26 q8 -14 22 -12 q-6 6 -6 12z"/>
+        <path d="M126 86 q8 -9 16 0" fill="none" class="k-inks" stroke-width="3.6"/>
+        <path d="M150 92 q5 4 0 8" fill="none" class="k-inks" stroke-width="2.6"/>
+        <path class="k-ink" d="M130 106 q10 12 22 0 q-11 4 -22 0z"/>
+        <path data-j="sweat" d="M66 52 q-7 10 -2 15 q6 3 8 -4 q0 -5 -6 -11z" fill="#fbf8f1" stroke="#0f0f0e" stroke-width="2.4" stroke-linejoin="round" opacity="0"/>
+      </g>
     </g>
   </g>
 </svg></div>
@@ -1310,51 +1344,163 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     el.textContent = out;
   }
 
-  // intro: little me walks in and pushes the curtain off screen. Frame-driven so it only plays on screen
+  // intro: little me backflips in from the right, cartwheels left, flexes, runs off, then pushes the curtain away.
+  // Every frame is computed from one pose(t) function, so nothing ever holds still or snaps between moves.
   var curLast = null, curRefresh = function () {};
   var root = document.documentElement, curtain = document.getElementById("curtain"), replayIntro = function () {};
   if (curtain && !reduce) {
-    var panel = document.getElementById("cpanel"), kid = document.getElementById("kid"), kidSvg = document.getElementById("kidSvg");
-    var kLegB = document.getElementById("kLegB"), kLegF = document.getElementById("kLegF"), kBody = document.getElementById("kBody"), kArmB = document.getElementById("kArmB"), kArmF = document.getElementById("kArmF"), kHead = document.getElementById("kHead"), kShadow = document.getElementById("kShadow"), kSweat = document.getElementById("kSweat"), lastDust = 0;
+    var panel = document.getElementById("cpanel"), kid = document.getElementById("kid"), cUi = panel.querySelector(".cpanel-ui");
     var cName = document.getElementById("cName"), cCap = document.getElementById("cCap"), NAME = "Michael Wang", CAP = cCap.textContent;
-    var iT = 0, iLast = 0, iSpeed = 1, iRun = false, iReady = false;
-    var PUSH = 800, PUSH_END = 2900, END = 2950;
+    var iT = 0, iLast = 0, iSpeed = 1, iRun = false, iReady = false, iPrev = -1, lastStep = 0, lastLow = -1;
+    // timeline in ms
+    var A1 = 950, L1 = 1250, CW0 = 1400, CW1 = 2400, L2 = 2600, FX0 = 2750, FX1 = 3800, RN0 = 3950, PUSH = 4250, PUSH_END = 6350, END = 6400;
     curtain.classList.add("js");
+    var iVW = 0, iVH = 0, iKW = 240;
+    function iMeasure() { iVW = window.innerWidth; iVH = window.innerHeight; iKW = kid.offsetWidth || 240; }
+    window.addEventListener("resize", iMeasure);
+    function rig(el) { var o = { el: el }; Array.prototype.forEach.call(el.querySelectorAll("[data-j]"), function (n) { o[n.getAttribute("data-j")] = n; }); return o; }
+    var main = rig(kid);
+    // two faint copies trail the flips
+    var ghosts = [0, 1].map(function () {
+      var g = kid.cloneNode(true); g.removeAttribute("id"); g.classList.add("ghost");
+      Array.prototype.forEach.call(g.querySelectorAll("[id]"), function (n) { n.removeAttribute("id"); });
+      curtain.insertBefore(g, kid); return rig(g);
+    });
     function clamp(x) { return Math.max(0, Math.min(1, x)); }
-    function ease3(x) { return 1 - Math.pow(1 - x, 3); }
-    function easeIO(x) { return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
-    function paint() {
-      var vw = window.innerWidth, kw = kid.offsetWidth;
-      decode(cName, NAME, clamp((iT - 80) / 650)); decode(cCap, CAP, clamp((iT - 420) / 450));
-      var push = easeIO(clamp((iT - PUSH) / (PUSH_END - PUSH))), px = push * (vw + kw * 1.05);
-      panel.style.transform = "translateX(" + px.toFixed(1) + "px)";
-      var kx = px - kw * 0.86;
-      var bob = iT > PUSH ? Math.abs(Math.sin((iT - PUSH) / 105)) * -7 : 0;
-      kid.style.transform = "translate(" + kx.toFixed(1) + "px," + bob.toFixed(1) + "px)";
-      var ph = iT > PUSH ? (iT - PUSH) / 105 : 0, sw = Math.sin(ph), pushing = iT > PUSH && iT < PUSH_END;
-      kLegB.style.transform = "rotate(" + (sw * 24).toFixed(2) + "deg)"; kLegF.style.transform = "rotate(" + (-sw * 24).toFixed(2) + "deg)";
-      kBody.style.transform = "rotate(" + (11 + Math.cos(ph * 2) * 1.6).toFixed(2) + "deg)";
-      kArmB.style.transform = "translateX(" + (sw * 3.5).toFixed(2) + "px)"; kArmF.style.transform = "translateX(" + (-sw * 3.5).toFixed(2) + "px)";
-      kHead.style.transform = "rotate(" + (Math.sin(ph * 2 + 1) * 2.2).toFixed(2) + "deg) scale(1.16)";
-      kShadow.setAttribute("rx", (62 - Math.abs(sw) * 6).toFixed(1));
-      kSweat.style.opacity = pushing ? (0.55 + 0.45 * Math.sin(iT / 160)).toFixed(2) : 0;
-      kSweat.style.transform = "translateY(" + ((iT / 18) % 14).toFixed(1) + "px)";
-      if (pushing && iT - lastDust > 210) {
-        lastDust = iT;
-        var d = document.createElement("i"); d.className = "dust";
-        var kr = kid.getBoundingClientRect(); d.style.left = (kr.left + kr.width * 0.36) + "px"; d.style.top = (kr.bottom - 22) + "px";
-        curtain.appendChild(d); setTimeout(function () { d.remove(); }, 440);
+    function lerp(a, b, k) { return a + (b - a) * k; }
+    function sm(x) { x = clamp(x); return x * x * (3 - 2 * x); }
+    function easeIO(x) { x = clamp(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+    function ease3(x) { x = clamp(x); return 1 - Math.pow(1 - x, 3); }
+    function seg(t, a, b) { return clamp((t - a) / (b - a)); }
+    // turning in place: pass through edge-on in about one frame so no paper-thin sliver ever shows
+    function face(c) { return (c < 0 ? -1 : 1) * (1 - 0.22 * Math.pow(1 - Math.abs(c), 2)); }
+    // joint angles in degrees: 0 hangs straight down, negative swings forward (toward the way he faces)
+    var J = ["tilt", "head", "hipB", "kneeB", "hipF", "kneeF", "shB", "elB", "shF", "elF", "bulge", "spark", "pump"];
+    function P(o) { var p = {}; J.forEach(function (k) { p[k] = o[k] || 0; }); return p; }
+    function mix(a, b, k) { var p = {}; J.forEach(function (n) { p[n] = a[n] + (b[n] - a[n]) * k; }); return p; }
+    var STAND = P({ hipB: 4, kneeB: 3, hipF: -5, kneeF: 4, shB: 14, elB: -16, shF: -10, elF: -20 });
+    var OPEN = P({ head: -4, hipB: 12, kneeB: 14, hipF: -8, kneeF: 20, shB: 125, elB: 10, shF: -125, elF: -10 });
+    var TUCK = P({ tilt: 8, head: 14, hipB: -118, kneeB: 140, hipF: -110, kneeF: 142, shB: -66, elB: -78, shF: -58, elF: -80 });
+    var CROUCH = P({ tilt: 14, head: -8, hipB: -46, kneeB: 86, hipF: -54, kneeF: 92, shB: -30, elB: -40, shF: -64, elF: -36 });
+    var REACH = P({ tilt: 4, head: -10, hipB: 6, kneeB: 6, hipF: -10, kneeF: 10, shB: 120, elB: 20, shF: -120, elF: -20 });
+    var STAR = P({ hipB: 40, hipF: -40, shB: 110, shF: -110 });
+    var FLEX = P({ tilt: -8, head: -9, hipB: 18, kneeB: 6, hipF: -20, kneeF: 8, shB: 84, elB: 70, shF: -84, elF: -70, bulge: 1, pump: .62 });
+    function runPose(c, lean) { var s = Math.sin(c); return P({ tilt: lean, head: -4 + Math.sin(c * 2) * 3, hipB: 38 * s, kneeB: 12 + 62 * Math.max(0, s), hipF: -38 * s, kneeF: 12 + 62 * Math.max(0, -s), shB: 10 - 42 * s, elB: -86, shF: -10 + 42 * s, elF: -86 }); }
+    function pushPose(c) { var s = Math.sin(c); return P({ tilt: 24 + Math.cos(c * 2) * 1.6, head: -10 + Math.sin(c * 2 + 1) * 2.5, hipB: 34 * s, kneeB: 10 + 44 * Math.max(0, s), hipF: -34 * s, kneeF: 10 + 44 * Math.max(0, -s), shB: -96 - s * 6, elB: -12, shF: -104 + s * 6, elF: -10 }); }
+    // the whole performance as a pure function of time
+    function pose(t, vw, vh, kw) {
+      var xLand = vw * 0.64, xEnd = vw * 0.05, s = { x: 0, y: 0, r: 0, mx: 1, sx: 1, sy: 1, w: 1, g: 0, sweat: 0, px: 0, j: STAND };
+      if (t < A1) {                                   // backflip in from the right
+        var p = t / A1, k = sm(seg(p, .1, .3)) * (1 - sm(seg(p, .62, .84)));
+        s.x = lerp(vw + kw * 0.2, xLand, p);
+        s.y = lerp(-0.34 * vh, 0, p) - 4 * 0.26 * vh * p * (1 - p);
+        s.r = -360 * easeIO(seg(p, .04, .94));
+        s.j = mix(mix(OPEN, TUCK, k), CROUCH, sm(seg(p, .82, 1)));
+        s.w = sm(seg(p, .9, 1)); s.g = Math.sin(Math.PI * p);
+      } else if (t < L1) {                            // land: squash, crouch, rise
+        var q = seg(t, A1, L1), dip = q < .25 ? 1 : 1 - sm((q - .25) / .75), im = Math.exp(-(t - A1) / 70) * Math.cos((t - A1) / 30);
+        s.x = xLand; s.j = mix(STAND, CROUCH, dip); s.sy = 1 - 0.14 * im; s.sx = 1 + 0.1 * im;
+      } else if (t < CW0) {                           // spin to face left, reach up
+        var q2 = seg(t, L1, CW0);
+        s.x = xLand; s.mx = face(Math.cos(Math.PI * sm(q2))); s.j = mix(STAND, REACH, sm(q2)); s.y = -Math.sin(Math.PI * q2) * 0.025 * vh;
+      } else if (t < CW1) {                           // cartwheel to the left
+        var c = seg(t, CW0, CW1), ce = c - Math.sin(2 * Math.PI * c) / (2 * Math.PI);
+        // aerial: a hop lifts him so the big head clears the floor while upside down
+        s.mx = -1; s.x = lerp(xLand, xEnd, ce); s.r = -360 * ce; s.y = -Math.sin(Math.PI * ce) * 100 * (kw / 240);
+        s.w = 1 - sm(seg(c, 0, .16)) * (1 - sm(seg(c, .84, 1)));
+        s.j = mix(mix(REACH, STAR, sm(seg(c, 0, .16))), REACH, sm(seg(c, .84, 1))); s.g = Math.sin(Math.PI * c) * 0.9;
+      } else if (t < L2) {                            // land the cartwheel
+        var q3 = seg(t, CW1, L2), im2 = Math.exp(-(t - CW1) / 70) * Math.cos((t - CW1) / 30);
+        s.mx = -1; s.x = xEnd; s.j = mix(mix(REACH, STAND, sm(q3)), CROUCH, Math.sin(Math.PI * q3) * .55); s.sy = 1 - 0.08 * im2; s.sx = 1 + 0.06 * im2;
+      } else if (t < FX0) {                           // spin back to face right, arms come up
+        var q4 = seg(t, L2, FX0);
+        s.x = xEnd; s.mx = face(-Math.cos(Math.PI * sm(q4))); s.j = mix(STAND, FLEX, sm(q4) * .5); s.y = -Math.sin(Math.PI * q4) * 0.02 * vh;
+      } else if (t < RN0) {                           // flex: snap into the pose, three pumps, then turn to run
+        var f = seg(t, FX0, FX1), snap = ease3(seg(t, FX0, FX0 + 180)), pump = Math.pow(Math.sin(Math.PI * 3 * f), 2) * sm(seg(f, .05, .2)), rel = sm(seg(t, FX1, RN0));
+        var fp = mix(mix(STAND, FLEX, .5), FLEX, snap);
+        fp.elF -= 16 * pump; fp.elB += 16 * pump; fp.shF -= 4 * pump; fp.shB += 4 * pump; fp.tilt -= 2 * pump;
+        fp.head += 6 * Math.sin(Math.PI * 6 * f) * (1 - f * .4); fp.pump += .08 * pump; fp.bulge = lerp(.5, .6 + .55 * pump, snap); fp.spark = pump * (1 - rel);
+        s.j = mix(fp, runPose(0, 10), rel); s.x = xEnd; s.y = -pump * 0.008 * vh * (1 - rel); s.mx = face(Math.cos(Math.PI * rel));
+      } else if (t < PUSH) {                          // sprint off the left edge
+        var q5 = seg(t, RN0, PUSH), cyc = (t - RN0) / 45;
+        s.mx = -1; s.x = lerp(xEnd, -kw * 1.1, Math.pow(q5, 1.5)); s.j = runPose(cyc, 10 + 6 * q5); s.y = -Math.abs(Math.sin(cyc)) * 0.012 * vh;
+      } else {                                        // push the curtain off to the right
+        var qp = seg(t, PUSH, PUSH_END), pxv = (.25 * qp + .75 * easeIO(qp)) * (vw + kw * 1.05), ph = pxv * Math.PI / (90 * kw / 240), bl = sm(seg(t, PUSH, PUSH + 150));
+        s.px = pxv; s.x = pxv - kw * 0.86 - (1 - bl) * kw * 0.24; s.j = mix(runPose((PUSH - RN0) / 45, 16), pushPose(ph), bl); s.y = -Math.abs(Math.sin(ph)) * 6; s.sweat = t < PUSH_END ? 1 : 0;
       }
-      if (!iReady && iT >= PUSH + 350) { iReady = true; root.classList.remove("intro-on"); root.classList.add("ready"); }
+      return s;
+    }
+    // forward kinematics: where the two soles and two fists end up, so the body can rest on whichever touches the floor
+    function dirv(a) { var r = a * Math.PI / 180; return [-Math.sin(r), Math.cos(r)]; }
+    function rotP(p, a, cx, cy) { var r = a * Math.PI / 180, c = Math.cos(r), n = Math.sin(r), dx = p[0] - cx, dy = p[1] - cy; return [cx + dx * c - dy * n, cy + dx * n + dy * c]; }
+    function ends(j) {
+      function leg(hx, h, k) { var a = dirv(h), b = dirv(h + k); return [hx + 38 * a[0] + 43 * b[0], 206 + 38 * a[1] + 43 * b[1]]; }
+      function arm(x, y, s, e) { var o = rotP([x, y], j.tilt, 113, 206), a = dirv(s + j.tilt), b = dirv(s + j.tilt + e), k = 1 + j.pump; return [o[0] + 32 * k * a[0] + 46 * k * b[0], o[1] + 32 * k * a[1] + 46 * k * b[1]]; }
+      return [leg(104, j.hipB, j.kneeB), leg(122, j.hipF, j.kneeF), arm(118, 144, j.shB, j.elB), arm(112, 150, j.shF, j.elF)];
+    }
+    function T(n, v) { if (n) n.setAttribute("transform", v); }
+    function rot(a, x, y) { return "rotate(" + a.toFixed(2) + " " + x + " " + y + ")"; }
+    function draw(R, s, kw) {
+      var j = s.j, pts = ends(j).map(function (p) { return rotP([112 + (p[0] - 112) * s.mx * s.sx, 288 + (p[1] - 288) * s.sy], s.r, 112, 186); });
+      var low = 0, li = 0; pts.forEach(function (p, i) { if (p[1] > low) { low = p[1]; li = i; } });
+      var dy = (288 - low) * s.w;
+      R.el.style.transform = "translate3d(" + s.x.toFixed(1) + "px," + s.y.toFixed(1) + "px,0)";
+      T(R.root, "translate(0 " + dy.toFixed(2) + ") " + rot(s.r, 112, 186) + " translate(112 288) scale(" + (s.mx * s.sx).toFixed(3) + " " + s.sy.toFixed(3) + ") translate(-112 -288)");
+      T(R.legB, rot(j.hipB, 104, 206)); T(R.kneeB, rot(j.kneeB, 104, 244));
+      T(R.legF, rot(j.hipF, 122, 206)); T(R.kneeF, rot(j.kneeF, 122, 244));
+      T(R.body, rot(j.tilt, 113, 206)); T(R.head, rot(j.head, 108, 124) + " translate(108 124) scale(1.16) translate(-108 -124)");
+      var ak = (1 + j.pump).toFixed(3);
+      T(R.armB, rot(j.shB, 118, 144) + " translate(118 144) scale(" + ak + ") translate(-118 -144)"); T(R.elbB, rot(j.elB, 118, 176));
+      T(R.armF, rot(j.shF, 112, 150) + " translate(112 150) scale(" + ak + ") translate(-112 -150)"); T(R.elbF, rot(j.elF, 112, 182));
+      var b = Math.max(0, j.bulge);
+      T(R.bulgeF, "translate(125 166) scale(" + b.toFixed(3) + ") translate(-125 -166)"); T(R.bulgeB, "translate(105 160) scale(" + b.toFixed(3) + ") translate(-105 -160)");
+      if (R.spark) R.spark.setAttribute("opacity", clamp(j.spark).toFixed(2));
+      var air = Math.max(0, -s.y / (kw / 240)) + Math.max(0, -dy);
+      if (R.shadow) { T(R.shadow, "translate(0 " + (-s.y / (kw / 240)).toFixed(2) + ")"); R.shadow.setAttribute("rx", (62 * (1 - Math.min(.65, air / 260))).toFixed(1)); R.shadow.setAttribute("opacity", (1 - Math.min(.8, air / 220)).toFixed(2)); }
+      return { pts: pts, dy: dy, li: li };
+    }
+    function puff(x, y, dx, size) {
+      var d = document.createElement("i"); d.className = "dust"; d.style.left = x + "px"; d.style.top = y + "px";
+      d.style.setProperty("--dx", dx + "px"); d.style.setProperty("--s", size || 1);
+      curtain.appendChild(d); setTimeout(function () { d.remove(); }, 460);
+    }
+    function paint() {
+      var vw = iVW, vh = iVH, kw = iKW, u = kw / 240, t = iT;
+      if (t < 760) decode(cName, NAME, clamp((t - 80) / 650)); else if (iPrev < 760) cName.textContent = NAME;
+      if (t < 900) decode(cCap, CAP, clamp((t - 420) / 450)); else if (iPrev < 900) cCap.textContent = CAP;
+      var s = pose(t, vw, vh, kw), out = draw(main, s, kw);
+      panel.style.transform = "translateX(" + s.px.toFixed(1) + "px)";
+      if (main.sweat) { main.sweat.setAttribute("opacity", s.sweat ? (0.55 + 0.45 * Math.sin(t / 160)).toFixed(2) : 0); main.sweat.setAttribute("transform", "translate(0 " + ((t / 18) % 14).toFixed(1) + ")"); }
+      ghosts.forEach(function (G, i) {
+        var gs = pose(Math.max(0, t - 45 * (i + 1)), vw, vh, kw);
+        if (!s.g && !gs.g) { if (G.el.style.opacity !== "0") G.el.style.opacity = 0; return; }
+        draw(G, gs, kw);
+        G.el.style.opacity = (Math.min(s.g, gs.g) * (i ? .1 : .2)).toFixed(3);
+      });
+      // impacts shake the name a little
+      var sh = 0; [[A1, 7], [CW1, 4]].forEach(function (e) { if (t > e[0]) sh += e[1] * Math.exp(-(t - e[0]) / 110) * Math.sin((t - e[0]) / 16); });
+      cUi.style.transform = "translate3d(0," + sh.toFixed(2) + "px,0)";
+      // dust where hands and feet meet the floor
+      var floor = vh * 0.86 - kw * 1.25 + 288 * u;
+      function onFloor(i) { return s.y > -4 * u && out.pts[i][1] + out.dy > 284; }
+      function at(i, dx, size) { if (!onFloor(i)) return; puff(s.x + out.pts[i][0] * u - 11, floor - 14, dx, size); }
+      if (iPrev < A1 && t >= A1) { at(0, -26, 1.2); at(1, 26, 1.2); at(0, -12); at(1, 12); }
+      if (iPrev < CW1 && t >= CW1) { at(0, -18); at(1, 18); }
+      if (t > CW0 && t < CW1) { if (out.li !== lastLow && lastLow !== -1) at(out.li, -14, .9); lastLow = out.li; } else lastLow = -1;
+      if (t > RN0 && t < PUSH && t - lastStep > 140) { lastStep = t; at(out.li, 22, .8); }
+      if (t > PUSH && t < PUSH_END && t - lastStep > 210) { lastStep = t; at(out.li, 18); }
+      iPrev = t;
+      if (!iReady && t >= PUSH + 350) { iReady = true; root.classList.remove("intro-on"); root.classList.add("ready"); curtain.classList.remove("live"); }
     }
     function frame(now) {
       if (!iRun) return;
       var dt = iLast ? Math.min(now - iLast, 34) : 0; iLast = now; iT += dt * iSpeed; paint();
-      if (iT < END) requestAnimationFrame(frame);
+      if (iT < END) iRaf = requestAnimationFrame(frame);
       else { iRun = false; curtain.classList.remove("live"); curtain.style.display = "none"; }
     }
-    function start() { iT = 0; iLast = 0; iSpeed = 1; iReady = false; iRun = true; lastDust = 0; curtain.style.display = ""; curtain.classList.add("live"); root.classList.remove("ready"); root.classList.add("intro-on"); paint(); requestAnimationFrame(frame); }
-    function skip() { if (!iRun || performance.now() - startedAt < 500) return; if (iT < PUSH) iT = PUSH; iSpeed = 2.4; }
+    var iRaf = 0;
+    function start() { if (iRaf) cancelAnimationFrame(iRaf); iMeasure(); iT = 0; iLast = 0; iSpeed = 1; iReady = false; iRun = true; iPrev = -1; lastStep = 0; lastLow = -1; curtain.style.display = ""; curtain.classList.add("live"); root.classList.remove("ready"); root.classList.add("intro-on"); paint(); iRaf = requestAnimationFrame(frame); }
+    function skip() { if (!iRun || performance.now() - startedAt < 500) return; if (iT < PUSH) { iT = PUSH; iPrev = PUSH; } iSpeed = 2.4; }
     curtain.addEventListener("click", skip);
     ["keydown", "wheel", "touchstart"].forEach(function (ev) { window.addEventListener(ev, function () { if (iRun) skip(); }, { passive: true }); });
     replayIntro = function () { var sb = root.style.scrollBehavior; root.style.scrollBehavior = "auto"; window.scrollTo(0, 0); root.style.scrollBehavior = sb; void root.offsetWidth; armed = true; startedAt = performance.now(); start(); };
@@ -1366,7 +1512,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       startedAt = performance.now(); start();
     }
     root.classList.add("intro-on"); curtain.classList.add("live");
-    decode(cName, NAME, 1); decode(cCap, CAP, 1); kid.style.transform = "translateX(-110%)";
+    decode(cName, NAME, 1); decode(cCap, CAP, 1); iMeasure(); draw(main, pose(0, iVW, iVH, iKW), iKW); ghosts.forEach(function (G) { G.el.style.opacity = 0; });
     if (document.visibilityState === "visible" && document.hasFocus()) arm();
     else {
       hint.textContent = "Move your mouse to enter"; hint.classList.add("wait");
