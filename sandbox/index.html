@@ -99,7 +99,12 @@ button { font: inherit; color: inherit; }
 .grid li { min-width: 0; }
 .slot { position: relative; display: block; width: 100%; aspect-ratio: 1; padding: 0; border: 1px solid transparent; border-radius: 2px; background: var(--deep); box-shadow: var(--shadow-border); cursor: pointer; overflow: hidden; -webkit-tap-highlight-color: transparent; transition: box-shadow var(--dur-fast) ease, scale 150ms ease-out; }
 .slot:focus-visible { outline: none; }
-.slot[aria-current="true"] { box-shadow: 0 0 0 1px rgba(122, 60, 250, .55), 0 0 26px -8px rgba(75, 31, 168, .9); }
+.slot[aria-current="true"] { box-shadow: 0 0 0 1px color-mix(in srgb, var(--hue, #7A3CFA) 65%, transparent), 0 0 26px -8px var(--hue, #4B1FA8); }
+/* every slot has its own colour, like each fighter in a select screen: it glows up from the bottom when the slot is hovered or picked */
+.slot::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(120% 90% at 50% 118%, var(--hue, #7A3CFA), transparent 72%); mix-blend-mode: screen; opacity: 0; transition: opacity 200ms ease-out; }
+.slot[aria-current="true"]::after { opacity: .6; }
+@media (hover: hover) and (pointer: fine) { .slot:hover::after { opacity: .6; } }
+.slot[aria-current="true"] .s-no { color: var(--hue, var(--ghost)); }
 .slot .s-no { position: absolute; top: 8px; left: 9px; color: var(--ghost); font: 700 11px/1 var(--sans); letter-spacing: .1em; z-index: 2; font-variant-numeric: tabular-nums; }
 .slot .s-name { position: absolute; left: 9px; right: 9px; bottom: 8px; font: 600 12px/15px var(--sans); letter-spacing: 0; color: var(--muted); text-align: left; z-index: 2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .slot[aria-current="true"] .s-name { color: var(--ink); }
@@ -118,9 +123,9 @@ button { font: inherit; color: inherit; }
 .m-br { bottom: -8px; right: -8px; border-bottom-width: 1.5px; border-right-width: 1.5px; }
 .selector.go .m-tl { translate: 5px 5px; } .selector.go .m-tr { translate: -5px 5px; }
 .selector.go .m-bl { translate: 5px -5px; } .selector.go .m-br { translate: -5px -5px; }
-.sel-tag { position: absolute; top: -10px; left: 12px; background: var(--league-deep); color: var(--ink); box-shadow: inset 0 0 0 1px var(--league); font: 900 11px/13px var(--sans); letter-spacing: .08em; padding: 2px 5px 1px; border-radius: 2px; }
+.sel-tag { position: absolute; top: -10px; left: 12px; background: color-mix(in srgb, var(--hue, #7A3CFA) 55%, #0d0c10); color: var(--ink); box-shadow: inset 0 0 0 1px var(--hue, var(--league)); transition: background-color 200ms ease-out, box-shadow 200ms ease-out; font: 900 11px/13px var(--sans); letter-spacing: .08em; padding: 2px 5px 1px; border-radius: 2px; }
 .drip { position: absolute; left: 50%; bottom: -21px; width: 16px; height: 22px; margin-left: -8px; transform-origin: 50% 0; }
-.drip path { fill: var(--league); }
+.drip path { fill: var(--hue, var(--league)); transition: fill 200ms ease-out; }
 
 .hint { margin: 0 10px; color: var(--ghost); }
 .hint kbd { font: inherit; color: var(--muted); }
@@ -297,6 +302,9 @@ button { font: inherit; color: inherit; }
   ];
 
   var slots = [].slice.call(d.querySelectorAll(".slot"));
+  // one colour per slot; the selector's tag and drip take the picked slot's colour
+  var HUES = ["#7A3CFA", "#22C3EE", "#3DDC84", "#FF4FA3", "#FFB020", "#FF5A4E"];
+  slots.forEach(function (s, i) { s.style.setProperty("--hue", HUES[i % HUES.length]); });
   var grid = d.getElementById("grid"), selector = d.getElementById("selector"), drip = d.getElementById("drip");
   var pname = d.getElementById("pname"), pmeta = d.getElementById("pmeta"), artNo = d.getElementById("artNo");
   var layerEgg = d.getElementById("layerEgg"), layerLock = d.getElementById("layerLock");
@@ -330,6 +338,7 @@ button { font: inherit; color: inherit; }
     s.tabIndex = 0;
     if (opts.focus) s.focus({ preventScroll: true });
     placeSelector();
+    selector.style.setProperty("--hue", HUES[i % HUES.length]);
     if (opts.scroll && s.scrollIntoView && w.innerWidth <= 640) s.parentNode.scrollIntoView({ block: "nearest", inline: "nearest", behavior: reduce ? "auto" : "smooth" });
     settleDrip();
 
