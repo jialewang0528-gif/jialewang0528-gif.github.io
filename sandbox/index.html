@@ -176,12 +176,12 @@ button { font: inherit; color: inherit; }
   .title { font-size: 64px; }
   .desc { font-size: 14px; }
   .head { gap: 4px 14px; }
-  .art { aspect-ratio: 5 / 4; }
-  .egg-wrap { inset: 2% 4% 24% 30%; }
+  .art { aspect-ratio: 3 / 2; }
+  .egg-wrap { inset: 0 6% 26% 34%; }
   .plate { padding: 12px 16px 14px; min-width: 70%; }
   .pname { font-size: 36px; }
   .side { gap: 18px; }
-  .grid { gap: 12px; padding: 12px 8px 28px; }
+  .grid { gap: 12px; padding: 12px 8px 20px; }
   .slot .s-no { top: 7px; left: 8px; }
   .slot .s-name { left: 8px; right: 6px; bottom: 7px; }
   .slot .s-art { inset: 18% 16% 26%; }
@@ -345,12 +345,12 @@ button { font: inherit; color: inherit; }
       art.setAttribute("aria-label", p.name);
     } else {
       pname.textContent = "???"; pmeta.textContent = "";
-      statV.forEach(function (v) { v.textContent = "—"; });
+      statV.forEach(function (v) { v.textContent = "???"; });
       stats.classList.remove("on");
       layerEgg.classList.add("off"); layerLock.classList.remove("off");
       if (egg && egg.pause) setTimeout(function () { if (!PROJECTS[cur]) try { egg.pause(); } catch (e) {} }, 160);
       start.setAttribute("aria-disabled", "true"); start.removeAttribute("href");
-      startTxt.textContent = "Locked";
+      startTxt.textContent = "???";
     }
     if (!reduce && pname.animate) pname.animate([{ opacity: 0, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }], { duration: 180, easing: "cubic-bezier(0.23, 1, 0.32, 1)" });
     live.textContent = p ? p.name + ". " + p.meta : "Locked slot";
@@ -380,7 +380,34 @@ button { font: inherit; color: inherit; }
     going = true;
     selector.classList.add("go");
     if (!reduce && speed.animate) speed.animate([{ opacity: 0, transform: "scale(1.08)" }, { opacity: .5, transform: "scale(1)", offset: .35 }, { opacity: 0, transform: "scale(.98)" }], { duration: 420, easing: "cubic-bezier(0.23, 1, 0.32, 1)" });
-    setTimeout(function () { location.href = dir(p.href); }, reduce ? 60 : 260);
+    // Loading into the match: flag the Shell page's load.js, and slam its violet panel shut (top + bottom halves) before we leave.
+    var cv = null;
+    if (p.href === "shell-shockers/") {
+      if (!reduce && d.documentElement.animate) {
+        cv = d.createElement("div"); var PANEL = "radial-gradient(90% 55% at 50% 100%, rgba(155,107,255,.45), rgba(155,107,255,0) 70%), linear-gradient(180deg, #24106a 0%, #4B1FA8 38%, #6a34e8 72%, #8456ff 100%)";
+        cv.setAttribute("aria-hidden", "true");
+        cv.style.cssText = "position:fixed;inset:0;z-index:2147483000;pointer-events:none;overflow:hidden";
+        cv.innerHTML = "<i><b></b></i><i><b></b></i>";
+        [].forEach.call(cv.children, function (h, k) {
+          h.style.cssText = "position:absolute;inset:0;background:" + PANEL + ";clip-path:inset(" + (k ? "50% 0 0 0" : "0 0 50% 0") + ");will-change:transform";
+          h.firstChild.style.cssText = "position:absolute;inset:0;opacity:.9;background:radial-gradient(circle, rgba(13,12,16,.22) 0.9px, transparent 1.5px) 0 0 / 6px 6px;-webkit-mask:radial-gradient(ellipse 75% 65% at 50% 46%, transparent 40%, #000 100%);mask:radial-gradient(ellipse 75% 65% at 50% 46%, transparent 40%, #000 100%)";
+          h.animate([{ transform: "translateY(" + (k ? 52 : -52) + "%)" }, { transform: "none" }], { duration: 150, delay: 100, easing: "cubic-bezier(.55, 0, .85, .35)", fill: "both" });
+        });
+        d.body.appendChild(cv);
+        w.addEventListener("pageshow", function (e) { if (e.persisted && cv.parentNode) cv.parentNode.removeChild(cv); }, { once: true });
+      }
+    }
+    setTimeout(function () {
+      // the flag is written at the moment of leaving, so a later direct visit never inherits it
+      if (p.href === "shell-shockers/") try { sessionStorage.setItem("sbx-load", JSON.stringify({ t: Date.now() })); } catch (err) {}
+      location.href = dir(p.href);
+    }, reduce ? 60 : 260);
+    // navigation stopped (Esc, offline): give the page back instead of leaving it under the panel
+    setTimeout(function () {
+      if (document.visibilityState !== "visible") return;
+      if (cv && cv.parentNode) cv.parentNode.removeChild(cv);
+      selector.classList.remove("go"); going = false;
+    }, 5000);
   }
 
   /* ---------- input ---------- */
@@ -440,7 +467,8 @@ button { font: inherit; color: inherit; }
     e.preventDefault();
     var r = back.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2, href = back.getAttribute("href");
     function go() { try { sessionStorage.setItem("sbx-back", JSON.stringify({ x: x, y: y, t: Date.now() })); } catch (err) {} location.href = href; }
-    if (w.SandboxInk) w.SandboxInk.flood(x, y, go, { title: "fade" }); else go();
+    // leaving the Sandbox: a plain ink wipe, no title; the home page drains it into the door
+    if (w.SandboxInk) w.SandboxInk.flood(x, y, go, { title: false }); else go();
   });
 
   /* ---------- ink: drain on arrival ---------- */
@@ -498,8 +526,8 @@ button { font: inherit; color: inherit; }
   function refreshCursor() { if (last) curSet(last); }
   function curLabel(t) {
     if (!t.closest) return "";
-    if (t.closest(".slot.locked")) return "Locked";
-    if (t.closest(".slot") || t.closest(".art") || t.closest(".start")) return PROJECTS[cur] ? "Select" : "Locked";
+    if (t.closest(".slot.locked")) return "???";
+    if (t.closest(".slot") || t.closest(".art") || t.closest(".start")) return PROJECTS[cur] ? "Select" : "???";
     return "";
   }
   function curSet(t) { last = t; var l = curLabel(t); if (l) ringTxt.textContent = l; ring.classList.toggle("label", !!l); ring.classList.toggle("big", !l && !!(t.closest && t.closest("a, button"))); }

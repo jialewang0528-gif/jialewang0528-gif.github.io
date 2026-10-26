@@ -416,7 +416,8 @@
 
     // look-at state: critically damped spring toward target yaw/pitch (radians)
     var look = { yaw: 0, pitch: 0, vy: 0, vp: 0, ty: 0, tp: 0, mode: 'idle', lastInput: -1e9, idleNext: 0, hop: 0, hopV: 0 };
-    var YAW_MAX = 25 * DEG, PITCH_MAX = 12 * DEG, OMEGA = 7.5;
+    // turning right swings the gun hand across the face, so that side stops earlier
+    var YAW_MAX = 62 * DEG, YAW_MAX_R = 46 * DEG, PITCH_MAX = 28 * DEG, OMEGA = 9.5;
 
     var v1 = new T.Vector3(), q1 = new T.Quaternion(), eul = new T.Euler();
 
@@ -439,7 +440,8 @@
 
       // paper-doll rig (wk.update): mesh.rotation.y = rotY, head.rotation.x = rotX, mesh.rotation.x = .5 rotX, mesh.position.x = .1 rotY
       var bob = live ? Math.sin(time * 2.0) * 0.006 * c.idle : 0;
-      var yaw = c.yaw * DEG + look.yaw, pitch = c.pitch * DEG + look.pitch;
+      var ky = clamp(Math.abs(look.yaw) / (look.yaw > 0 ? YAW_MAX_R : YAW_MAX), 0, 1), kp = clamp(Math.abs(look.pitch) / PITCH_MAX, 0, 1);
+      var yaw = c.yaw * DEG * (1 - ky) + look.yaw, pitch = c.pitch * DEG * (1 - kp) + look.pitch;
       R.mesh.rotation.order = 'YXZ';
       R.mesh.rotation.set(0.5 * pitch, yaw, -c.tilt * DEG);
       R.mesh.position.set(0.1 * yaw * 0.25, Math.max(0, look.hop) + bob, 0);
@@ -478,12 +480,12 @@
 
     function stepLook(dt, now) {
       if (reduced || !opts.interactive) { look.yaw = look.pitch = look.vy = look.vp = 0; return; }
-      if (look.mode !== 'touch' && now - look.lastInput > 3500) look.mode = 'idle';
+      if (look.mode === 'pointer' && now - look.lastInput > 15000) look.mode = 'idle';
       if (look.mode === 'idle') {
         // the game's paper-doll idle: pick a new random look every 1.5-4.5 s, with a tiny hop on big turns
         look.idleNext -= dt;
         if (look.idleNext <= 0) {
-          var ny = (Math.random() * 2 - 1) * YAW_MAX * 0.8, np = (Math.random() * 0.9 - 0.45) * PITCH_MAX;
+          var ny = Math.random() * 2 - 1; ny *= (ny > 0 ? YAW_MAX_R : YAW_MAX) * 0.8; var np = (Math.random() * 0.9 - 0.45) * PITCH_MAX;
           if (Math.abs(ny - look.ty) > YAW_MAX * 0.6 && look.hop <= 0) look.hopV = 0.32;
           look.ty = ny; look.tp = np; look.idleNext = 1.5 + Math.random() * 3;
         }
@@ -558,11 +560,16 @@
 
     // Pointer anywhere on the page steers the look (mouse/pen); touch follows the finger while pressed.
     function aimFrom(x, y) {
-      var r = container.getBoundingClientRect();
+      // each side is normalised by its own distance to the window edge, so the egg turns fully both ways
+      // wherever it sits on the page; a soft curve keeps small moves near it lively
+      var r = container.getBoundingClientRect(), W = global.innerWidth, H = global.innerHeight;
       var cx = r.left + r.width / 2, cy = r.top + r.height * 0.42;
-      var nx = clamp((x - cx) / Math.max(global.innerWidth * 0.5, 1), -1, 1);
-      var ny = clamp((y - cy) / Math.max(global.innerHeight * 0.5, 1), -1, 1);
-      look.ty = nx * YAW_MAX; look.tp = ny * PITCH_MAX;
+      var dx = x - cx, dy = y - cy;
+      var nx = clamp(dx / Math.max(dx < 0 ? cx : W - cx, 80), -1, 1);
+      var ny = clamp(dy / Math.max(dy < 0 ? cy : H - cy, 80), -1, 1);
+      nx = (nx < 0 ? -1 : 1) * Math.pow(Math.abs(nx), 0.75);
+      ny = (ny < 0 ? -1 : 1) * Math.pow(Math.abs(ny), 0.75);
+      look.ty = nx * (nx > 0 ? YAW_MAX_R : YAW_MAX); look.tp = ny * PITCH_MAX;
     }
     // Mouse / pen via pointer events. Touch via touch events, which keep firing while the page scrolls
     // (pointer events get cancelled), so the egg follows the finger for the whole drag without blocking scroll.
@@ -581,8 +588,11 @@
       if (e.touches && e.touches.length) return;
       if (look.mode === 'touch') { look.mode = 'idle'; look.idleNext = 1.2; }
     }
+    // mouse left the window: drift back to the idle look shortly after
+    function onOut(e) { if (!e.relatedTarget && look.mode === 'pointer') { look.mode = 'idle'; look.idleNext = 1.2; kick(); } }
         if (opts.interactive) {
       global.addEventListener('pointermove', onPointer, { passive: true });
+      document.addEventListener('pointerout', onOut, { passive: true });
       global.addEventListener('touchstart', onTouch, { passive: true });
       global.addEventListener('touchmove', onTouch, { passive: true });
       global.addEventListener('touchend', onTouchEnd, { passive: true });
@@ -613,6 +623,7 @@
       io && io.disconnect(); ro && ro.disconnect();
       global.removeEventListener('resize', onWinResize);
       global.removeEventListener('pointermove', onPointer);
+      document.removeEventListener('pointerout', onOut);
       global.removeEventListener('touchstart', onTouch);
       global.removeEventListener('touchmove', onTouch);
       global.removeEventListener('touchend', onTouchEnd);

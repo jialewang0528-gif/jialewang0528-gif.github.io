@@ -16,7 +16,7 @@ window.SBX_CLIPS = [
   "title": "tracer",
   "src": "../clips/tracer.mp4",
   "poster": "../clips/tracer.jpg",
-  "duration": 3.0,
+  "duration": 1.8,
   "w": 1280,
   "h": 536,
   "shock": 8.5,

@@ -112,6 +112,7 @@ html.intro-on .ch, html.intro-on .hero-main > *, html.intro-on .corners, html.in
 html.ready .ch { animation: chIn 600ms var(--ease-out) backwards; animation-delay: calc(var(--i) * 30ms); }
 html.ready .corners { animation: lineIn 600ms var(--ease-inout) .1s backwards; }
 html.ready .nav > * { animation: navIn 300ms ease-out backwards; animation-delay: .6s; }
+html.from-sbx .nav > * { animation: none; }
 @keyframes navIn { from { opacity: 0; transform: translateY(-12px); filter: blur(4px); } }
 html.ready .focus, html.ready .hero-side .btns { animation: riseIn 300ms ease-out .4s backwards; }
 html.ready .hero-side .btns { animation-delay: .5s; }
@@ -133,27 +134,31 @@ html.ready .portrait figcaption { animation: riseIn 300ms ease-out .7s backwards
 .nav-links a.is-current { color: var(--ink); }
 @media (hover: hover) and (pointer: fine) { .nav-links a:hover { color: var(--ink); } }
 .nav-links sup { color: var(--volt-text); font-size: 8px; margin-left: 3px; letter-spacing: .08em; }
-/* 05 ???: a small, inviting door to the Sandbox. Halftone dots drift through the ???; hover inks in the word and a manga "!" pops */
-.nav-sbx { position: relative; display: inline-flex; align-items: baseline; -webkit-tap-highlight-color: transparent; }
-.sbx-l { position: relative; display: inline-block; }
-.sbx-w { position: absolute; left: 0; bottom: -2px; white-space: nowrap; }
-.nav-sbx sup { display: inline-block; }
-.nav-sbx sup, .sbx-bang { transition: opacity 150ms ease-out, transform 300ms var(--ease-out); }
-.sbx-q { color: transparent; background: radial-gradient(circle, var(--ink) 38%, transparent 42%) 0 0 / 3px 3px, var(--muted); -webkit-background-clip: text; background-clip: text; transition: opacity 150ms ease-out; }
-.sbx-w { color: var(--ink); font: italic 400 15px/14px var(--serif); letter-spacing: 0; text-transform: none; -webkit-mask: linear-gradient(90deg, #000 40%, transparent 60%) 100% 0 / 260% 100% no-repeat; mask: linear-gradient(90deg, #000 40%, transparent 60%) 100% 0 / 260% 100% no-repeat; opacity: 0; transition: opacity 150ms ease-out, -webkit-mask-position 300ms var(--ease-out), mask-position 300ms var(--ease-out); }
-.sbx-bang { position: absolute; left: 100%; margin-left: 2px; top: -12px; font: 900 13px/1 var(--sans); font-style: normal; color: #9B6BFF; opacity: 0; transform: translateY(4px) scale(.6) rotate(-12deg); transform-origin: 50% 100%; transition: opacity 150ms ease-out, transform 300ms var(--ease-out); pointer-events: none; }
-.nav-sbx.rev .sbx-q { opacity: 0; }
-.nav-sbx.rev .sbx-w { opacity: 1; -webkit-mask-position: 0 0; mask-position: 0 0; }
-.nav-sbx.rev .sbx-bang { opacity: 1; transform: translateX(var(--sbx-dx, 0)); }
-.nav-sbx.rev sup { transform: translateX(var(--sbx-dx, 0)); }
-@media (hover: hover) and (pointer: fine) {
-  .nav-sbx:hover .sbx-q { opacity: 0; }
-  .nav-sbx:hover .sbx-w { opacity: 1; -webkit-mask-position: 0 0; mask-position: 0 0; }
-  .nav-sbx:hover .sbx-bang { opacity: 1; transform: translateX(var(--sbx-dx, 0)); }
-  .nav-sbx:hover sup { transform: translateX(var(--sbx-dx, 0)); }
+/* 05 ???: a small door to the Sandbox. Same type as the other links; a sheen runs through the ??? now and then.
+   Hover rolls ??? up and Sandbox in from below; leaving rolls it back. */
+.nav-sbx { --sbx-c: var(--muted); position: relative; -webkit-tap-highlight-color: transparent; }
+.nav-sbx:focus-visible { outline: none; }
+.nav-sbx:focus-visible::after { content: ""; position: absolute; inset: -3px calc(-3px - var(--sbx-dx, 0px)) -3px -3px; outline: 2px solid var(--volt-text); pointer-events: none; }
+.sbx-l { position: relative; display: inline-block; clip-path: inset(-1px -200px -1px -2px); }
+.sbx-q, .sbx-w { display: block; transition: transform 300ms var(--ease-out), opacity 200ms ease-out; }
+.sbx-q, .sbx-w { color: transparent; -webkit-background-clip: text; background-clip: text; background-repeat: no-repeat; background-size: 320% 100%; background-position: 100% 0; }
+.sbx-q { background-image: linear-gradient(100deg, var(--sbx-c) 0 42%, #fff 48%, #c8b4ff 52%, var(--sbx-c) 58% 100%); }
+.sbx-w { position: absolute; left: 0; top: 0; white-space: nowrap; background-image: linear-gradient(100deg, var(--ink) 0 42%, #fff 48%, #b99cff 52%, var(--ink) 58% 100%); opacity: 0; transform: translateY(105%); }
+.nav-sbx sup { display: inline-block; transition: transform 240ms var(--ease-out); }
+.nav-sbx.on .sbx-w { transition-delay: 50ms; }
+.nav-sbx.on .sbx-q { opacity: 0; transform: translateY(-105%); }
+.nav-sbx.on .sbx-w { opacity: 1; transform: none; }
+.nav-sbx.on sup { transform: translateX(var(--sbx-dx, 0)); }
+@media (prefers-reduced-motion: no-preference) {
+  .sbx-q { animation: sbxSheen 4.8s cubic-bezier(.45, 0, .55, 1) 1.2s infinite; }
+  .nav-sbx.on .sbx-w { animation: sbxSheenOnce 700ms cubic-bezier(.45, 0, .55, 1) 80ms both; }
 }
-@media (prefers-reduced-motion: no-preference) { .sbx-q { animation: sbxTone 3.2s linear infinite; } }
-@keyframes sbxTone { to { background-position: 12px 6px, 0 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .sbx-q, .sbx-w { transform: none !important; transition: opacity 150ms ease-out; }
+  .nav-sbx sup { transition: none; }
+}
+@keyframes sbxSheen { 0% { background-position: 100% 0; } 26%, 100% { background-position: 0 0; } }
+@keyframes sbxSheenOnce { from { background-position: 100% 0; } to { background-position: 0 0; } }
 .live { display: inline-flex; align-items: center; gap: var(--space-2); padding: 6px 10px; border-radius: var(--radius-sm); box-shadow: inset 0 0 0 1px var(--line); color: var(--muted); white-space: nowrap; }
 .live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--volt); animation: pulse 2.4s var(--ease-inout) infinite; }
 @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--dot); } 50% { box-shadow: 0 0 0 5px transparent; } }
@@ -161,8 +166,11 @@ html.ready .portrait figcaption { animation: riseIn 300ms ease-out .7s backwards
 .menu-btn::before { content: ""; display: inline-block; width: 14px; height: 1px; background: currentColor; vertical-align: middle; margin-right: 10px; }
 @media (max-width: 860px) {
   .nav-links { display: none; position: absolute; top: 100%; left: var(--gutter); right: var(--gutter); flex-direction: column; gap: 0; background: var(--raised); padding: var(--space-3) var(--space-5); }
-  .nav.open .nav-links { display: flex; }
+  .nav.open .nav-links { display: flex; animation: menuIn 200ms var(--ease-out) both; }
+  @keyframes menuIn { from { opacity: 0; transform: translateY(-6px); } }
+  @media (prefers-reduced-motion: reduce) { .nav.open .nav-links { animation-name: fadeOnly; } @keyframes fadeOnly { from { opacity: 0; } } }
   .nav-links a { display: block; padding: var(--space-3) 0; color: var(--ink); }
+  .nav-sbx { --sbx-c: var(--ink); }
   .menu-btn { display: inline-block; }
   .nav .live { display: none; }
 }
@@ -818,7 +826,8 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 .foot-row a { text-decoration: none; display: inline-block; padding: 14px 0; }
 .replay { background: none; border: 0; color: var(--ink); padding: 14px 0; cursor: pointer; font: inherit; font-weight: 700; letter-spacing: inherit; text-transform: uppercase; transition: opacity var(--dur-fast) ease, scale 150ms ease-out; -webkit-tap-highlight-color: transparent; }
 @media (hover: hover) and (pointer: fine) { .replay:hover { opacity: .7; } }
-.corners .replay { padding: 0; }
+.corners .replay { position: relative; padding: 0; }
+.corners .replay::after { content: ""; position: absolute; inset: -15px -8px; }
 @media (prefers-reduced-motion: reduce) { .replay { display: none; } }
 @media (hover: hover) and (pointer: fine) { .foot-row a:hover { color: var(--ink); } }
 
@@ -1002,7 +1011,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     <li><a href="#experience">Experience<sup>02</sup></a></li>
     <li><a href="#resume">Resume<sup>03</sup></a></li>
     <li><a href="#contact">Reach out<sup>04</sup></a></li>
-    <li><a class="nav-sbx" href="sandbox/" aria-label="Sandbox: side projects"><span class="sbx-l"><span class="sbx-q" aria-hidden="true">???</span><span class="sbx-w" aria-hidden="true">Sandbox</span><i class="sbx-bang" aria-hidden="true">!</i></span><sup>05</sup></a></li>
+    <li><a class="nav-sbx" href="sandbox/" aria-label="Sandbox"><span class="sbx-l"><span class="sbx-q" aria-hidden="true">???</span><span class="sbx-w" aria-hidden="true">Sandbox</span></span><sup>05</sup></a></li>
   </ul>
   <span class="live">Open to work</span>
   <button class="menu-btn caps" id="menuBtn" aria-expanded="false" aria-controls="navLinks">Menu</button>
@@ -1844,11 +1853,21 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       startedAt = performance.now(); start();
     }
     var sbxBack = null; try { sbxBack = JSON.parse(sessionStorage.getItem("sbx-back") || "null"); sessionStorage.removeItem("sbx-back"); } catch (e) {}
+    // the curtain's text is set up either way, so Replay intro works after a trip to the Sandbox too
+    decode(cName, NAME, 1); decode(cCap, CAP, 1);
     if (sbxBack && Date.now() - (sbxBack.t || 0) < 15000 && window.SandboxInk) {
-      curtain.style.display = "none"; root.classList.add("ready"); SandboxInk.cover({ title: false }); SandboxInk.drain(sbxBack.x, sbxBack.y);
+      // back from the Sandbox: no intro. The ink pulls back into the door you left through ("05 ???", or Menu on phones)
+      // while the hero assembles; the door shows its word for a beat, then rolls back to ???
+      armed = true; curtain.style.display = "none";
+      var door = document.querySelector("#navLinks .nav-sbx"), dr = door && door.getBoundingClientRect();
+      if (!dr || !dr.width) { door = null; dr = document.getElementById("menuBtn").getBoundingClientRect(); }
+      root.classList.add("from-sbx", "ready");
+      if (door) { door.style.setProperty("--sbx-dx", Math.max(0, door.querySelector(".sbx-w").offsetWidth - door.querySelector(".sbx-q").offsetWidth) + "px"); door.classList.add("on"); }
+      SandboxInk.cover({ title: false });
+      SandboxInk.drain(dr.left + dr.width / 2, dr.top + dr.height / 2, function () { root.classList.remove("from-sbx"); if (door && !door.matches(":hover")) door.classList.remove("on"); });
     } else {
     root.classList.add("intro-on"); curtain.classList.add("live");
-    decode(cName, NAME, 1); decode(cCap, CAP, 1); iMeasure(); draw(main, pose(0, iVW, iVH, iKW), iKW); ghosts.forEach(function (G) { G.el.style.opacity = 0; });
+    iMeasure(); draw(main, pose(0, iVW, iVH, iKW), iKW); ghosts.forEach(function (G) { G.el.style.opacity = 0; });
     if (document.visibilityState === "visible" && document.hasFocus()) arm();
     else {
       hint.textContent = "Move your mouse to enter"; hint.classList.add("wait");
@@ -1905,14 +1924,22 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 
   // 05 ???: the door to the Sandbox
   document.querySelectorAll(".nav-sbx").forEach(function (a) {
-    // how far "05" slides when ??? becomes the word (measured once the fonts are in)
-    var fit = function () { a.style.setProperty("--sbx-dx", Math.max(0, a.querySelector(".sbx-w").offsetWidth - a.querySelector(".sbx-q").offsetWidth + 3) + "px"); };
+    var going = false, hov = false, kbd = false, q = a.querySelector(".sbx-q"), w = a.querySelector(".sbx-w");
+    // how far "05" slides when ??? becomes the word; measured on use, since inside the closed mobile menu it has no width
+    var fit = function () { a.style.setProperty("--sbx-dx", Math.max(0, w.offsetWidth - q.offsetWidth) + "px"); };
+    var sync = function () { if (hov || kbd || going) { fit(); a.classList.add("on"); } else a.classList.remove("on"); };
     fit(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
-    // measured again on use: inside the closed mobile menu it has no width yet
-    a.addEventListener("pointerenter", fit);
+    a.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") { hov = true; sync(); } });
+    a.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") { hov = false; sync(); } });
+    a.addEventListener("focus", function () { kbd = a.matches(":focus-visible"); sync(); });
+    a.addEventListener("blur", function () { kbd = false; sync(); });
+    // back/forward cache, or a navigation that never finished: come back to ???
+    var release = function () { going = false; hov = a.matches(":hover"); sync(); };
+    window.addEventListener("pageshow", function (e) { if (e.persisted) { going = false; hov = false; sync(); } });
+    document.addEventListener("visibilitychange", function () { if (document.visibilityState === "visible" && going) setTimeout(release, 4000); });
     a.addEventListener("click", function (e) {
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0) return;
-      e.preventDefault(); fit(); a.classList.add("rev");
+      e.preventDefault(); going = true; sync(); setTimeout(release, 6000);
       var r = a.getBoundingClientRect(), x = e.clientX || r.left + r.width / 2, y = e.clientY || r.top + r.height / 2, href = a.getAttribute("href") + (location.protocol === "file:" ? "index.html" : "");
       try { sessionStorage.setItem("sbx-ink", JSON.stringify({ x: x, y: y, t: Date.now() })); } catch (err) {}
       if (window.SandboxInk && !reduce) SandboxInk.flood(x, y, function () { location.href = href; }); else location.href = href;

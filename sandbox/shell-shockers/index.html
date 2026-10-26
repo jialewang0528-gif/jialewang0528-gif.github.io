@@ -8,6 +8,8 @@
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#0d0c10">
 <meta name="robots" content="noindex">
+<!-- HOOK (load agent): match-loading screen, runs before first paint -->
+<script src="load.js"></script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 fill=%27%230d0c10%27/%3E%3Cpath d=%27M32 10c-10 0-18 14-18 27a18 18 0 0 0 36 0c0-13-8-27-18-27z%27 fill=%27%23ebe8e1%27/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,7 +44,7 @@
 }
 * { box-sizing: border-box; }
 html { overflow-x: clip; scroll-padding-top: 72px; }
-body { margin: 0; background: var(--surface); color: var(--ink); font: 400 16px/26px var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+body { margin: 0; background: var(--surface); color: var(--ink); font: 400 16px/26px var(--sans); -webkit-font-smoothing: antialiased; overflow-x: clip; }
 a { color: inherit; }
 button { font: inherit; color: inherit; }
 img, video, svg { display: block; max-width: 100%; }
@@ -66,6 +68,7 @@ img, video, svg { display: block; max-width: 100%; }
 @media (hover: hover) and (pointer: fine) { .icon-btn:hover { background: var(--ink); color: var(--surface); } }
 
 /* brush underline: a thin rule at rest, a league-purple brush stroke on hover */
+.top .brush::after { content: ""; position: absolute; inset: -10px -10px -12px; }
 .brush { position: relative; text-decoration: none; background: linear-gradient(var(--line-strong), var(--line-strong)) 0 100% / 100% 1px no-repeat; padding-bottom: 2px; }
 .brush::after { content: ""; position: absolute; left: -3px; right: -3px; bottom: -5px; height: 9px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12' preserveAspectRatio='none'%3E%3Cpath d='M2 7c18-3 40-5 62-4 22 0 33 3 56 2 26-1 48-4 78-1-14 2-33 4-56 5-26 1-38-1-60 0-23 1-45 2-80-2z' fill='%237A3CFA'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat; clip-path: inset(0 100% 0 0); transition: clip-path 300ms var(--ease-out); pointer-events: none; }
 @media (hover: hover) and (pointer: fine) { .brush:hover::after { clip-path: inset(0 0 0 0); } }
@@ -81,12 +84,12 @@ img, video, svg { display: block; max-width: 100%; }
 /* ---------- thumbnails (shared frame) ---------- */
 .thumb { position: relative; overflow: hidden; background: var(--deep); border-radius: 6px; isolation: isolate; }
 .thumb::before { content: ""; position: absolute; inset: 0; background: var(--tone); opacity: .5; z-index: 0; }
-.thumb .dur { position: absolute; right: 8px; bottom: 10px; z-index: 6; background: rgba(0, 0, 0, .8); color: #fff; padding: 2px 5px; border-radius: 3px; font: 600 12px/16px var(--sans); font-variant-numeric: tabular-nums; }
+.thumb .dur { position: absolute; right: 8px; top: 8px; z-index: 6; background: rgba(0, 0, 0, .8); color: #fff; padding: 2px 5px; border-radius: 3px; font: 600 12px/16px var(--sans); font-variant-numeric: tabular-nums; }
 .sliver { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(235, 232, 225, .18); z-index: 6; }
 .sliver b { position: absolute; inset: 0; background: var(--league); transform-origin: 0 50%; transform: scaleX(0); will-change: transform; }
 .thumb .dur:empty { display: none; }
-.speed { position: absolute; inset: -12%; width: 124%; height: 124%; max-width: none; pointer-events: none; opacity: 0; z-index: 5; }
-.speed line { stroke: var(--ink); stroke-linecap: round; }
+/* first-entry hit: a white flash and a two-frame VHS jolt (chapter thumbnails only) */
+.zap { position: absolute; inset: 0; z-index: 7; pointer-events: none; background: #fff; opacity: 0; }
 
 /* clip spot: poster + lazy video; no chrome */
 .spot { position: relative; cursor: pointer; -webkit-tap-highlight-color: transparent; }
@@ -98,17 +101,22 @@ img, video, svg { display: block; max-width: 100%; }
 .spot .cap::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 7px; vertical-align: 1px; background: var(--ghost); transition: background-color var(--dur-fast) ease; }
 .spot.playing .cap::before { background: var(--league); }
 .spot .shade { position: absolute; inset: auto 0 0 0; height: 40%; z-index: 2; background: linear-gradient(to top, rgba(0, 0, 0, .55), transparent); pointer-events: none; }
-.vhs { position: absolute; inset: 0; z-index: 4; pointer-events: none; opacity: 0; background: repeating-linear-gradient(to bottom, rgba(235, 232, 225, .16) 0 1px, transparent 1px 3px); }
-.vhs i { position: absolute; left: 0; right: 0; top: 0; height: 18%; background: linear-gradient(to bottom, transparent, rgba(235, 232, 225, .22) 45%, rgba(235, 232, 225, .05) 55%, transparent); }
+.vhs { position: absolute; inset: 0; z-index: 6; pointer-events: none; opacity: 0; background: repeating-linear-gradient(to bottom, rgba(235, 232, 225, .18) 0 1px, transparent 1px 3px); }
+.vhs i { position: absolute; left: 0; right: 0; top: 0; height: 22%; background: linear-gradient(to bottom, transparent, rgba(155, 107, 255, .35) 45%, rgba(235, 232, 225, .08) 55%, transparent); }
 
 /* ---------- hero: one big thumbnail ---------- */
 main { padding-top: calc(env(safe-area-inset-top, 0px) + 84px); }
 .hero-thumb { aspect-ratio: 16 / 9; }
 .hero-thumb::before { -webkit-mask: radial-gradient(ellipse 60% 70% at 68% 50%, transparent 30%, #000 95%); mask: radial-gradient(ellipse 60% 70% at 68% 50%, transparent 30%, #000 95%); opacity: .7; }
-.ht-num { position: absolute; left: 3.5%; top: 44%; translate: 0 -50%; z-index: 1; margin: 0; font: 900 clamp(84px, 15vw, 186px)/.9 var(--sans); letter-spacing: -.045em; color: transparent; -webkit-text-stroke: 1.5px rgba(235, 232, 225, .72); white-space: nowrap; user-select: none; }
-.ht-cap { position: absolute; left: 4%; top: 64%; z-index: 4; margin: 0; font: 500 clamp(18px, 2vw, 26px)/1.2 var(--sans); color: #fff; }
-.ht-cap small { display: block; font: 700 11px/14px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
-.hero-thumb .egg-slot { position: absolute; right: -13%; top: 0; bottom: -2%; width: 66%; z-index: 3; }
+/* the hook: a thumbnail title stack. One giant word, a hard violet offset, a sheen that passes now and then */
+.ht-hook { position: absolute; left: 4.5%; top: 47%; translate: 0 -50%; z-index: 4; margin: 0; display: grid; justify-items: start; gap: 6px; max-width: 60%; color: #fff; }
+.hk-s { font: 500 clamp(18px, 2vw, 28px)/1.15 var(--sans); letter-spacing: -.01em; text-wrap: balance; }
+.hk-big { display: grid; padding: 0 .08em .06em 0; font: 900 clamp(44px, 8vw, 112px)/.9 var(--sans); letter-spacing: -.02em; text-transform: uppercase; white-space: nowrap; }
+/* two stacked copies: a violet one offset behind, a white one with a passing sheen in front */
+.hk-big > span { grid-area: 1 / 1; }
+.hk-big .bk { color: #7A3CFA; transform: translate(.05em, .05em); }
+.hk-big .fr { position: relative; color: transparent; background: linear-gradient(100deg, #fff 0 42%, #fff 44%, #d9c9ff 49%, #fff 54% 100%) 100% 0 / 320% 100% no-repeat; -webkit-background-clip: text; background-clip: text; }
+.hero-thumb .egg-slot { position: absolute; right: -13%; top: 0; bottom: -2%; width: 66%; z-index: 3; -webkit-mask-image: linear-gradient(to right, #000 66%, transparent 80%); mask-image: linear-gradient(to right, #000 66%, transparent 80%); }
 
 .vrow { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 14px; align-items: start; padding: 18px 2px 0; }
 .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--raised); overflow: hidden; display: grid; place-items: center; }
@@ -126,12 +134,14 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
 .egg-mount.moving { opacity: 0; transition-duration: 150ms; }
 
 /* ---------- chapter rows (his real video titles) ---------- */
-.chapter { margin-top: clamp(96px, 13vw, 168px); }
+/* one rhythm: every chapter starts the same distance below the last one, every body the same distance below its header */
+:root { --chap-gap: clamp(112px, 12vw, 168px); --body-gap: clamp(48px, 5.5vw, 80px); }
+.chapter { margin-top: var(--chap-gap); }
 .chap { display: grid; grid-template-columns: minmax(0, 60%) minmax(0, 1fr); gap: clamp(18px, 3vw, 36px); align-items: center; }
 .chap .thumb { aspect-ratio: var(--ar, 1280 / 536); }
 .chap h2 { margin: 0; font: 600 clamp(34px, 4.6vw, 64px)/1 var(--sans); letter-spacing: -.03em; color: #fff; }
 .chap .vmeta { margin-top: 10px; }
-.body { margin-top: clamp(36px, 5vw, 64px); }
+.body { margin-top: var(--body-gap); }
 
 /* intro copy, with a clip behind the channel line */
 .intro { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; }
@@ -141,21 +151,18 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
 .poopy::after { content: ""; position: absolute; left: -2px; right: -4px; bottom: -.12em; height: .3em; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12' preserveAspectRatio='none'%3E%3Cpath d='M2 7c18-3 40-5 62-4 22 0 33 3 56 2 26-1 48-4 78-1-14 2-33 4-56 5-26 1-38-1-60 0-23 1-45 2-80-2z' fill='%237A3CFA'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat; z-index: -1; }
 .intro-bg { position: absolute; top: 50%; translate: 0 -50%; right: calc((100vw - var(--w)) / -2); width: 62%; aspect-ratio: var(--ar, 1280 / 536); z-index: 0; border-radius: 0; }
 .intro-bg::before { display: none; }
+/* fade the clip out at the top and bottom edges so no hard edge or stray pixel row shows */
+.intro-bg { -webkit-mask-image: linear-gradient(to bottom, transparent, #000 16%, #000 84%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 16%, #000 84%, transparent); }
 .intro-bg .fade { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(to right, var(--surface) 0%, rgba(13, 12, 16, .55) 40%, rgba(13, 12, 16, .25) 100%), linear-gradient(to bottom, var(--surface), transparent 18%, transparent 82%, var(--surface)); }
 .intro-bg .cap { left: auto; right: calc((100vw - var(--w)) / 2 + 12px); bottom: 18px; }
 .intro-links { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
-
-/* quick cut between story and index */
-.cut { margin: clamp(80px, 10vw, 140px) auto 0; width: min(100%, calc(76vh * var(--arn, 2.388))); aspect-ratio: var(--ar, 1280 / 536); border-radius: 0; }
-.cut .cap { left: var(--gutter); bottom: 16px; }
 
 /* vision */
 .vision { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: center; }
 .vision h3 { margin: 0 0 18px; font: 400 clamp(40px, 5vw, 72px)/1 var(--serif); letter-spacing: -.02em; }
 .vision h3 em { font-style: italic; }
 .vision p { margin: 0; font-size: 18px; line-height: 1.6; max-width: 44ch; color: #d9d6cf; }
-.vision .egg-slot { aspect-ratio: 4 / 3; -webkit-mask: linear-gradient(to bottom, #000 72%, transparent); mask: linear-gradient(to bottom, #000 72%, transparent); }
-.vision .egg-slot::before { content: ""; position: absolute; inset: 8% 6%; background: var(--tone); opacity: .45; -webkit-mask: radial-gradient(closest-side, #000, transparent); mask: radial-gradient(closest-side, #000, transparent); }
+.vision .egg-slot { aspect-ratio: 4 / 3; max-height: 440px; -webkit-mask: linear-gradient(to bottom, #000 72%, transparent); mask: linear-gradient(to bottom, #000 72%, transparent); }.vision .egg-slot::before { content: ""; position: absolute; inset: 8% 6%; background: var(--tone); opacity: .45; -webkit-mask: radial-gradient(closest-side, #000, transparent); mask: radial-gradient(closest-side, #000, transparent); }
 
 /* how i built it: me | the agents */
 .b2b-h { margin: 0 0 28px; font: 400 clamp(32px, 3.8vw, 52px)/1.05 var(--serif); letter-spacing: -.015em; max-width: 20ch; }
@@ -166,8 +173,10 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
 .duo p { margin: 0; color: #d9d6cf; font-size: 16px; line-height: 1.6; }
 
 /* kill feed: how it got built */
-.feed { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 6px; justify-items: end; }
-.feed li { display: inline-flex; align-items: center; gap: 10px; padding: 7px 12px; background: rgba(0, 0, 0, .55); box-shadow: var(--shadow-border); border-radius: 3px; font: 700 13px/18px var(--sans); white-space: nowrap; max-width: 100%; }
+/* one even block, columns lined up like an in-game kill feed */
+.feed { list-style: none; margin: 28px 0 0 auto; padding: 0; display: grid; gap: 6px; width: calc(50% - 1px); grid-template-columns: auto auto minmax(0, 1fr) auto; }
+.feed li { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: center; column-gap: 12px; padding: 7px 12px; background: rgba(0, 0, 0, .55); box-shadow: var(--shadow-border); border-radius: 3px; font: 700 13px/18px var(--sans); white-space: nowrap; }
+.feed .n { text-align: right; }
 .feed .a { color: var(--ink); }
 .feed .v { color: var(--muted); font-weight: 600; }
 .feed .o { color: #fff; overflow: hidden; text-overflow: ellipsis; }
@@ -179,7 +188,7 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
 .tc { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(20px, 3vw, 40px); align-items: end; }
 .tc:nth-child(2) { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); }
 .tc:nth-child(2) .tc-frame { order: 2; }
-.tc-frame { position: relative; aspect-ratio: 16 / 9; background: #000; border-radius: 6px; overflow: hidden; box-shadow: var(--shadow-border); border: 1px solid transparent; }
+.tc-frame { position: relative; aspect-ratio: 16 / 9; background: var(--raised); border-radius: 6px; overflow: hidden; box-shadow: var(--shadow-border); border: 1px solid transparent; }
 .tc-frame .diag { position: absolute; left: 0; right: 0; top: 0; height: 74%; width: 100%; }
 .diag text { font-family: var(--sans); fill: var(--muted); font-size: 12px; letter-spacing: .02em; }
 .diag .lbl-b { font-size: 14px; }
@@ -189,7 +198,17 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
 .l3::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--league); transform-origin: 0 50%; }
 .l3-tag { color: var(--league-text); font: 800 11px/14px var(--sans); letter-spacing: .16em; text-transform: uppercase; }
 .l3-main { display: flex; align-items: baseline; gap: 14px; min-width: 0; }
-.l3-num { font: 800 clamp(26px, 3.2vw, 40px)/1 var(--sans); letter-spacing: -.03em; color: #fff; flex: none; }
+.l3-num { position: relative; isolation: isolate; font: 800 clamp(26px, 3.2vw, 40px)/1 var(--sans); letter-spacing: -.03em; color: #fff; flex: none; }
+/* violet highlighter under the headline number */
+.l3-num::after { content: ""; position: absolute; z-index: -1; left: -.1em; right: -.12em; bottom: .02em; height: .34em; background: rgba(122, 60, 250, .7); border-radius: 2px; transform-origin: 0 50%; transform: skewX(-12deg); }
+.js-motion .l3-num::after { transform: skewX(-12deg) scaleX(0); transition: transform 420ms var(--ease-out) 380ms; }
+.js-motion .tc.in .l3-num::after { transform: skewX(-12deg) scaleX(1); }
+.js-motion .l3-tag { opacity: 0; transform: translateX(-10px); transition: opacity 300ms var(--ease-out) 160ms, transform 300ms var(--ease-out) 160ms; }
+.js-motion .tc.in .l3-tag { opacity: 1; transform: none; }
+/* count-up: the real number holds the width, the ticking copy sits on top */
+.cu { position: relative; display: inline-block; }
+.cu.run > .cu-f { color: transparent; }
+.cu > .cu-l { position: absolute; inset: 0; text-align: inherit; white-space: nowrap; }
 .l3-line { font-size: 14px; line-height: 1.35; color: #d9d6cf; min-width: 0; }
 .tc-side h3 { margin: 0 0 12px; font: 600 22px/1.2 var(--sans); letter-spacing: -.01em; color: #fff; }
 .tc-side h3 small { display: block; margin-bottom: 8px; font: 700 11px/14px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--ghost); }
@@ -204,7 +223,8 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
 
 /* see for yourself: a coded graphic of the index (its own light theme, violet #5B4FD6) */
 .ix { position: relative; margin-top: clamp(40px, 5vw, 56px); padding: 26px 0 0; --v: #5B4FD6; --v-soft: #EFEDFD; --v-line: #DCD8F6; --ix-ink: #1b1928; --ix-mute: #5f5c70; }
-.ix-back { position: absolute; left: 3%; width: min(100%, 980px); top: 0; height: 88%; border-radius: 14px; background: #d9d4f5; opacity: .14; transform: translate3d(0, var(--py2, 0px), 0); }
+/* a second card peeking out above the first, inset evenly on both sides */
+.ix-back { position: absolute; left: 28px; width: calc(min(100%, 980px) - 56px); top: 10px; height: 60%; border-radius: 14px; background: #d9d4f5; opacity: .14; transform: translate3d(0, var(--py2, 0px), 0); }
 .ix-card { position: relative; margin: 0; width: min(100%, 980px); border-radius: 14px; background: #fbfbfa; color: var(--ix-ink); overflow: hidden; box-shadow: 0 0 0 1px rgba(91, 79, 214, .18), 0 50px 120px -50px rgba(91, 79, 214, .75), 0 24px 60px -30px rgba(0, 0, 0, .8); transform: translate3d(0, var(--py, 0px), 0); }
 .ix-chrome { display: flex; align-items: center; gap: 7px; height: 42px; padding: 0 16px; background: #f1f0ee; border-bottom: 1px solid #e4e2dd; }
 .ix-chrome i { width: 10px; height: 10px; border-radius: 50%; background: #d6d3cc; }
@@ -233,16 +253,25 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
 .ix-sub { margin-top: 10px; color: var(--ix-mute); font: 500 13px/18px var(--sans); }
 .ix .egg-slot { position: absolute; right: -7%; bottom: -12%; width: 32%; aspect-ratio: 4 / 3; z-index: 3; }
 .ix-cta { margin-top: clamp(28px, 4vw, 44px); }
-.js-motion .ix-ladder .t i { transform: scaleX(0); transition: transform 600ms var(--ease-out); transition-delay: calc(var(--i) * 45ms); }
+.js-motion .ix-ladder li { opacity: 0; transform: translateY(8px); transition: opacity 280ms var(--ease-out), transform 280ms var(--ease-out); transition-delay: calc(var(--i) * 55ms); }
+.js-motion .ix.in .ix-ladder li { opacity: 1; transform: none; }
+.js-motion .ix-ladder .t i { transform: scaleX(0); transition: transform 700ms var(--ease-out); transition-delay: calc(120ms + var(--i) * 55ms); }
 .js-motion .ix.in .ix-ladder .t i { transform: none; }
 .js-motion .ix-wires path { stroke-dasharray: var(--len) var(--len); stroke-dashoffset: var(--len); transition: stroke-dashoffset 700ms var(--ease-inout) 200ms; }
 .js-motion .ix.in .ix-wires path { stroke-dashoffset: 0; }
 .js-motion .ix-map .n { opacity: 0; transition: opacity 300ms var(--ease-out); }
 .js-motion .ix.in .ix-map .n { opacity: 1; }
 .js-motion .ix.in .ix-map .c:nth-child(3) .n { transition-delay: 150ms; } .js-motion .ix.in .ix-map .c:nth-child(4) .n { transition-delay: 300ms; } .js-motion .ix.in .ix-map .c:nth-child(5) .n { transition-delay: 450ms; }
-.cta { display: inline-flex; align-items: center; gap: 14px; height: 64px; padding: 0 30px 0 32px; border-radius: var(--radius-pill); background: var(--league-deep); color: var(--ink); box-shadow: inset 0 0 0 1px var(--league); text-decoration: none; font: 800 15px/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; transition: scale 150ms ease-out, box-shadow var(--dur-base) ease; -webkit-tap-highlight-color: transparent; }
+.cta { position: relative; display: inline-flex; align-items: center; gap: 14px; height: 64px; padding: 0 30px 0 32px; border-radius: var(--radius-pill); background: var(--league-deep); color: var(--ink); box-shadow: inset 0 0 0 1px var(--league); text-decoration: none; font: 800 15px/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; transition: scale 150ms ease-out, box-shadow var(--dur-base) ease; -webkit-tap-highlight-color: transparent; }
 .cta .arr { display: inline-block; font-size: 18px; transition: transform var(--dur-fast) var(--ease-out); }
 @media (hover: hover) and (pointer: fine) { .cta:hover { box-shadow: inset 0 0 0 1px var(--league), 0 0 36px -8px rgba(122, 60, 250, .65); } .cta:hover .arr { transform: translate(2px, -2px); } }
+/* a slow violet glow that breathes every few seconds, only while the button is on screen */
+.ix-cta .cta::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none; box-shadow: 0 0 0 1px #9B6BFF, 0 0 28px 2px rgba(122, 60, 250, .75), 0 0 64px 8px rgba(122, 60, 250, .3); opacity: 0; }
+@keyframes ctaPulse { 0%, 58%, 100% { opacity: 0; } 76% { opacity: 1; } }
+@media (prefers-reduced-motion: no-preference) {
+  .ix-cta .cta::after { animation: ctaPulse 3.8s cubic-bezier(.45, 0, .55, 1) 1.2s infinite; animation-play-state: paused; }
+  .ix-cta .cta.live::after { animation-play-state: running; }
+}
 
 /* footer */
 .foot { margin-top: clamp(96px, 12vw, 160px); padding: 24px 0 calc(env(safe-area-inset-bottom, 0px) + 32px); border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; color: var(--muted); }
@@ -266,9 +295,12 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
 /* entrance */
 @keyframes rise { from { opacity: 0; transform: translateY(12px); filter: blur(4px); } }
 @keyframes numIn { from { opacity: 0; transform: scale(.97); } }
+@keyframes hkSheen { 0% { background-position: 100% 0; } 22%, 100% { background-position: 0 0; } }
 @media (prefers-reduced-motion: no-preference) {
-  .ht-num { animation: numIn 700ms var(--ease-out) both; }
-  .ht-cap { animation: rise 300ms var(--ease-out) 200ms both; }
+  .ht-hook > :nth-child(1) { animation: rise 300ms var(--ease-out) 80ms both; }
+  .hk-big { transform-origin: 0 100%; animation: numIn 700ms var(--ease-out) 140ms both; }
+  .hk-big .fr { animation: hkSheen 7s cubic-bezier(.45, 0, .55, 1) 900ms infinite; }
+  .ht-hook > :nth-child(3) { animation: rise 300ms var(--ease-out) 260ms both; }
   .vrow { animation: rise 300ms var(--ease-out) 300ms both; }
   :is(.btn, .cta, .icon-btn):active { scale: .96; }
 }
@@ -284,7 +316,7 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
 .ring.big { scale: 2; border-width: .75px; border-color: var(--ink); }
 
 @media (prefers-reduced-motion: reduce) {
-  .ring, .grain, .speed, .vhs { display: none; }
+  .ring, .grain, .zap, .vhs { display: none; }
   *, *::before, *::after { animation: none !important; transition-property: opacity, color, background-color, border-color, box-shadow !important; transition-duration: 150ms !important; transition-delay: 0s !important; }
 }
 
@@ -294,9 +326,10 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
   .hud .lbl { display: none; }
   .hero-thumb { aspect-ratio: 4 / 5; }
   .hero-thumb::before { -webkit-mask: radial-gradient(ellipse 80% 55% at 55% 62%, transparent 30%, #000 95%); mask: radial-gradient(ellipse 80% 55% at 55% 62%, transparent 30%, #000 95%); }
-  .ht-num { top: 5%; left: 5%; translate: 0 0; font-size: 21.5vw; }
-  .hero-thumb .egg-slot { left: -10%; right: -22%; width: auto; top: 20%; bottom: 20%; }
-  .ht-cap { top: auto; bottom: 7%; }
+  .ht-hook { top: 6%; left: 5.5%; right: 5.5%; translate: 0 0; max-width: none; gap: 4px; }
+  .hk-s { font-size: clamp(16px, 4.6vw, 20px); }
+  .hk-big { font-size: 12.4vw; }
+  .hero-thumb .egg-slot { left: -10%; right: -22%; width: auto; top: 27%; bottom: 6%; -webkit-mask-image: linear-gradient(to right, #000 72%, transparent 84%); mask-image: linear-gradient(to right, #000 72%, transparent 84%); }
   .chap { grid-template-columns: minmax(0, 1fr); gap: 14px; }
   .chap h2 { font-size: 36px; }
   .intro { grid-template-columns: minmax(0, 1fr); }
@@ -308,8 +341,8 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
   .vision .egg-slot { order: -1; margin: 0 6%; }
   .duo { grid-template-columns: minmax(0, 1fr); }
   .duo > div { padding: 18px 18px 20px; }
-  .feed { justify-items: stretch; }
-  .feed li { font-size: 12px; gap: 2px 8px; padding: 7px 10px; flex-wrap: wrap; white-space: normal; }
+  .feed { width: 100%; }
+  .feed li { font-size: 12px; column-gap: 8px; padding: 7px 10px; }
   .tc, .tc:nth-child(2) { grid-template-columns: minmax(0, 1fr); }
   .tc:nth-child(2) .tc-frame { order: 0; }
   .tc-frame { aspect-ratio: 4 / 3; }
@@ -327,9 +360,9 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
   .ix-big .ix-sub { margin-top: 0; }
   .ix-map .ix-cols { min-height: 172px; gap: 6px; }
   .ix-map .n { padding: 5px 7px; }
-  .ix .egg-slot { right: -6%; top: -4px; bottom: auto; width: 44%; }
+  .ix .egg-slot { right: -6%; top: -4px; bottom: auto; width: 44%; -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%); mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%); }
   .ix-chrome span { margin-left: 8px; }
-  .cta { height: 58px; padding: 0 24px; font-size: 14px; }
+  .cta { height: auto; min-height: 58px; padding: 12px 22px; gap: 10px; font-size: 13px; line-height: 1.25; letter-spacing: .08em; }
   .grain { display: none; }
 }
 .has-ring .spot { cursor: none; }
@@ -337,6 +370,8 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
 </head>
 <body>
 <script src="../ink.js"></script>
+<!-- HOOK (ladder agent) -->
+<script src="ladder.js" defer></script>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
@@ -352,16 +387,15 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
   <!-- hero: one big thumbnail -->
   <section class="wrap hero" aria-labelledby="h1">
     <div class="thumb hero-thumb">
-      <p class="ht-num" aria-hidden="true">50,710</p>
+      <p class="ht-hook"><span class="hk-s">The</span><span class="hk-big"><span class="bk" aria-hidden="true">Definitive</span><span class="fr">Definitive</span></span><span class="hk-s">professional Shell Shockers rankings</span></p>
       <div class="egg-slot" data-slot="hero"><img class="egg-still" src="../egg/egg-hero.png" alt="" decoding="async"></div>
-      <p class="ht-cap"><small>Shell Shockers Index</small>kills logged</p>
       <div class="sliver"><b data-progress="page"></b></div>
     </div>
     <div class="vrow">
       <span class="avatar" aria-hidden="true"><img src="../egg/egg-select.png" alt="" decoding="async" loading="lazy"></span>
       <div>
         <h1 id="h1">Shell Shockers</h1>
-        <p class="vmeta">poopy &middot; Shell League King of the Coop &middot; seasons 4&ndash;7</p>
+        <p class="vmeta">Shell League King of the Coop &middot; seasons 4&ndash;7</p>
         <p class="quick"><a class="brush" href="https://coop-kings.vercel.app" target="_blank" rel="noopener">Open the Shell Shockers Index <span aria-hidden="true">&#8599;</span></a></p>
       </div>
     </div>
@@ -376,7 +410,6 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
       </div>
       <div>
         <h2 id="c1">i was kind of good</h2>
-        <p class="vmeta">poopy</p>
       </div>
     </header>
     <div class="body intro">
@@ -390,9 +423,6 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
     </div>
   </section>
 
-  <!-- quick cut -->
-  <div class="thumb spot cut" data-clip="2" data-clip-id="quickscope" data-vhs aria-hidden="true"><div class="shade"></div><span class="cap"></span></div>
-
   <!-- how good though: the question -->
   <section class="wrap chapter" id="new-toys" aria-labelledby="c2">
     <header class="chap">
@@ -402,16 +432,17 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
       </div>
       <div>
         <h2 id="c2">how good though</h2>
-        <p class="vmeta">poopy &middot; <a class="brush" href="https://coop-kings.vercel.app" target="_blank" rel="noopener">coop-kings.vercel.app</a></p>
       </div>
     </header>
     <div class="body vision">
       <div>
-        <h3>how good was I, <em>really?</em></h3>
-        <p>That question became a ranking of every player across Shell League King of the Coop, seasons 4 to 7. Raw leaderboards lie. Snipers out-kill point players, a sub with three games can top a per-game list, and a final counts the same as a blowout. The index corrects for all three.</p>
+        <h3>So how good was I <em>actually?</em></h3>
+        <p>To find out I ranked every player from Shell League King of the Coop, seasons 4 to 7. A normal leaderboard doesn't really work for this. Snipers get way more kills than point players (the people sitting on the objective), someone with three games can end up on top, and a final counts the same as a random blowout. So I fixed all three.</p>
       </div>
       <div class="egg-slot" data-slot="build"><img class="egg-still" src="../egg/egg-build.png" alt="" decoding="async" loading="lazy"></div>
     </div>
+    <!-- HOOK (ladder agent): scroll-driven ladder mounts here -->
+    <div id="ladder" class="ladder-mount"></div>
   </section>
 
   <!-- how i built it -->
@@ -423,28 +454,28 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
       </div>
       <div>
         <h2 id="c3">how i built it</h2>
-        <p class="vmeta">poopy &amp; a few AI agents</p>
+        <p class="vmeta">with a few AI agents</p>
       </div>
     </header>
 
     <div class="body">
-      <p class="b2b-h">I set the rules. AI agents collected the data.</p>
+      <p class="b2b-h">I came up with the rules. AI agents did the collecting.</p>
       <div class="duo">
         <div>
           <h4 class="caps"><span class="who">me</span></h4>
-          <p>The questions and the rules. What counts: Shell League King of the Coop only. How a sniper and a point player get judged. Which games matter more. Who is who across 113 names. Then the modeling, which is where my stats and econ classes came in: shrinkage, paired comparisons and weighting.</p>
+          <p>I decided what counts and how to judge it. Only King of the Coop games. Snipers and point players judged differently. Bigger games weighted more. 113 different names matched to the right people. Then I did the modeling, which is where my stats and econ classes actually came in handy.</p>
         </div>
         <div>
           <h4 class="caps"><span class="who">the agents</span></h4>
-          <p>The collecting. They read 134 scoreboard screenshots into 12,523 stat cells, pulled 3,681 lines of Discord chat, and imported the league's own sheets, results and map timers. Every number links back to the screenshot it came from.</p>
+          <p>They read 134 scoreboard screenshots into 12,523 stat cells, pulled 3,681 lines of Discord chat, and brought in the league's own sheets and results. On the index you can open the actual scoreboard behind the numbers.</p>
         </div>
       </div>
 
       <ol class="feed" id="feed" aria-label="How it got built">
-        <li><span class="a">agents</span><span class="v">scraped</span><span class="o">discord chat</span><span class="n">3,681 lines</span></li>
-        <li><span class="a">agents</span><span class="v">transcribed</span><span class="o">scoreboards</span><span class="n">134 screenshots</span></li>
-        <li><span class="a">poopy</span><span class="v">modeled</span><span class="o">the ranking</span><span class="n">23 stages</span></li>
-        <li><span class="a">poopy</span><span class="v">shipped</span><span class="o">coop-kings.vercel.app</span></li>
+        <li><span class="a">agents</span><span class="v">scraped</span><span class="o">discord chat</span><span class="n" data-cu>3,681 lines</span></li>
+        <li><span class="a">agents</span><span class="v">transcribed</span><span class="o">scoreboards</span><span class="n" data-cu>134 screenshots</span></li>
+        <li><span class="a">me</span><span class="v">modeled</span><span class="o">the ranking</span><span class="n" data-cu>23 stages</span></li>
+        <li><span class="a">me</span><span class="v">shipped</span><span class="o">the index</span><span class="n"></span></li>
       </ol>
 
       <div class="cards">
@@ -457,16 +488,16 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
             </svg>
             <div class="l3">
               <span class="l3-tag">pipeline / 23 stages</span>
-              <div class="l3-main"><b class="l3-num">12,523</b><span class="l3-line">stat cells, read off 134 scoreboard screenshots</span></div>
+              <div class="l3-main"><b class="l3-num" data-cu>12,523</b><span class="l3-line">stat cells, read off 134 scoreboard screenshots</span></div>
             </div>
           </div>
           <div class="tc-side">
-            <h3 id="t1"><small>clip 01</small>data pipeline and scale</h3>
+            <h3 id="t1">how the data got in</h3>
             <ul class="notes">
-              <li>134 scoreboard screenshots became 1,443 rows and 12,523 stat cells.</li>
-              <li>50,710 kills logged across 132 games.</li>
-              <li>3,681 Discord chat lines, 808 of them judged by hand for the legacy score.</li>
-              <li>League sheets, results posts and 79 map timers fill what the boards miss.</li>
+              <li>134 scoreboard screenshots turned into 12,523 stat cells. A stat cell is one number off a scoreboard, like one player's kills in one game.</li>
+              <li>50,710 kills across 132 games.</li>
+              <li>3,681 lines of Discord chat. An AI agent read 808 of those messages one at a time and scored each one for the legacy score, which is basically how the league talked about a player.</li>
+              <li>League sheets and 79 map timers fill in what the scoreboards miss.</li>
             </ul>
           </div>
         </article>
@@ -487,19 +518,18 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
               </g>
             </svg>
             <div class="l3">
-              <span class="l3-tag">ranking / bayesian shrinkage</span>
-              <div class="l3-main"><b class="l3-num">50 / 40 / 10</b><span class="l3-line">skill, league and legacy, after small samples get shrunk</span></div>
+              <span class="l3-tag">ranking / the final mix</span>
+              <div class="l3-main"><b class="l3-num" data-cu>50 / 40 / 10</b><span class="l3-line">how much skill, league results and legacy each count</span></div>
             </div>
           </div>
           <div class="tc-side">
-            <h3 id="t2"><small>clip 02</small>ranking model</h3>
+            <h3 id="t2">how I ranked everyone</h3>
             <ul class="notes">
-              <li>Empirical-Bayes shrinkage: three great maps don't beat thirty good ones.</li>
-              <li>Bradley-Terry ratings rate every team from who beat whom.</li>
-              <li>Each map is weighted 0.5x to 1.8x by opponent, length and margin. Playoffs and finals count 3x.</li>
-              <li>Kills against strong teams count up to 1.25x.</li>
-              <li>Snipers and point players are judged on different stat weights.</li>
-              <li>Career is 85% your best two seasons and 15% longevity.</li>
+              <li>Three great games shouldn't beat thirty good ones, so small samples get pulled toward average (that's called empirical Bayes).</li>
+              <li>Every team gets a rating from who beat who (that's called Bradley-Terry).</li>
+              <li>Games against better teams count more, and playoffs and finals count 3x.</li>
+              <li>Snipers are judged mostly on kills. Point players get more credit for time on point.</li>
+              <li>A player's career score is mostly their best two seasons, plus a little for sticking around.</li>
             </ul>
           </div>
         </article>
@@ -512,23 +542,23 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
             </svg>
             <div class="l3">
               <span class="l3-tag">models / 3 trained</span>
-              <div class="l3-main"><b class="l3-num">88%</b><span class="l3-line">of MVPs called right on maps it never saw. chance is 19%.</span></div>
+              <div class="l3-main"><b class="l3-num" data-cu>88%</b><span class="l3-line">of MVPs called right on games it never saw. Guessing gets 19%.</span></div>
             </div>
           </div>
           <div class="tc-side">
-            <h3 id="t3"><small>clip 03</small>ML models</h3>
+            <h3 id="t3">the ML part</h3>
             <ul class="notes">
-              <li>Role classifier: random forest, 400 trees. 86% accuracy in 5-fold cross-validation on 251 labelled maps.</li>
-              <li>MVP predictor: conditional logit. 88% top-1 on 61 held-out maps.</li>
-              <li>Win model: logistic regression. Kill share alone gets 88% accuracy (AUC 0.96) on 132 maps. Adding time on point and captures gets 97%.</li>
-              <li>A pytest suite of 167 tests checks the math before every publish.</li>
+              <li>A random forest (a few hundred decision trees voting) that guesses whether you were a sniper or a point player. Right 86% of the time.</li>
+              <li>A model that picks each game's MVP. Right 88% of the time.</li>
+              <li>A win model. Kill share alone picks the winner 88% of the time.</li>
+              <li><span class="cu" data-cu>167</span> tests make sure I didn't break the math.</li>
             </ul>
           </div>
         </article>
       </div>
 
-      <div class="skills" aria-label="Built with">
-        <span class="k caps">Built with</span>
+      <div class="skills" aria-label="Skills used">
+        <span class="k caps">Skills used</span>
         <span class="tag">Prompt engineering</span><span class="tag">Spec writing</span><span class="tag">Python: pandas, scikit-learn, NumPy, pytest</span><span class="tag">Statistics and modeling</span><span class="tag">Data collection</span>
       </div>
     </div>
@@ -539,7 +569,7 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
     <header class="chap">
       <div>
         <h2 id="c4">see for yourself</h2>
-        <p class="vmeta">poopy &middot; the Shell Shockers Index is live</p>
+        <p class="vmeta">the Shell Shockers Index is live</p>
       </div>
     </header>
     <div class="ix" id="ix">
@@ -568,7 +598,7 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
             </div>
             <div class="ix-panel ix-big">
               <span class="ix-lbl">Games</span>
-              <b>132</b>
+              <b data-cu>132</b>
               <span class="ix-sub">50,710 kills logged</span>
             </div>
           </div>
@@ -583,7 +613,6 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
     <a class="btn" id="backReal" href="../../"><span class="arr w" aria-hidden="true">&larr;</span> Back to reality</a>
     <div class="r">
       <a class="brush" href="../">Sandbox</a>
-      <a class="brush" href="https://www.youtube.com/@poopyshocks" target="_blank" rel="noopener">@poopyshocks</a>
     </div>
   </footer>
 </main>
@@ -604,20 +633,23 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
   function el(tag, attrs, parent) { var n = d.createElementNS(NS, tag); for (var k in attrs) n.setAttribute(k, attrs[k]); if (parent) parent.appendChild(n); return n; }
 
   /* ---------- diagrams (numbers from report_data.json) ---------- */
-  (function pipeline() {
+  // phone sizes the diagram text up (see .diag text in the phone CSS), so the layout spreads out there
+  var phone = w.matchMedia("(max-width: 760px)");
+  function pipeline() {
     var g = d.getElementById("ticks"), phases = [["collect", 3], ["clean", 3], ["model", 8], ["score", 5], ["curate", 3], ["check", 1]];
-    var x = 75, i = 0;
+    while (g.firstChild) g.removeChild(g.firstChild);
+    var M = phone.matches, step = M ? 9 : 12, gap = M ? 62 : 44, x = M ? 58 : 75, i = 0;
     phases.forEach(function (p) {
       var x0 = x;
       for (var k = 0; k < p[1]; k++) {
-        var r = el("rect", { x: x, y: 70, width: 6, height: 100, "class": "ink grow", "fill-opacity": p[0] === "model" ? 1 : .55 }, g);
+        var r = el("rect", { x: x, y: 70, width: M ? 5 : 6, height: 100, "class": "ink grow", "fill-opacity": p[0] === "model" ? 1 : .55 }, g);
         r.style.transitionDelay = (i * 18) + "ms";
-        x += 12; i++;
+        x += step; i++;
       }
-      var t = el("text", { x: (x0 + x - 6) / 2, y: 200, "text-anchor": "middle" }, g); t.textContent = p[0];
-      x += 44;
+      var t = el("text", { x: (x0 + x - step / 2) / 2, y: M ? 206 : 200, "text-anchor": "middle" }, g); t.textContent = p[0];
+      x += gap;
     });
-  })();
+  }
   (function shrink() {
     // illustrative players: x = raw score, n = maps played; fewer maps get pulled further in
     var g = d.getElementById("dots"), P = [[120, 2], [190, 12], [250, 30], [300, 8], [360, 25], [420, 3], [480, 18], [540, 4]];
@@ -629,24 +661,30 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
       c.style.setProperty("--dx", (p[0] - sx) + "px"); c.style.transitionDelay = (k * 30) + "ms";
     });
   })();
-  (function bars() {
+  function bars() {
     var g = d.getElementById("bars");
+    while (g.firstChild) g.removeChild(g.firstChild);
+    var M = phone.matches, bx = M ? 300 : 256, bw = M ? 236 : 290, row = M ? 70 : 62, sub = M ? 26 : 20;
     var R = [["role classifier", "5-fold CV, 251 maps", 86], ["mvp predictor", "held out, 61 maps", 88, 19], ["win model", "AUC 0.96, 132 maps", 88]];
     R.forEach(function (r, k) {
-      var y = 52 + k * 62;
-      var t = el("text", { x: 40, y: y + 2, "class": "lbl-b" }, g); t.textContent = r[0]; t.style.fill = "#ebe8e1";
-      var s = el("text", { x: 40, y: y + 20 }, g); s.textContent = r[1];
-      el("rect", { x: 256, y: y - 9, width: 290, height: 12, "class": "dim" }, g);
-      var b = el("rect", { x: 256, y: y - 9, width: 290 * r[2] / 100, height: 12, "class": "ink grow x" }, g);
+      var y = (M ? 46 : 52) + k * row;
+      var t = el("text", { x: M ? 24 : 40, y: y + 2, "class": "lbl-b" }, g); t.textContent = r[0]; t.style.fill = "#ebe8e1";
+      var s = el("text", { x: M ? 24 : 40, y: y + sub }, g); s.textContent = r[1];
+      el("rect", { x: bx, y: y - 9, width: bw, height: 12, "class": "dim" }, g);
+      var b = el("rect", { x: bx, y: y - 9, width: bw * r[2] / 100, height: 12, "class": "ink grow x" }, g);
       b.style.transitionDelay = (k * 90) + "ms";
-      var v = el("text", { x: 600, y: y + 2, "text-anchor": "end" }, g); v.textContent = r[2] + "%"; v.style.fill = "#ebe8e1";
+      var v = el("text", { x: 616, y: y + 2, "text-anchor": "end" }, g); v.textContent = r[2] + "%"; v.style.fill = "#ebe8e1";
       if (r[3]) {
-        var cx = 256 + 290 * r[3] / 100;
-        el("path", { d: "M" + cx + " " + (y - 15) + "V" + (y + 7), stroke: "#7A3CFA", "stroke-width": 1.5 }, g);
-        var c = el("text", { x: cx + 6, y: y + 20 }, g); c.textContent = "chance " + r[3] + "%"; c.style.fill = "#9B6BFF";
+        // the chance marker sits on the bar; its label goes under the bar, right of the sublabel column
+        var cx = bx + bw * r[3] / 100;
+        el("path", { d: "M" + cx + " " + (y - 15) + "V" + (y + 7), stroke: "#9B6BFF", "stroke-width": 2 }, g);
+        var c = el("text", { x: cx + 6, y: y + sub + (M ? 2 : 0) }, g); c.textContent = "chance " + r[3] + "%"; c.style.fill = "#9B6BFF";
       }
     });
-  })();
+  }
+  function diagrams() { pipeline(); bars(); }
+  diagrams();
+  if (phone.addEventListener) phone.addEventListener("change", diagrams); else if (phone.addListener) phone.addListener(diagrams);
 
   /* ---------- reveals ---------- */
   var revealIO = "IntersectionObserver" in w ? new IntersectionObserver(function (es) {
@@ -676,30 +714,56 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
     if (d.fonts && d.fonts.ready) d.fonts.ready.then(draw);
   })();
 
-  /* ---------- speed lines (moments of motion only) ---------- */
-  function speedLines(host) {
-    if (reduce || host.querySelector(".speed")) return host.querySelector(".speed");
-    var s = el("svg", { "class": "speed", viewBox: "-100 -56 200 112", preserveAspectRatio: "xMidYMid slice", "aria-hidden": "true" });
-    for (var k = 0; k < 46; k++) {
-      var a = (k / 46) * Math.PI * 2 + (k % 3) * 0.04, r0 = 30 + (k % 4) * 5, r1 = 130;
-      el("line", { x1: (Math.cos(a) * r0).toFixed(1), y1: (Math.sin(a) * r0 * .62).toFixed(1), x2: (Math.cos(a) * r1).toFixed(1), y2: (Math.sin(a) * r1 * .62).toFixed(1), "stroke-width": (0.3 + (k % 5) * 0.18).toFixed(2) }, s);
-    }
-    host.appendChild(s);
-    return s;
+  /* ---------- chapter thumbnails: white flash + two-frame VHS jolt, first entry only ---------- */
+  function zap(host) {
+    var f = d.createElement("div"); f.className = "zap"; f.setAttribute("aria-hidden", "true");
+    var v = d.createElement("div"); v.className = "vhs"; v.setAttribute("aria-hidden", "true"); v.innerHTML = "<i></i>";
+    host.appendChild(f); host.appendChild(v);
+    var done = 0, clean = function () { if (++done === 3) { f.remove(); v.remove(); } };
+    f.animate([{ opacity: .9 }, { opacity: 0 }], { duration: 240, easing: "cubic-bezier(0.23, 1, 0.32, 1)" }).onfinish = clean;
+    v.animate([{ opacity: 1 }, { opacity: .6, offset: .5 }, { opacity: 0 }], { duration: 300, easing: "ease-out" }).onfinish = clean;
+    v.firstChild.animate([{ transform: "translateY(-100%)" }, { transform: "translateY(460%)" }], { duration: 300, easing: "cubic-bezier(0.77, 0, 0.175, 1)" });
+    // two hard frames (~33ms each) knocked sideways, then back
+    host.animate([{ transform: "translate3d(-7px, 0, 0) skewX(3deg)", easing: "steps(1, end)" }, { transform: "translate3d(5px, 1px, 0) skewX(-2deg)", offset: .4, easing: "steps(1, end)" }, { transform: "none", offset: .8 }], { duration: 84 }).onfinish = clean;
   }
-  function flash(host) {
-    var s = speedLines(host); if (!s || !s.animate) return;
-    s.animate([{ opacity: 0, transform: "scale(1.06)" }, { opacity: .45, transform: "scale(1)", offset: .3 }, { opacity: 0, transform: "scale(.99)" }], { duration: 460, easing: "cubic-bezier(0.23, 1, 0.32, 1)" });
+  var flashes = [].slice.call(d.querySelectorAll("[data-flash]"));
+  if (!reduce && "IntersectionObserver" in w && Element.prototype.animate) {
+    var fio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { fio.unobserve(e.target); zap(e.target); } });
+    }, { threshold: 0.5 });
+    // a flash under the loading screen is a flash nobody sees: start watching once it has cleared
+    (w.ShellLoad && w.ShellLoad.done || Promise.resolve()).then(function () { flashes.forEach(function (n) { fio.observe(n); }); });
   }
-  function vhsCut(host) {
-    if (reduce) return;
-    var v = host.querySelector(".vhs");
-    if (!v) { v = d.createElement("div"); v.className = "vhs"; v.innerHTML = "<i></i>"; host.appendChild(v); }
-    if (!v.animate) return;
-    v.animate([{ opacity: .9 }, { opacity: .5, offset: .5 }, { opacity: 0 }], { duration: 320, easing: "ease-out" });
-    v.firstChild.animate([{ transform: "translateY(-100%)" }, { transform: "translateY(560%)" }], { duration: 320, easing: "cubic-bezier(0.77, 0, 0.175, 1)" });
-    var vid = host.querySelector("video");
-    if (vid && vid.animate) vid.animate([{ transform: "translateX(-6px) skewX(4deg)" }, { transform: "translateX(4px)", offset: .25 }, { transform: "translateX(-2px)", offset: .5 }, { transform: "none" }], { duration: 260, easing: "steps(4, end)" });
+
+  /* ---------- count-ups: numbers tick from 0 when they enter ---------- */
+  function countUp(n) {
+    var txt = n.textContent, parts = txt.split(/(\d[\d,]*)/);
+    if (parts.length < 2) return;
+    n.classList.add("cu", "run");
+    n.innerHTML = "";
+    var f = d.createElement("span"); f.className = "cu-f"; f.textContent = txt;
+    var l = d.createElement("span"); l.className = "cu-l"; l.setAttribute("aria-hidden", "true");
+    n.appendChild(f); n.appendChild(l);
+    var nums = parts.map(function (p, k) { return k % 2 ? +p.replace(/,/g, "") : null; });
+    var dur = 1100, t0 = performance.now();
+    (function tick(now) {
+      var t = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - t, 4);
+      l.textContent = parts.map(function (p, k) { return k % 2 ? Math.round(nums[k] * e).toLocaleString("en-US") : p; }).join("");
+      if (t < 1) requestAnimationFrame(tick);
+      else { n.classList.remove("run"); l.remove(); }
+    })(t0);
+  }
+  if (!reduce && "IntersectionObserver" in w) {
+    var cio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { cio.unobserve(e.target); countUp(e.target); } });
+    }, { threshold: 0.6 });
+    d.querySelectorAll("[data-cu]").forEach(function (n) { cio.observe(n); });
+  }
+
+  /* ---------- final CTA: the glow pulse only runs while it is on screen ---------- */
+  var cta = d.querySelector(".ix-cta .cta");
+  if (cta && "IntersectionObserver" in w) {
+    new IntersectionObserver(function (es) { es.forEach(function (e) { cta.classList.toggle("live", e.isIntersecting); }); }).observe(cta);
   }
 
   /* ---------- clips: woven through the page, one plays at a time ---------- */
@@ -761,11 +825,10 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
 
   function play(s) {
     if (!s || !s._clip || s.classList.contains("err")) return;
-    var v = videoFor(s), wasPlaying = s.classList.contains("playing"), retried = false;
+    var v = videoFor(s), retried = false;
     var on = function () {
       if (active !== s) { v.pause(); return; }
       s.classList.add("playing");
-      if (!wasPlaying) { if (s.hasAttribute("data-vhs")) vhsCut(s); else flash(s); }
       runBar();
     };
     var go = function () {
@@ -918,7 +981,8 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
     var r = back.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2, href = back.getAttribute("href");
     stop(active);
     function go() { try { sessionStorage.setItem("sbx-back", JSON.stringify({ x: x, y: y, t: Date.now() })); } catch (err) {} location.href = href; }
-    if (w.SandboxInk) w.SandboxInk.flood(x, y, go, { title: "fade" }); else go();
+    // leaving the Sandbox: a plain ink wipe, no title; the home page drains it into the door
+    if (w.SandboxInk) w.SandboxInk.flood(x, y, go, { title: false }); else go();
   });
 
   /* ---------- ring cursor (fine pointers only) ---------- */
