@@ -819,7 +819,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 <div class="curtain" id="curtain" aria-hidden="true">
   <div class="cpanel" id="cpanel"><div class="cpanel-ui"><span class="c-name" id="cName">Michael Wang</span><span class="c-cap" id="cCap">Product portfolio &#xb7; New York</span></div><span class="c-skip">Click to skip</span></div>
   <div class="kid" id="kid"><svg class="kid-svg" id="kidSvg" viewBox="0 0 240 300" aria-hidden="true">
-  <defs><filter id="kidLine" x="-20%" y="-20%" width="140%" height="140%"><feMorphology in="SourceAlpha" operator="dilate" radius="2.2" result="d"/><feFlood flood-color="#ebe8e1"/><feComposite in2="d" operator="in" result="o"/><feMerge><feMergeNode in="o"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+  <defs><filter id="kidLine" x="-20%" y="-20%" width="140%" height="140%"><feMorphology in="SourceAlpha" operator="dilate" radius="2.2" result="d"/><feFlood flood-color="#ebe8e1"/><feComposite in2="d" operator="in" result="o"/><feMerge><feMergeNode in="o"/><feMergeNode in="SourceGraphic"/></feMerge></filter><radialGradient id="kSkin" cx="62%" cy="38%" r="70%"><stop offset="0" stop-color="#fffbf3"/><stop offset=".62" stop-color="#f6eee2"/><stop offset="1" stop-color="#e3d6c4"/></radialGradient><linearGradient id="kJacket" x1="0" y1="0" x2=".35" y2="1"><stop offset="0" stop-color="#34332f"/><stop offset=".55" stop-color="#151514"/><stop offset="1" stop-color="#0b0b0a"/></linearGradient><radialGradient id="kHair" cx="65%" cy="30%" r="75%"><stop offset="0" stop-color="#3a3936"/><stop offset=".5" stop-color="#121211"/><stop offset="1" stop-color="#0b0b0a"/></radialGradient></defs>
   <ellipse data-j="shadow" cx="112" cy="290" rx="62" ry="6" fill="rgba(15,15,14,.22)"/>
   <g data-j="root" filter="url(#kidLine)">
     <g data-j="legB">
@@ -857,10 +857,11 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
           <circle class="k-skin k-inks" cx="118" cy="214" r="9"/>
         </g>
       </g>
-      <path class="k-ink" d="M80 134 q-8 42 2 80 h50 q10 -40 0 -82 q-26 -12 -52 2z"/>
+      <path d="M80 134 q-8 42 2 80 h50 q10 -40 0 -82 q-26 -12 -52 2z" style="fill:url(#kJacket)"/>
       <path d="M106 136 L106 212" stroke="#3a3a37" stroke-width="2"/>
       <path d="M90 160 q10 4 14 14 M88 186 q8 3 12 10" stroke="#3a3a37" stroke-width="1.6" fill="none" stroke-linecap="round"/>
       <rect x="122" y="168" width="10" height="3" rx="1.5" fill="#3a3a37"/>
+      <ellipse cx="108" cy="128" rx="30" ry="6" fill="rgba(15,15,14,.18)"/>
       <path class="k-paper k-inks" d="M86 130 q20 14 42 -2 l-5 -12 q-16 9 -32 2z"/>
       <g data-j="armF">
         <path d="M112 150 L112 182" stroke="#fbf8f1" stroke-width="30" stroke-linecap="round"/><path d="M112 150 L112 182" stroke="#0f0f0e" stroke-width="25" stroke-linecap="round"/>
@@ -874,13 +875,16 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
         </g>
       </g>
       <g data-j="head" transform="translate(108 124) scale(1.16) translate(-108 -124)">
-        <ellipse class="k-skin k-inks" cx="108" cy="78" rx="52" ry="49"/>
+        <ellipse class="k-inks" cx="108" cy="78" rx="52" ry="49" style="fill:url(#kSkin)"/>
         <ellipse class="k-skin k-inks" cx="84" cy="92" rx="8" ry="10"/><path d="M82 88 q4 3 1 8" fill="none" stroke="#0f0f0e" stroke-width="2" stroke-linecap="round"/>
-        <path class="k-ink" d="M56 92 Q44 30 104 24 Q154 20 162 66 Q154 60 146 64 L142 50 L134 66 L126 50 L118 68 L110 54 L100 70 Q88 66 86 80 Q74 74 70 98 Q60 100 56 92 Z"/>
-        <path class="k-ink" d="M98 26 q8 -14 22 -12 q-6 6 -6 12z"/>
-        <path d="M126 86 q8 -9 16 0" fill="none" class="k-inks" stroke-width="3.6"/>
+        <path d="M56 92 Q44 30 104 24 Q154 20 162 66 Q154 60 146 64 L142 50 L134 66 L126 50 L118 68 L110 54 L100 70 Q88 66 86 80 Q74 74 70 98 Q60 100 56 92 Z" style="fill:url(#kHair)"/>
+        <path d="M86 34 q22 -10 44 -4" fill="none" stroke="rgba(235,232,225,.22)" stroke-width="3" stroke-linecap="round"/>
+        <path data-j="tuft" class="k-ink" d="M98 26 q8 -14 22 -12 q-6 6 -6 12z"/>
+        <path data-j="eyeHappy" d="M126 86 q8 -9 16 0" fill="none" class="k-inks" stroke-width="3.6"/>
+        <g data-j="eyeOpen" opacity="0"><ellipse cx="135" cy="83" rx="6.2" ry="8.6" fill="#0f0f0e"/><circle cx="137.4" cy="79.6" r="2.4" fill="#fbf8f1"/><circle cx="133" cy="87.4" r="1.1" fill="#fbf8f1" opacity=".8"/></g>
         <path d="M150 92 q5 4 0 8" fill="none" class="k-inks" stroke-width="2.6"/>
-        <path class="k-ink" d="M130 106 q10 12 22 0 q-11 4 -22 0z"/>
+        <path data-j="mouth" class="k-ink" d="M130 106 q10 12 22 0 q-11 4 -22 0z"/>
+        <ellipse data-j="mouthO" cx="141" cy="110" rx="5" ry="6.5" fill="#0f0f0e" opacity="0"/>
         <path data-j="sweat" d="M66 52 q-7 10 -2 15 q6 3 8 -4 q0 -5 -6 -11z" fill="#fbf8f1" stroke="#0f0f0e" stroke-width="2.4" stroke-linejoin="round" opacity="0"/>
       </g>
     </g>
@@ -1384,12 +1388,20 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     var CROUCH = P({ tilt: 14, head: -8, hipB: -46, kneeB: 86, hipF: -54, kneeF: 92, shB: -30, elB: -40, shF: -64, elF: -36 });
     var REACH = P({ tilt: 4, head: -10, hipB: 6, kneeB: 6, hipF: -10, kneeF: 10, shB: 120, elB: 20, shF: -120, elF: -20 });
     var STAR = P({ hipB: 40, hipF: -40, shB: 110, shF: -110 });
-    var FLEX = P({ tilt: -8, head: -9, hipB: 18, kneeB: 6, hipF: -20, kneeF: 8, shB: 84, elB: 70, shF: -84, elF: -70, bulge: 1, pump: .62 });
+    var FLEX = P({ tilt: -8, head: -9, hipB: 18, kneeB: 6, hipF: -20, kneeF: 8, shB: 84, elB: 52, shF: -84, elF: -70, bulge: 1, pump: .62 });
     function runPose(c, lean) { var s = Math.sin(c); return P({ tilt: lean, head: -4 + Math.sin(c * 2) * 3, hipB: 38 * s, kneeB: 12 + 62 * Math.max(0, s), hipF: -38 * s, kneeF: 12 + 62 * Math.max(0, -s), shB: 10 - 42 * s, elB: -86, shF: -10 + 42 * s, elF: -86 }); }
     function pushPose(c) { var s = Math.sin(c); return P({ tilt: 24 + Math.cos(c * 2) * 1.6, head: -10 + Math.sin(c * 2 + 1) * 2.5, hipB: 34 * s, kneeB: 10 + 44 * Math.max(0, s), hipF: -34 * s, kneeF: 10 + 44 * Math.max(0, -s), shB: -96 - s * 6, elB: -12, shF: -104 + s * 6, elF: -10 }); }
+    // acting: [time, eyes open (1) or happy-closed (0), "whoa" mouth, grin size]
+    var FACE = [[0, 1, 1, 1], [700, 1, 1, 1], [880, 0, 0, 1.08], [1250, 0, 0, 1], [1330, 1, 0, 1], [1460, 1, .85, 1], [2280, 1, .85, 1], [2420, 0, 0, 1.12], [2700, 0, 0, 1.12], [2800, 0, 0, 1.4], [3800, 0, 0, 1.4], [3900, 1, 0, 1.05], [4250, 1, 0, 1.05], [4420, 0, 0, .8], [6400, 0, 0, .8]];
+    function faceAt(t) {
+      for (var i = 0; i < FACE.length - 1 && t >= FACE[i + 1][0]; i++);
+      var a = FACE[i], b = FACE[Math.min(i + 1, FACE.length - 1)], k = b[0] > a[0] ? sm((t - a[0]) / (b[0] - a[0])) : 0;
+      var eye = lerp(a[1], b[1], k), ph = (t % 1150) / 120, blink = ph < 1 ? 1 - 0.92 * Math.sin(Math.PI * ph) : 1;
+      return { eye: eye, o: lerp(a[2], b[2], k), grin: lerp(a[3], b[3], k), blink: blink };
+    }
     // the whole performance as a pure function of time
     function pose(t, vw, vh, kw) {
-      var xLand = vw * 0.64, xEnd = vw * 0.05, s = { x: 0, y: 0, r: 0, mx: 1, sx: 1, sy: 1, w: 1, g: 0, sweat: 0, px: 0, j: STAND };
+      var xLand = vw * 0.64, xEnd = vw * 0.05, s = { t: t, x: 0, y: 0, r: 0, mx: 1, sx: 1, sy: 1, w: 1, g: 0, sweat: 0, px: 0, j: STAND };
       if (t < A1) {                                   // backflip in from the right
         var p = t / A1, k = sm(seg(p, .1, .3)) * (1 - sm(seg(p, .62, .84)));
         s.x = lerp(vw + kw * 0.2, xLand, p);
@@ -1402,12 +1414,13 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
         s.x = xLand; s.j = mix(STAND, CROUCH, dip); s.sy = 1 - 0.14 * im; s.sx = 1 + 0.1 * im;
       } else if (t < CW0) {                           // spin to face left, reach up
         var q2 = seg(t, L1, CW0);
-        s.x = xLand; s.mx = face(Math.cos(Math.PI * sm(q2))); s.j = mix(STAND, REACH, sm(q2)); s.y = -Math.sin(Math.PI * q2) * 0.025 * vh;
+        s.x = xLand; s.mx = face(Math.cos(Math.PI * sm(q2))); s.j = mix(mix(STAND, CROUCH, .5 * Math.sin(Math.PI * Math.min(1, q2 * 1.6))), REACH, sm(seg(q2, .35, 1)));
+        s.y = -Math.max(0, Math.sin(Math.PI * (q2 - .6) / .4)) * 0.018 * vh; s.sy = 1 + .07 * sm(seg(q2, .55, .9)); s.sx = 1 - .04 * sm(seg(q2, .55, .9));
       } else if (t < CW1) {                           // cartwheel to the left
         var c = seg(t, CW0, CW1), ce = c - Math.sin(2 * Math.PI * c) / (2 * Math.PI);
         // aerial: a hop lifts him so the big head clears the floor while upside down
         s.mx = -1; s.x = lerp(xLand, xEnd, ce); s.r = -360 * ce; s.y = -Math.sin(Math.PI * ce) * 100 * (kw / 240);
-        s.w = 1 - sm(seg(c, 0, .16)) * (1 - sm(seg(c, .84, 1)));
+        s.w = 1 - sm(seg(c, 0, .16)) * (1 - sm(seg(c, .84, 1))); s.sy = 1 + .07 * (1 - sm(seg(c, 0, .14))); s.sx = 1 - .04 * (1 - sm(seg(c, 0, .14)));
         s.j = mix(mix(REACH, STAR, sm(seg(c, 0, .16))), REACH, sm(seg(c, .84, 1))); s.g = Math.sin(Math.PI * c) * 0.9;
       } else if (t < L2) {                            // land the cartwheel
         var q3 = seg(t, CW1, L2), im2 = Math.exp(-(t - CW1) / 70) * Math.cos((t - CW1) / 30);
@@ -1448,7 +1461,20 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       T(R.root, "translate(0 " + dy.toFixed(2) + ") " + rot(s.r, 112, 186) + " translate(112 288) scale(" + (s.mx * s.sx).toFixed(3) + " " + s.sy.toFixed(3) + ") translate(-112 -288)");
       T(R.legB, rot(j.hipB, 104, 206)); T(R.kneeB, rot(j.kneeB, 104, 244));
       T(R.legF, rot(j.hipF, 122, 206)); T(R.kneeF, rot(j.kneeF, 122, 244));
-      T(R.body, rot(j.tilt, 113, 206)); T(R.head, rot(j.head, 108, 124) + " translate(108 124) scale(1.16) translate(-108 -124)");
+      // follow-through: the head and hair tuft trail the body's spin and bounce, then settle
+      if (R.pr === undefined) { R.pr = s.r; R.py = s.y; R.pt = s.t; R.lag = 0; R.lv = 0; R.tf = 0; R.tv = 0; }
+      var steps = Math.max(0, Math.min(5, Math.round((s.t - R.pt) / 8.3))), dr = s.r - R.pr, dyv = s.y - R.py;
+      if (Math.abs(dr) > 90 || !steps) dr = 0; if (Math.abs(dyv) > 120 || !steps) dyv = 0;
+      for (var st = 0; st < steps; st++) {
+        R.lv = R.lv * 0.74 + (Math.max(-16, Math.min(16, -dr / steps * 2.4)) - R.lag) * 0.2; R.lag += R.lv;
+        R.tv = R.tv * 0.7 + (Math.max(-28, Math.min(28, R.lag * 1.6 + dyv / steps * 1.4)) - R.tf) * 0.22; R.tf += R.tv;
+      }
+      R.pr = s.r; R.py = s.y; R.pt = s.t;
+      T(R.body, rot(j.tilt, 113, 206)); T(R.head, rot(j.head + R.lag, 108, 124) + " translate(108 124) scale(1.16) translate(-108 -124)");
+      T(R.tuft, rot(R.tf + Math.sin(s.t / 170) * 3, 109, 26));
+      var fa = faceAt(s.t);
+      if (R.eyeHappy) { var op = fa.eye >= .5, sq = op ? Math.min(1, (fa.eye - .5) * 3.5) * fa.blink : 0; R.eyeHappy.setAttribute("opacity", op ? 0 : 1); R.eyeOpen.setAttribute("opacity", op ? 1 : 0); T(R.eyeOpen, "translate(135 83) scale(1 " + Math.max(.08, sq).toFixed(3) + ") translate(-135 -83)"); }
+      if (R.mouth) { var gr = fa.grin + (j.pump > .5 ? (j.pump - .5) * .6 : 0); R.mouth.setAttribute("opacity", (1 - fa.o).toFixed(2)); T(R.mouth, "translate(141 108) scale(" + gr.toFixed(3) + ") translate(-141 -108)"); R.mouthO.setAttribute("opacity", fa.o.toFixed(2)); T(R.mouthO, "translate(141 110) scale(" + (0.8 + 0.2 * Math.sin(s.t / 90)).toFixed(3) + ") translate(-141 -110)"); }
       var ak = (1 + j.pump).toFixed(3);
       T(R.armB, rot(j.shB, 118, 144) + " translate(118 144) scale(" + ak + ") translate(-118 -144)"); T(R.elbB, rot(j.elB, 118, 176));
       T(R.armF, rot(j.shF, 112, 150) + " translate(112 150) scale(" + ak + ") translate(-112 -150)"); T(R.elbF, rot(j.elF, 112, 182));
@@ -1499,7 +1525,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       else { iRun = false; curtain.classList.remove("live"); curtain.style.display = "none"; }
     }
     var iRaf = 0;
-    function start() { if (iRaf) cancelAnimationFrame(iRaf); iMeasure(); iT = 0; iLast = 0; iSpeed = 1; iReady = false; iRun = true; iPrev = -1; lastStep = 0; lastLow = -1; curtain.style.display = ""; curtain.classList.add("live"); root.classList.remove("ready"); root.classList.add("intro-on"); paint(); iRaf = requestAnimationFrame(frame); }
+    function start() { if (iRaf) cancelAnimationFrame(iRaf); iMeasure(); [main].concat(ghosts).forEach(function (R) { R.pr = undefined; }); iT = 0; iLast = 0; iSpeed = 1; iReady = false; iRun = true; iPrev = -1; lastStep = 0; lastLow = -1; curtain.style.display = ""; curtain.classList.add("live"); root.classList.remove("ready"); root.classList.add("intro-on"); paint(); iRaf = requestAnimationFrame(frame); }
     function skip() { if (!iRun || performance.now() - startedAt < 500) return; if (iT < PUSH) { iT = PUSH; iPrev = PUSH; } iSpeed = 2.4; }
     curtain.addEventListener("click", skip);
     ["keydown", "wheel", "touchstart"].forEach(function (ev) { window.addEventListener(ev, function () { if (iRun) skip(); }, { passive: true }); });
