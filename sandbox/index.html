@@ -126,7 +126,7 @@ button { font: inherit; color: inherit; }
 .hint kbd { font: inherit; color: var(--muted); }
 @media not ((hover: hover) and (pointer: fine)) { .hint { display: none; } }
 
-/* stats: a stat plate, numbers only */
+/* stats: a stat plate that gives nothing away */
 .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; margin: 0 10px; padding: 0; list-style: none; background: var(--line); border-radius: 4px; overflow: hidden; }
 .stat { display: grid; gap: 6px; padding: 12px 14px 13px; background: var(--surface); }
 .stat .k { color: var(--muted); }
@@ -266,10 +266,10 @@ button { font: inherit; color: inherit; }
       </ul>
     </nav>
 
-    <ul class="stats" id="stats" aria-label="Stats">
-      <li class="stat"><span class="v">132</span><span class="k caps">Games</span></li>
-      <li class="stat"><span class="v">3</span><span class="k caps">ML models</span></li>
-      <li class="stat"><span class="v">167</span><span class="k caps">Tests</span></li>
+    <ul class="stats" id="stats" aria-hidden="true">
+      <li class="stat"><span class="v">???</span><span class="k caps">???</span></li>
+      <li class="stat"><span class="v">???</span><span class="k caps">???</span></li>
+      <li class="stat"><span class="v">???</span><span class="k caps">???</span></li>
     </ul>
 
     <a class="start" id="start" href="shell-shockers/"><span class="blink" id="startTxt">Press enter</span></a>
@@ -292,7 +292,7 @@ button { font: inherit; color: inherit; }
   d.querySelectorAll("a[href]").forEach(function (a) { a.setAttribute("href", dir(a.getAttribute("href"))); });
 
   var PROJECTS = [
-    { name: "Shell Shockers", meta: "Shell Shockers Index · Seasons 4–7", href: "shell-shockers/", stats: ["132", "3", "167"] },
+    { name: "Shell Shockers", meta: "Shell Shockers Index · Seasons 4–7", href: "shell-shockers/", stats: ["???", "???", "???"] },
     null, null, null, null, null
   ];
 
