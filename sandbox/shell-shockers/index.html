@@ -463,7 +463,7 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
       <div class="duo">
         <div>
           <h4 class="caps"><span class="who">me</span></h4>
-          <p>I decided what counts and how to judge it. Only King of the Coop games. Snipers and point players judged differently. Bigger games weighted more. 113 different names matched to the right people. Then I did the modeling, which is where my stats and econ classes actually came in handy.</p>
+          <p>You&rsquo;d be surprised how much nuance there is to Shell Shockers. Players switch nicknames, share alt accounts, and some seasons are missing stats entirely, so before any modeling I wrote the spec: only King of the Coop games count, snipers and point players are judged differently, bigger games weigh more, and 113 names had to be matched to the right people. Team strength comes from Bradley-Terry ratings fit by penalized maximum likelihood, and every map is weighted by matchup, length and stage, so a final counts about three times a regular map. A hierarchical empirical Bayes layer (gamma-Poisson for counting stats, beta-binomial for rates, normal-normal for shares) pulls small samples toward each player&rsquo;s peers, so a few lucky maps can&rsquo;t top a list. A Gaussian mixture finds play styles, and a random forest assigns roles when the gun wasn&rsquo;t recorded (86% in cross-validation). Training was the hard part: only 61 maps had a confirmed MVP, some MVP posts came from deleted accounts, and one season&rsquo;s posts had no dates or teams, so I matched them to games by elimination before the model could learn anything.</p>
         </div>
         <div>
           <h4 class="caps"><span class="who">the agents</span></h4>
