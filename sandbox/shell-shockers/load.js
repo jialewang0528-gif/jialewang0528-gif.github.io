@@ -200,8 +200,9 @@
       }
       p = Math.round(p * 100);
       if (p !== lastP) { pct.textContent = p + "%"; lastP = p; }
-      if (!released && t >= SPLIT - 10) { released = true; root.style.pointerEvents = "none"; replayHero(); }
     }
+    // the fill animation stops at its own end (~880ms), so the split's clock decides when to hand back
+    if (!released && (split.currentTime || 0) >= SPLIT - 10) { released = true; root.style.pointerEvents = "none"; replayHero(); }
     if (!removed) raf = requestAnimationFrame(tick);
   }
   raf = requestAnimationFrame(tick);

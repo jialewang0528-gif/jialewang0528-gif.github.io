@@ -569,7 +569,8 @@
       var ny = clamp(dy / Math.max(dy < 0 ? cy : H - cy, 80), -1, 1);
       nx = (nx < 0 ? -1 : 1) * Math.pow(Math.abs(nx), 0.75);
       ny = (ny < 0 ? -1 : 1) * Math.pow(Math.abs(ny), 0.75);
-      look.ty = nx * (nx > 0 ? YAW_MAX_R : YAW_MAX); look.tp = ny * PITCH_MAX;
+      // the rig's +pitch tips the face up, so a cursor below the egg (ny > 0) needs negative pitch
+      look.ty = nx * (nx > 0 ? YAW_MAX_R : YAW_MAX); look.tp = -ny * PITCH_MAX;
     }
     // Mouse / pen via pointer events. Touch via touch events, which keep firing while the page scrolls
     // (pointer events get cancelled), so the egg follows the finger for the whole drag without blocking scroll.

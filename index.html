@@ -1447,7 +1447,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 
 <div class="latest">Latest project <span class="muted">/</span> <a href="#project/veraitas">Veraitas</a></div>
 
-<script src="sandbox/ink.js"></script>
+<script src="sandbox/ink.js?v=4"></script>
 <script>
 (function () {
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1840,7 +1840,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       else { iRun = false; curtain.classList.remove("live"); curtain.style.display = "none"; }
     }
     var iRaf = 0;
-    function start() { if (iRaf) cancelAnimationFrame(iRaf); curtain.style.display = ""; iRun = false; iMeasure(); [main].concat(ghosts).forEach(function (R) { R.pr = undefined; }); iT = 0; iLast = 0; iSpeed = 1; iReady = false; iRun = true; iPrev = -1; lastStep = 0; curtain.style.display = ""; curtain.classList.add("live"); root.classList.remove("ready"); root.classList.add("intro-on"); paint(); iRaf = requestAnimationFrame(frame); }
+    function start() { if (iRaf) cancelAnimationFrame(iRaf); curtain.style.display = ""; iRun = false; iMeasure(); [main].concat(ghosts).forEach(function (R) { R.pr = undefined; }); iT = 0; iLast = 0; iSpeed = 1; iReady = false; iRun = true; iPrev = -1; lastStep = 0; curtain.style.display = ""; curtain.classList.add("live"); root.classList.remove("ready", "from-sbx"); root.classList.add("intro-on"); paint(); iRaf = requestAnimationFrame(frame); }
     function skip() { if (!iRun || performance.now() - startedAt < 500) return; cName.textContent = NAME; cCap.textContent = CAP; if (iT < PUSH) { iT = PUSH; iPrev = PUSH; [main].concat(ghosts).forEach(function (R) { R.pr = undefined; }); } iSpeed = 2.4; }
     curtain.addEventListener("click", skip);
     ["keydown", "wheel"].forEach(function (ev) { window.addEventListener(ev, function () { if (iRun) skip(); }, { passive: true }); });
@@ -1864,7 +1864,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       root.classList.add("from-sbx", "ready");
       if (door) { door.style.setProperty("--sbx-dx", Math.max(0, door.querySelector(".sbx-w").offsetWidth - door.querySelector(".sbx-q").offsetWidth) + "px"); door.classList.add("on"); }
       SandboxInk.cover({ title: false });
-      SandboxInk.drain(dr.left + dr.width / 2, dr.top + dr.height / 2, function () { root.classList.remove("from-sbx"); if (door && !door.matches(":hover")) door.classList.remove("on"); });
+      SandboxInk.drain(dr.left + dr.width / 2, dr.top + dr.height / 2, function () { if (door && !door.matches(":hover")) door.classList.remove("on"); });
     } else {
     root.classList.add("intro-on"); curtain.classList.add("live");
     iMeasure(); draw(main, pose(0, iVW, iVH, iKW), iKW); ghosts.forEach(function (G) { G.el.style.opacity = 0; });
@@ -1942,7 +1942,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       e.preventDefault(); going = true; sync(); setTimeout(release, 6000);
       var r = a.getBoundingClientRect(), x = e.clientX || r.left + r.width / 2, y = e.clientY || r.top + r.height / 2, href = a.getAttribute("href") + (location.protocol === "file:" ? "index.html" : "");
       try { sessionStorage.setItem("sbx-ink", JSON.stringify({ x: x, y: y, t: Date.now() })); } catch (err) {}
-      if (window.SandboxInk && !reduce) SandboxInk.flood(x, y, function () { location.href = href; }); else location.href = href;
+      if (window.SandboxInk) SandboxInk.flood(x, y, function () { location.href = href; }); else location.href = href;
     });
   });
 

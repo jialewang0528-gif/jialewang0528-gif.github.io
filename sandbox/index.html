@@ -115,7 +115,8 @@ button { font: inherit; color: inherit; }
 .slot.locked .s-art { inset: 24%; opacity: .55; }
 
 /* selector: crop marks + P1 tag + ink drip */
-.selector { position: absolute; left: 0; top: 0; pointer-events: none; z-index: 3; }
+.selector { position: absolute; left: 0; top: 0; pointer-events: none; z-index: 3; transition: transform 160ms var(--ease-out); }
+@media (prefers-reduced-motion: reduce) { .selector { transition: none; } }
 .mark { position: absolute; width: 14px; height: 14px; border-color: var(--ink); border-style: solid; border-width: 0; transition: translate 150ms var(--ease-out); }
 .m-tl { top: -8px; left: -8px; border-top-width: 1.5px; border-left-width: 1.5px; }
 .m-tr { top: -8px; right: -8px; border-top-width: 1.5px; border-right-width: 1.5px; }
@@ -197,9 +198,13 @@ button { font: inherit; color: inherit; }
   .grain { display: none; }
 }
 </style>
+<script>
+  // arriving through the ink: paint cream from the first frame, so no dark frame shows before ink.js covers the page
+  try { var sbxF = JSON.parse(sessionStorage.getItem("sbx-ink") || "null"); if (sbxF && Date.now() - sbxF.t < 15000) document.documentElement.style.background = "#ebe8e1"; } catch (e) {}
+</script>
 </head>
 <body>
-<script src="ink.js"></script>
+<script src="ink.js?v=4"></script>
 <script>
   // Arrived through the ink spill? Start fully inked; otherwise a short drain.
   (function () {
@@ -207,7 +212,7 @@ button { font: inherit; color: inherit; }
     try { f = JSON.parse(sessionStorage.getItem("sbx-ink") || "null"); sessionStorage.removeItem("sbx-ink"); } catch (e) {}
     if (f && !(typeof f.t === "number" && Date.now() - f.t < 15000)) f = null;
     window.__sbxEntry = f;
-    if (window.SandboxInk) window.SandboxInk.cover({ title: !!f });
+    if (window.SandboxInk) window.SandboxInk.cover({ title: !!f && f.title !== false });
   })();
 </script>
 
@@ -327,6 +332,9 @@ button { font: inherit; color: inherit; }
     drip.animate([{ transform: "scaleY(.2)", opacity: 0 }, { transform: "scaleY(1.08)", opacity: 1, offset: .55 }, { transform: "scaleY(1)", opacity: 1 }], { duration: 420, easing: "cubic-bezier(0.23, 1, 0.32, 1)" });
   }
 
+  // leaving the grid on a locked slot hands the preview back to the last real project
+  var lastProj = 0;
+  grid.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse" && !going && !PROJECTS[cur]) select(lastProj); });
   function select(i, opts) {
     opts = opts || {};
     if (i < 0 || i >= slots.length || (i === cur && !opts.force)) return;
@@ -334,6 +342,7 @@ button { font: inherit; color: inherit; }
     slots[cur].tabIndex = -1;
     cur = i;
     var s = slots[i], p = PROJECTS[i];
+    if (p) lastProj = i;
     s.setAttribute("aria-current", "true");
     s.tabIndex = 0;
     if (opts.focus) s.focus({ preventScroll: true });
@@ -483,6 +492,7 @@ button { font: inherit; color: inherit; }
   /* ---------- ink: drain on arrival ---------- */
   function drainIn() {
     var f = w.__sbxEntry;
+    d.documentElement.style.background = "";
     if (!w.SandboxInk) return;
     if (f) w.SandboxInk.drain(f.x, f.y, null, { duration: 600 });
     else w.SandboxInk.drain(w.innerWidth / 2, w.innerHeight * 0.45, null, { duration: 440 });
@@ -492,7 +502,7 @@ button { font: inherit; color: inherit; }
     var drained = false, once = function () { if (!drained) { drained = true; drainIn(); } };
     // wait for fonts (so nothing reflows under the ink), never longer than 500ms
     // and hold the inked title for a beat so the hand-off from the main site reads
-    var t0 = Date.now(), hold = w.__sbxEntry ? 220 : 0;
+    var t0 = Date.now(), hold = w.__sbxEntry && w.__sbxEntry.title !== false ? 220 : 0;
     var later = function () { setTimeout(once, Math.max(0, hold - (Date.now() - t0))); };
     if (d.fonts && d.fonts.ready) d.fonts.ready.then(later);
     setTimeout(once, 600);
@@ -519,7 +529,7 @@ button { font: inherit; color: inherit; }
   function loadEgg() {
     if (w.SandboxEgg) return useEgg(w.SandboxEgg);
     var s = d.createElement("script");
-    s.src = "egg/egg.js"; s.async = true;
+    s.src = "egg/egg.js?v=3"; s.async = true;
     s.onload = function () { useEgg(w.SandboxEgg); };
     s.onerror = function () {};
     d.head.appendChild(s);

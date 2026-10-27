@@ -265,7 +265,8 @@
     root.classList.add("block");
     fullSheet();
     mode = "covered";
-    if (opts.title !== false) titleFull(true); else tv.classList.remove("on");
+    // arriving pages pick up the ink already titled: no fade-in from 0, which read as a flicker in the hand-off
+    if (opts.title !== false) { tv.style.transition = "none"; titleFull(true); } else tv.classList.remove("on");
   }
 
   function flood(x, y, cb, opts) {
@@ -352,7 +353,7 @@
     var called = false;
     function finish() { if (called) return; called = true; teardown(); if (cb) try { cb(); } catch (e) { setTimeout(function () { throw e; }); } }
 
-    tv.classList.remove("on");
+    tv.style.transition = ""; tv.classList.remove("on");
     if (reduce) {
       root.classList.add("sbx-fade");
       void root.offsetWidth;

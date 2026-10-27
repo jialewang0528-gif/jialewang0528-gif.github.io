@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#0d0c10">
 <meta name="robots" content="noindex">
 <!-- HOOK (load agent): match-loading screen, runs before first paint -->
-<script src="load.js"></script>
+<script src="load.js?v=2"></script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 fill=%27%230d0c10%27/%3E%3Cpath d=%27M32 10c-10 0-18 14-18 27a18 18 0 0 0 36 0c0-13-8-27-18-27z%27 fill=%27%23ebe8e1%27/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -369,7 +369,7 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
 </style>
 </head>
 <body>
-<script src="../ink.js"></script>
+<script src="../ink.js?v=4"></script>
 <!-- HOOK (ladder agent) -->
 <script src="ladder.js" defer></script>
 
@@ -943,11 +943,18 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
   function loadEgg() {
     if (w.SandboxEgg) return useEgg(w.SandboxEgg);
     var s = d.createElement("script");
-    s.src = "../egg/egg.js"; s.async = true;
+    s.src = "../egg/egg.js?v=3"; s.async = true;
     s.onload = function () { useEgg(w.SandboxEgg); };
     d.head.appendChild(s);
   }
-  if (d.readyState === "complete") loadEgg(); else w.addEventListener("load", loadEgg);
+  // three.js setup is a ~200ms main-thread task: keep it out of the loading screen and the hero build-in.
+  // The PNG still holds the spot meanwhile and the live egg crossfades in over it.
+  function loadEggWhenCalm() {
+    var idle = w.requestIdleCallback || function (f) { return setTimeout(f, 1); };
+    if (w.ShellLoad && w.ShellLoad.active) w.ShellLoad.done.then(function () { setTimeout(function () { idle(loadEgg, { timeout: 1200 }); }, 900); });
+    else loadEgg();
+  }
+  if (d.readyState === "complete") loadEggWhenCalm(); else w.addEventListener("load", loadEggWhenCalm);
 
   /* ---------- scroll: top bar border, page progress ---------- */
   var top = d.getElementById("top");
@@ -974,6 +981,19 @@ h1 { margin: 0; font: 600 clamp(30px, 4vw, 48px)/1.08 var(--sans); letter-spacin
   onScroll();
 
   /* ---------- back to reality ---------- */
+  // "← Sandbox" (top bar and footer): a plain ink wipe from the click, and the lobby drains it from the same spot
+  [].forEach.call(d.querySelectorAll("a"), function (a) {
+    var h = a.getAttribute("href");
+    if (h !== "../" && h !== "../index.html") return;
+    a.addEventListener("click", function (e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0) return;
+      e.preventDefault();
+      var r = a.getBoundingClientRect(), x = e.clientX || r.left + r.width / 2, y = e.clientY || r.top + r.height / 2;
+      stop(active);
+      function go() { try { sessionStorage.setItem("sbx-ink", JSON.stringify({ x: x, y: y, t: Date.now(), title: false })); } catch (err) {} location.href = h; }
+      if (w.SandboxInk) w.SandboxInk.flood(x, y, go, { title: false }); else go();
+    });
+  });
   var back = d.getElementById("backReal");
   back.addEventListener("click", function (e) {
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0) return;
