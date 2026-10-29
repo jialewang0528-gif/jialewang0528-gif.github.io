@@ -344,12 +344,12 @@ html.ready .portrait figcaption { animation: riseIn 300ms ease-out .7s backwards
 @media (prefers-reduced-motion: reduce) { .reel { display: none; } }
 
 /* ---------- scroll reveals ---------- */
-.rv { opacity: 0; transform: translateY(12px); filter: blur(4px); transition: opacity 300ms ease-out, transform 300ms ease-out, filter 300ms ease-out; transition-delay: calc(var(--d, 0) * 100ms); }
+.rv { opacity: 0; transform: translateY(12px); filter: blur(4px); transition: opacity 300ms ease-out, transform 300ms ease-out, filter 300ms ease-out; transition-delay: calc(var(--d, 0) * 60ms); }
 .rv.in { opacity: 1; transform: none; filter: none; }
 .rv-clip { clip-path: inset(0 0 100% 0); transition: clip-path 600ms var(--ease-inout); }
 .rv-clip.in { clip-path: inset(0 0 0 0); }
 .wd { display: inline-block; white-space: nowrap; }
-.cr { display: inline-block; opacity: 0; transform: translateY(12px); filter: blur(4px); transition: opacity 300ms ease-out, transform 300ms ease-out, filter 300ms ease-out; transition-delay: calc(var(--i) * 30ms); }
+.cr { display: inline-block; opacity: 0; transform: translateY(12px); filter: blur(4px); transition: opacity 300ms ease-out, transform 300ms ease-out, filter 300ms ease-out; transition-delay: calc(min(var(--i), 14) * 22ms); }
 .split.in .cr { opacity: 1; transform: none; filter: none; }
 .ticker-track.js { animation: none; }
 
@@ -1843,12 +1843,12 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     function start() { if (iRaf) cancelAnimationFrame(iRaf); curtain.style.display = ""; iRun = false; iMeasure(); [main].concat(ghosts).forEach(function (R) { R.pr = undefined; }); iT = 0; iLast = 0; iSpeed = 1; iReady = false; iRun = true; iPrev = -1; lastStep = 0; curtain.style.display = ""; curtain.classList.add("live"); root.classList.remove("ready", "from-sbx"); root.classList.add("intro-on"); paint(); iRaf = requestAnimationFrame(frame); }
     function skip() { if (!iRun || performance.now() - startedAt < 500) return; cName.textContent = NAME; cCap.textContent = CAP; if (iT < PUSH) { iT = PUSH; iPrev = PUSH; [main].concat(ghosts).forEach(function (R) { R.pr = undefined; }); } iSpeed = 2.4; }
     curtain.addEventListener("click", skip);
-    ["keydown", "wheel"].forEach(function (ev) { window.addEventListener(ev, function () { if (iRun) skip(); }, { passive: true }); });
+    ["keydown", "wheel", "touchstart"].forEach(function (ev) { window.addEventListener(ev, function () { if (iRun) skip(); }, { passive: true }); });
     replayIntro = function () { var sb = root.style.scrollBehavior; root.style.scrollBehavior = "auto"; window.scrollTo(0, 0); root.style.scrollBehavior = sb; void root.offsetWidth; armed = true; startedAt = performance.now(); start(); };
     // wait on the curtain until the visitor is actually here (the viewer can load the page before it is on screen)
     var hint = curtain.querySelector(".c-skip"), armed = false, startedAt = 0;
     function arm() {
-      if (armed) return; armed = true; hint.textContent = "Click to skip"; hint.classList.remove("wait");
+      if (armed) return; armed = true; hint.textContent = matchMedia("(pointer: coarse)").matches ? "Tap to skip" : "Click to skip"; hint.classList.remove("wait");
       ["pointermove", "pointerdown", "keydown", "wheel", "touchstart", "focus"].forEach(function (ev) { window.removeEventListener(ev, arm, true); });
       startedAt = performance.now(); start();
     }
@@ -1970,7 +1970,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 
   // scroll reveals: blur-up blocks, letter-split headings, clip-in images
   if (!reduce && "IntersectionObserver" in window) {
-    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }); }, { rootMargin: "0px 0px -12% 0px" });
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting || e.boundingClientRect.top < 0) { e.target.classList.add("in"); io.unobserve(e.target); } }); }, { rootMargin: "0px 0px 10% 0px" });
     document.querySelectorAll(".sh h2, .contact h2").forEach(function (h) {
       var n = 0;
       (function walk(node) {
