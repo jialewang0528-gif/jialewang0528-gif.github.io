@@ -1177,7 +1177,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 
   <div class="ticker caps" aria-hidden="true">
     <div class="ticker-track" id="ticker">
-      <span>Claude Code</span><b>+</b><span>Codex</span><b>+</b><span>Grok</span><b>+</b><span>Figma</span><b>+</b><span>User interviews</span><b>+</b><span>RICE prioritization</span><b>+</b><span>Go-to-market</span><b>+</b><span>A/B testing</span><b>+</b><span>Power BI</span><b>+</b><span>SQL</span><b>+</b><span>Python</span><b>+</b>
+      <span>Claude Code</span><b>+</b><span>Codex</span><b>+</b><span>Grok</span><b>+</b><span>Figma</span><b>+</b><span>User interviews</span><b>+</b><span>RICE prioritization</span><b>+</b><span>Go-to-market</span><b>+</b><span>A/B testing</span><b>+</b><span>Power BI</span><b>+</b><span>SQL</span><b>+</b><span>Python</span><b>+</b><span>Plaid API</span><b>+</b>
     </div>
   </div>
 
@@ -1190,7 +1190,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       <dl class="about-facts">
         <div><dt class="caps-s">Studying</dt><dd>B.A. Economics, minor in Data Science, NYU</dd></div>
         <div><dt class="caps-s">Interested in</dt><dd>Product management and strategy</dd></div>
-        <div><dt class="caps-s">Toolkit</dt><dd>Claude Code, Codex, Grok, Figma, Excel, Power BI, Jira, SQL, Python</dd></div>
+        <div><dt class="caps-s">Toolkit</dt><dd>Claude Code, Codex, Grok, Figma, Excel, Power BI, Jira, SQL, Python, Plaid API</dd></div>
         <div><dt class="caps-s">Languages</dt><dd>English, Mandarin</dd></div>
         <div><dt class="caps-s">Interests</dt><dd>Weightlifting, basketball, golf, cold brews, anime</dd></div>
       </dl>
@@ -1382,12 +1382,12 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
               <li><span class="k caps-s">Conducted research</span><div><b>13 months of my own charges</b><span>I also read what students say online and pulled survey data, checking each number against a second source. No pilot yet, and I&#x2019;m the only one who&#x2019;s used it, so it only backs up the problem.</span></div></li>
               <li><span class="k caps-s">Findings</span><div><b>Delivery was only 3% of my spending</b><span>I thought delivery was the problem. After I moved somewhere with no kitchen and a slow subway, my rides went from $13 to about $200 a week. None of them felt expensive.</span></div></li>
               <li><span class="k caps-s">Decide</span><div><b>Your own usual week</b><span>That&#x2019;s the benchmark, since comparing yourself to other people just makes you quit. If a charge is unclear, Swap asks instead of guessing.</span></div></li>
-              <li><span class="k caps-s">Data</span><div><b>No double counting</b><span>Python pulls about 400 days of history through Plaid. Card payments, transfers, refunds and paying friends back only count once, and 27 offline tests check it.</span></div></li>
+              <li><span class="k caps-s">Plaid API</span><div><b>How it reads your bank</b><span>Plaid Link connects your bank. Python pulls about 400 days of charges with <code>/transactions/sync</code>, and the Check bank button calls <code>/transactions/refresh</code> for new ones. I tested it all on Plaid&#x2019;s fake bank first. Transfers, refunds and paying friends back only count once, and 27 offline tests check that.</span></div></li>
               <li><span class="k caps-s">Plan</span><div><b>Today&#x2019;s number</b><span>Split by the days you actually spend, so weekends get more. Night rides count as spending, but Swap never suggests a swap for them. Getting home safe isn&#x2019;t something to cut.</span></div></li>
               <li><span class="k caps-s">iPhone</span><div><b>SwiftUI app</b><span>It sends a &#x201c;Today: $X&#x201d; notification at 8:30 AM and checks your bank in the background. The chat runs on the phone with Apple Intelligence.</span></div></li>
               <li><span class="k caps-s">Measure</span><div><b>Spend vs. your usual week</b><span>That&#x2019;s the number that shows whether Swap actually works.</span></div></li>
             </ol>
-            <div class="tags"><span class="tag-k caps-s">Built with</span><span class="tag">Plaid</span><span class="tag">Python</span><span class="tag">JavaScript</span><span class="tag">SwiftUI</span><span class="tag">Apple Intelligence</span><span class="tag">Vercel</span><span class="tag">Claude Code</span></div>
+            <div class="tags"><span class="tag-k caps-s">Built with</span><span class="tag">Plaid API</span><span class="tag">Python</span><span class="tag">JavaScript</span><span class="tag">SwiftUI</span><span class="tag">Apple Intelligence</span><span class="tag">Vercel</span><span class="tag">Claude Code</span></div>
             <div class="btns">
               <a class="btn btn-primary" href="https://michaelwang.lol/swap/app/?profile=social" target="_blank" rel="noopener">Try it <span class="arr" aria-hidden="true">&#x2192;</span></a>
               <a class="btn" href="https://github.com/jialewang0528-gif/swap" target="_blank" rel="noopener">Code <span class="arr" aria-hidden="true">&#x2192;</span></a>
