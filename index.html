@@ -866,7 +866,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 /* ---------- Swap (project 01): card art + poster ---------- */
 /* ---------- Swap (04): coded cards rebuilt from the real app's CSS (core.css, today.css, money.css, deck.css).
    Light app cards on the dark card art; every size is the app's rem value written as em, so one font-size scales it. ---------- */
-.pc-sw { --glow-c: rgba(228, 108, 53, .13);
+.pc-sw { --glow-c: rgba(228, 108, 53, .2);
   --sw-ink: #14162a; --sw-ink2: #4a4f66; --sw-ink3: #565c74; --sw-ink4: rgba(20, 22, 42, .38);
   --sw-hair: rgba(20, 22, 42, .08); --sw-fill: rgba(20, 22, 42, .05); --sw-fill2: rgba(20, 22, 42, .09);
   --sw-canvas: #f6f5f9; --sw-surface: #fff;
@@ -951,6 +951,8 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 .sw-act b { font-size: .882em; font-weight: 600; color: var(--sw-ink2); }
 
 /* fan: Today in front, money behind left, swap behind right (same spread as the Veraitas and CS2 fans) */
+.pc-sw .sw-2, .pc-sw .sw-3 { filter: brightness(.86) saturate(.9); transition: transform 500ms var(--ease-out), filter 300ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .pcard:hover .pc-sw .sw-2, .pcard:hover .pc-sw .sw-3 { filter: none; } }
 .pc-sw .sw-1 { transform: translate(-50%, -50%); z-index: 2; }
 .pc-sw .sw-2 { transform: translate(-136%, -46%) rotate(-6deg); }
 .pc-sw .sw-3 { transform: translate(36%, -54%) rotate(6deg); }
@@ -971,11 +973,14 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 @media (max-width: 640px) {
   /* phone: two cards, like the CS2 card. Today in front, the swap behind it */
   .pc-sw .sw-2 { display: none; }
-  .pc-sw .sw-1 { transform: translate(-64%, -40%) rotate(-2deg); }
-  .pc-sw .sw-3 { transform: translate(-30%, -62%) rotate(5deg); }
+  /* 11px fits both cards in the 360px art box: the swap card's header peeks over the top, Today covers the rest */
+  .pc-sw .sw-c { font-size: 11px; }
+  .pc-sw .sw-1 { transform: translate(-56%, -46%) rotate(-2deg); }
+  .pc-sw .sw-3 { transform: translate(-53%, -55%) rotate(3deg); }
+  .pc-sw .sw-3 .sw-acts { visibility: hidden; }
   @media (hover: hover) and (pointer: fine) {
-    .pcard:hover .pc-sw .sw-1 { transform: translate(-64%, -40%) rotate(-2deg); }
-    .pcard:hover .pc-sw .sw-3 { transform: translate(-30%, -62%) rotate(5deg); }
+    .pcard:hover .pc-sw .sw-1 { transform: translate(-56%, -46%) rotate(-2deg); }
+    .pcard:hover .pc-sw .sw-3 { transform: translate(-53%, -55%) rotate(3deg); }
   }
 }
 /* Swap poster: the Today strip. Bars fill to what was spent, then the "$38 left" tag lands */
@@ -1205,7 +1210,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
           <span class="pc-cat caps-s"><b>01</b>Personal finance &#xb7; iPhone app</span>
           <h3 class="pc-title">Swap</h3>
           <p class="pc-desc">A daily spending number for college kids who live in the city.</p>
-          <span class="pc-stats caps-s"><b>13</b> months of data <i></i> <b>5</b> findings <i></i> <b>27</b> tests</span>
+          <span class="pc-stats caps-s"><b>13</b> months of data <i></i> <b>27</b> tests</span>
           <span class="btn btn-primary pc-go">Open project <span class="arr" aria-hidden="true">&#x2192;</span></span>
         </div>
         <div class="pc-art pc-ui pc-sw" aria-hidden="true">
@@ -2273,7 +2278,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 
   // projects: cards on the page open a full-screen view with that project's card stream, then its case study
   var PROJ = {
-    swap: { el: "p-swap", name: "Swap", title: "Swap", cat: "Personal finance \u00b7 iPhone app", desc: "A daily spending number for college kids who live in the city.", stats: "<b>13</b> months of data <i></i> <b>5</b> findings <i></i> <b>27</b> tests",
+    swap: { el: "p-swap", name: "Swap", title: "Swap", cat: "Personal finance \u00b7 iPhone app", desc: "A daily spending number for college kids who live in the city.", stats: "<b>13</b> months of data <i></i> <b>27</b> tests",
       cards: [{ poster: 1 }, { src: "sw-p1.jpg", tall: 1, alt: "This week: what is left today and where the money goes, sample student" }, { src: "sw-p2.jpg", tall: 1, alt: "Food and getting around this week against the usual week, sample student" }, { src: "sw-p3.jpg", tall: 1, alt: "A swap card: subway to Thursday dinner, about $15 a week" }] },
     whoop: { el: "p-whoop", name: "WHOOP Calendar Sync", title: "WHOOP Calendar <em>Sync</em>", cat: "0\u21921 feature \u00b7 NYU PM Club", desc: "Coaching that fits your real schedule.", stats: "<b>14</b> screens <i></i> <b>7</b> pain points <i></i> <b>3</b> KPIs",
       cards: [{ poster: 1 }, { src: "pitch-01.jpg", alt: "Pitch deck title slide: Calendar Sync for WHOOP" }, { src: "pitch-07.jpg", alt: "Pitch insight: members check WHOOP every day, but its advice does not fit their schedule" }, { src: "wh-p2.jpg", tall: 1, alt: "Google Calendar integration screen" }, { src: "wh-p5.jpg", tall: 1, alt: "Lock-screen check-in: early start today" }, { src: "wh-p6.jpg", tall: 1, alt: "WHOOP AI morning check-in that fits the schedule" }, { src: "pitch-12.jpg", alt: "Pitch MVP slide with the value-effort matrix" }, { src: "pitch-15.jpg", alt: "Pitch KPI slide" }] },
