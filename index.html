@@ -500,7 +500,7 @@ html.js .projects#pvStore { display: none; }
 @media (min-width: 1100px) {
   .pgrid.pstrip { display: flex; gap: 12px; height: min(640px, 78vh); }
   .pstrip .pcard.feat { flex: 1 1 0; min-width: 0; min-height: 0; grid-template-columns: calc(var(--ew, 900px) * .42) calc(var(--ew, 900px) * .58); transition: flex-grow 500ms var(--ease-inout), box-shadow var(--dur-fast) ease-out; }
-  .pstrip .pcard.feat.on { flex-grow: 4.2; }
+  .pstrip .pcard.feat.on { flex-grow: 6.3; }
   @media (hover: hover) and (pointer: fine) { .pstrip .pcard.feat:hover { transform: none; } }
   .pstrip .pcard.flip .pc-art { order: 0; border-right: 0; border-left: 1px solid var(--line); }
   .pstrip .pcard.feat .pc-info { padding: var(--space-6); }
@@ -863,6 +863,127 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 @media (prefers-reduced-motion: no-preference) {
   :is(.btn, .reel-tab, .reel-arrow, .pv-btn, .vtp-play, .vtp-start, .replay, .menu-btn):not(:disabled):active { scale: .96; }
 }
+/* ---------- Swap (project 01): card art + poster ---------- */
+/* ---------- Swap (04): coded cards rebuilt from the real app's CSS (core.css, today.css, money.css, deck.css).
+   Light app cards on the dark card art; every size is the app's rem value written as em, so one font-size scales it. ---------- */
+.pc-sw { --glow-c: rgba(228, 108, 53, .13);
+  --sw-ink: #14162a; --sw-ink2: #4a4f66; --sw-ink3: #565c74; --sw-ink4: rgba(20, 22, 42, .38);
+  --sw-hair: rgba(20, 22, 42, .08); --sw-fill: rgba(20, 22, 42, .05); --sw-fill2: rgba(20, 22, 42, .09);
+  --sw-canvas: #f6f5f9; --sw-surface: #fff;
+  --sw-food: #e46c35; --sw-food-ink: #9a4a26; --sw-move: #4a5fd8; --sw-accent: #2e9e6a; --sw-accent-ink: #1d6b47;
+  --sw-shadow-card: 0 0 0 .5px rgba(20, 22, 42, .05), 0 1px 2px rgba(20, 22, 42, .04), 0 8px 24px -12px rgba(20, 22, 42, .14);
+  --sw-sys: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, "Helvetica Neue", Arial, sans-serif;
+  --sw-round: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+/* one slice of the phone screen: canvas, section title, one card */
+.sw-c { position: absolute; top: 50%; left: 50%; width: 21.5em; padding: .1em .6em .6em; border-radius: 2.1em; background: var(--sw-canvas); color: var(--sw-ink);
+  font: 400 13px/1.3 var(--sw-sys); letter-spacing: normal; text-align: left; -webkit-font-smoothing: antialiased;
+  box-shadow: 0 40px 70px -30px rgba(0, 0, 0, .9); transition: transform 500ms var(--ease-out); }
+:where(.sw-c) :where(p, ol) { margin: 0; padding: 0; }
+.sw-c b { font-weight: 700; }
+.sw-st { display: flex; justify-content: space-between; align-items: baseline; gap: .47em; margin: .95em .24em .6em; font-size: 1.176em; font-weight: 600; line-height: 1.25; }
+.sw-st small { font-size: .65em; font-weight: 500; color: var(--sw-ink3); }
+.sw-card { position: relative; background: var(--sw-surface); border-radius: 1.53em; box-shadow: var(--sw-shadow-card); padding: .94em; }
+.sw-foot { font-size: .765em; line-height: 1.385; }
+.sw-sub { font-size: .882em; line-height: 1.333; }
+.sw-t2 { color: var(--sw-ink2); } .sw-t3 { color: var(--sw-ink3); }
+.sw-num { font-family: var(--sw-round); font-variant-numeric: tabular-nums; }
+.sw-big { font-family: var(--sw-round); font-variant-numeric: tabular-nums; font-size: 2.353em; font-weight: 700; line-height: 1.05; letter-spacing: -.01em; }
+
+/* Today (today.css) */
+.sw-td { display: grid; gap: .7em; }
+.sw-td-top { display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: .7em; }
+.sw-td-top > div { display: grid; gap: 2px; min-width: 0; }
+.sw-td .sw-big { color: var(--sw-accent-ink); }
+.sw-wk { text-align: right; }
+.sw-wk > b { font-size: 1.059em; }
+.sw-meter { height: .47em; margin-top: .24em; border-radius: 999px; background: var(--sw-fill2); overflow: hidden; }
+.sw-meter i { display: block; height: 100%; border-radius: inherit; background: var(--sw-accent); transform-origin: left; }
+.sw-strip { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px; padding-top: .24em; }
+.sw-day { display: grid; justify-items: center; align-content: start; gap: .35em; min-width: 0; padding: .47em 0; border-radius: .94em; }
+.sw-day.on { background: var(--sw-fill); }
+.sw-bar { display: flex; align-items: flex-end; height: 3.76em; }
+.sw-cap { position: relative; width: .82em; height: calc(var(--h) * 1em); border-radius: 999px; box-shadow: inset 0 0 0 1.5px var(--sw-ink4); overflow: hidden; }
+.sw-cap i { position: absolute; left: 0; right: 0; bottom: 0; height: var(--f); border-radius: inherit; background: var(--sw-accent); transform-origin: bottom; }
+.sw-day.over .sw-cap i { background: var(--sw-food); box-shadow: inset 0 3px 0 var(--sw-food-ink); }
+.sw-day.on .sw-cap { outline: 2px solid var(--sw-ink); outline-offset: 2px; }
+.sw-dow, .sw-amt, .sw-plus { font-size: .647em; line-height: 1.182; white-space: nowrap; }
+.sw-c .sw-dow { font-weight: 600; color: var(--sw-ink3); }
+.sw-day.on .sw-dow { color: var(--sw-ink); }
+.sw-amt { font-weight: 500; color: var(--sw-ink3); margin-top: -1px; }
+.sw-day.past .sw-amt, .sw-day.on .sw-amt { font-weight: 600; color: var(--sw-ink); }
+.sw-plus { font-weight: 600; color: var(--sw-food-ink); margin-top: -.25em; }
+
+/* Where your money goes (money.css) */
+.sw-mo { display: grid; gap: .7em; }
+.sw-mo-head { display: flex; justify-content: space-between; align-items: flex-end; gap: .7em; }
+.sw-mo-head > div { display: grid; gap: 2px; }
+.sw-mo-in { text-align: right; }
+.sw-mo-in b { font-size: 1.176em; color: var(--sw-accent-ink); }
+.sw-mo-food { margin-top: -.24em; }
+.sw-mo-food b { font-weight: 600; color: var(--sw-ink); }
+.sw-mo-list { list-style: none; display: grid; grid-template-columns: .82em minmax(0, 1.3fr) minmax(0, 1fr) auto; column-gap: .47em; }
+.sw-mo-list li { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: center; min-height: 2.82em; padding: .24em 0; }
+.sw-mo-list li + li { box-shadow: 0 -.5px 0 var(--sw-hair); }
+.sw-mo-name { display: grid; min-width: 0; }
+.sw-track { height: .47em; border-radius: 999px; background: var(--sw-fill); overflow: hidden; }
+.sw-track i { display: block; height: 100%; width: var(--w); border-radius: inherit; background: var(--sw-ink4); transform-origin: left; }
+.sw-track i.food { background: var(--sw-food); }
+.sw-track i.move { background: var(--sw-move); }
+.sw-mo-amt { font-weight: 600; text-align: right; white-space: nowrap; }
+
+/* Swap card (deck.css): the card, the two edges waiting behind it, the two glass buttons */
+.sw-dk { position: relative; padding-bottom: .7em; }
+.sw-dk::before, .sw-dk::after { content: ""; position: absolute; left: 1.4em; right: 1.4em; bottom: .7em; height: 2em; border-radius: 0 0 1.53em 1.53em; background: var(--sw-surface); box-shadow: var(--sw-shadow-card); }
+.sw-dk::before { transform: translateY(.62em); left: 2.2em; right: 2.2em; }
+.sw-dk::after { transform: translateY(.32em); }
+.sw-dk .sw-card { z-index: 1; display: flex; flex-direction: column; gap: .47em; padding: 1.176em; }
+.sw-bm { display: grid; place-items: center; width: 2.6em; height: 2.6em; margin-bottom: .47em; border-radius: 22%; background: var(--sw-fill); color: var(--sw-ink2); box-shadow: inset 0 0 0 1px rgba(20, 22, 42, .1); }
+.sw-bm svg { width: 1.3em; height: 1.3em; }
+.sw-dk-t { font-size: 1.294em; font-weight: 700; line-height: 1.273; }
+.sw-dk-amt { display: flex; align-items: baseline; column-gap: .47em; padding-top: .7em; }
+.sw-dk-amt b { font-family: var(--sw-round); font-variant-numeric: tabular-nums; font-size: 2.353em; line-height: 1; letter-spacing: -.03em; }
+.sw-dk-basis { padding-top: .7em; box-shadow: 0 -.5px 0 var(--sw-hair); }
+.sw-acts { display: flex; justify-content: center; gap: 1.41em; padding-top: .7em; }
+.sw-act { display: grid; justify-items: center; gap: .24em; }
+.sw-act > span { display: grid; place-items: center; width: 3.3em; height: 3.3em; border-radius: 999px; background: rgba(255, 255, 255, .74); box-shadow: 0 8px 28px -8px rgba(20, 22, 42, .2), 0 2px 6px rgba(20, 22, 42, .06); color: var(--sw-ink); }
+.sw-act.yes > span { color: var(--sw-accent-ink); }
+.sw-act svg { width: 1.4em; height: 1.4em; }
+.sw-act b { font-size: .882em; font-weight: 600; color: var(--sw-ink2); }
+
+/* fan: Today in front, money behind left, swap behind right (same spread as the Veraitas and CS2 fans) */
+.pc-sw .sw-1 { transform: translate(-50%, -50%); z-index: 2; }
+.pc-sw .sw-2 { transform: translate(-136%, -46%) rotate(-6deg); }
+.pc-sw .sw-3 { transform: translate(36%, -54%) rotate(6deg); }
+@media (hover: hover) and (pointer: fine) {
+  .pcard:hover .pc-sw .sw-1 { transform: translate(-50%, -53%) scale(1.03); }
+  .pcard:hover .pc-sw .sw-2 { transform: translate(-144%, -47%) rotate(-8deg); }
+  .pcard:hover .pc-sw .sw-3 { transform: translate(44%, -56%) rotate(8deg); }
+}
+/* one quiet loop, like the drawn lines on the other cards: bars fill to what was spent */
+@media (prefers-reduced-motion: no-preference) {
+  .pc-sw .sw-cap i { animation: swFillUp 6s var(--ease-out) infinite; animation-delay: calc(var(--k, 0) * 70ms); }
+  .pc-sw .sw-meter i { animation: swFillAcross 6s var(--ease-out) .3s infinite; }
+  .pc-sw .sw-track i { animation: swFillAcross 6s var(--ease-out) infinite; animation-delay: calc(var(--k, 0) * 70ms); }
+}
+@keyframes swFillUp { 0% { transform: scaleY(0); } 40%, 100% { transform: scaleY(1); } }
+@keyframes swFillAcross { 0% { transform: scaleX(0); } 40%, 100% { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .pc-sw .sw-c { transition: none; } .pc-sw .sw-cap i, .pc-sw .sw-meter i, .pc-sw .sw-track i { animation: none; transform: none; } }
+@media (max-width: 640px) {
+  /* phone: two cards, like the CS2 card. Today in front, the swap behind it */
+  .pc-sw .sw-2 { display: none; }
+  .pc-sw .sw-1 { transform: translate(-64%, -40%) rotate(-2deg); }
+  .pc-sw .sw-3 { transform: translate(-30%, -62%) rotate(5deg); }
+  @media (hover: hover) and (pointer: fine) {
+    .pcard:hover .pc-sw .sw-1 { transform: translate(-64%, -40%) rotate(-2deg); }
+    .pcard:hover .pc-sw .sw-3 { transform: translate(-30%, -62%) rotate(5deg); }
+  }
+}
+/* Swap poster: the Today strip. Bars fill to what was spent, then the "$38 left" tag lands */
+.sw-pf { transform-box: fill-box; transform-origin: 50% 100%; animation: swPosterFill 6s var(--ease-out) infinite; animation-delay: calc(var(--k) * .11s); }
+@keyframes swPosterFill { 0% { transform: scaleY(0); } 40%, 100% { transform: scaleY(1); } }
+.sw-ptag { animation: swPosterTag 6s var(--ease-out) infinite; }
+@keyframes swPosterTag { 0%, 38% { opacity: 0; transform: translateY(4px); } 50%, 100% { opacity: 1; transform: none; } }
+.sw-px { font: 800 9px var(--sans); fill: #0f0f0e; letter-spacing: .02em; }
 </style>
 </head>
 <body>
@@ -1079,9 +1200,72 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     </header>
 
     <div class="pgrid pstrip">
-      <a class="pcard feat" href="#project/whoop" aria-label="Open WHOOP Calendar Sync"><span class="pc-spine" aria-hidden="true"><b>01</b><span>WHOOP Calendar <em>Sync</em></span></span>
+      <a class="pcard feat" href="#project/swap" aria-label="Open Swap"><span class="pc-spine" aria-hidden="true"><b>01</b><span>Swap</span></span>
         <div class="pc-info">
-          <span class="pc-cat caps-s"><b>01</b>0&#x2192;1 feature &#xb7; NYU PM Club</span>
+          <span class="pc-cat caps-s"><b>01</b>Personal finance &#xb7; iPhone app</span>
+          <h3 class="pc-title">Swap</h3>
+          <p class="pc-desc">One number to spend today, and cheaper swaps.</p>
+          <span class="pc-stats caps-s"><b>13</b> months of data <i></i> <b>5</b> findings <i></i> <b>27</b> tests</span>
+          <span class="btn btn-primary pc-go">Open project <span class="arr" aria-hidden="true">&#x2192;</span></span>
+        </div>
+        <div class="pc-art pc-ui pc-sw" aria-hidden="true">
+          <div class="ui-stage">
+            <div class="sw-c sw-2">
+              <p class="sw-st"><span>Where your money goes</span><small>Aug 24 &#x2013; Nov 1</small></p>
+              <div class="sw-card sw-mo">
+                <div class="sw-mo-head"><div><span class="sw-foot sw-t3">Out, a week</span><b class="sw-big">$340</b></div><div class="sw-mo-in"><span class="sw-foot sw-t3">In, a week</span><b class="sw-num">+$300</b></div></div>
+                <p class="sw-foot sw-t2 sw-mo-food">Food and drinks: <b class="sw-num">$160</b> a week</p>
+                <ol class="sw-mo-list">
+                  <li style="--k:0"><span class="sw-num sw-foot sw-t3">1</span><span class="sw-mo-name"><span class="sw-sub">Eating out</span><span class="sw-foot sw-t3">21 charges</span></span><span class="sw-track"><i class="food" style="--w:100%"></i></span><span class="sw-mo-amt sw-num">$110<span class="sw-foot sw-t3">/wk</span></span></li>
+                  <li style="--k:1"><span class="sw-num sw-foot sw-t3">2</span><span class="sw-mo-name"><span class="sw-sub">Rides</span><span class="sw-foot sw-t3">8 rides</span></span><span class="sw-track"><i class="move" style="--w:77%"></i></span><span class="sw-mo-amt sw-num">$85<span class="sw-foot sw-t3">/wk</span></span></li>
+                  <li style="--k:2"><span class="sw-num sw-foot sw-t3">3</span><span class="sw-mo-name"><span class="sw-sub">Groceries</span><span class="sw-foot sw-t3">4 charges</span></span><span class="sw-track"><i style="--w:41%"></i></span><span class="sw-mo-amt sw-num">$45<span class="sw-foot sw-t3">/wk</span></span></li>
+                  <li style="--k:3"><span class="sw-num sw-foot sw-t3">4</span><span class="sw-mo-name"><span class="sw-sub">Coffee &amp; snacks</span><span class="sw-foot sw-t3">12 charges</span></span><span class="sw-track"><i class="food" style="--w:32%"></i></span><span class="sw-mo-amt sw-num">$35<span class="sw-foot sw-t3">/wk</span></span></li>
+                  <li style="--k:4"><span class="sw-num sw-foot sw-t3">5</span><span class="sw-mo-name"><span class="sw-sub">Delivery</span><span class="sw-foot sw-t3">2 charges</span></span><span class="sw-track"><i class="food" style="--w:14%"></i></span><span class="sw-mo-amt sw-num">$15<span class="sw-foot sw-t3">/wk</span></span></li>
+                </ol>
+              </div>
+            </div>
+            <div class="sw-c sw-3">
+              <p class="sw-st"><span>Swaps</span><small>3 of 5</small></p>
+              <div class="sw-dk">
+                <div class="sw-card">
+                  <span class="sw-bm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="13" rx="3"/><path d="M6 10h12M9 20l-1.5 1.5M15 20l1.5 1.5M9 13h.01M15 13h.01"/></svg></span>
+                  <p class="sw-dk-t">Subway to Thursday dinner</p>
+                  <p class="sw-sub sw-t2">15 min, before 8 pm. The ride home stays as is.</p>
+                  <p class="sw-dk-amt"><span class="sw-sub sw-t2">About</span><b>$15</b><span class="sw-sub sw-t2">a week</span></p>
+                  <p class="sw-foot sw-t2">Counts once a week: $15</p>
+                  <p class="sw-foot sw-t3 sw-dk-basis">$18 ride vs a $3 fare</p>
+                </div>
+              </div>
+              <div class="sw-acts">
+                <span class="sw-act"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></span><b>Not now</b></span>
+                <span class="sw-act yes"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4L19 7"/></svg></span><b>This week's swap</b></span>
+              </div>
+            </div>
+            <div class="sw-c sw-1">
+              <p class="sw-st"><span>Today</span><small>Thu, Oct 29</small></p>
+              <div class="sw-card sw-td">
+                <div class="sw-td-top">
+                  <div><span class="sw-foot sw-t3">Left today</span><b class="sw-big">$38</b><span class="sw-foot sw-t2">Spent $22 of $60</span><span class="sw-meter"><i style="width:37%"></i></span></div>
+                  <div class="sw-wk"><span class="sw-foot sw-t3">This week</span><b class="sw-num">$182 <span class="sw-t3">of $420</span></b><span class="sw-foot sw-t2">$238 left</span></div>
+                </div>
+                <div class="sw-strip">
+                  <span class="sw-day past" style="--k:0"><span class="sw-bar"><span class="sw-cap" style="--h:2.59;--f:87%"><i></i></span></span><b class="sw-dow">Mon</b><span class="sw-amt sw-num">$48</span></span>
+                  <span class="sw-day past" style="--k:1"><span class="sw-bar"><span class="sw-cap" style="--h:2.35;--f:100%"><i></i></span></span><b class="sw-dow">Tue</b><span class="sw-amt sw-num">$52</span></span>
+                  <span class="sw-day past over" style="--k:2"><span class="sw-bar"><span class="sw-cap" style="--h:2.35;--f:100%"><i></i></span></span><b class="sw-dow">Wed</b><span class="sw-amt sw-num">$60</span><span class="sw-plus sw-num">+$10</span></span>
+                  <span class="sw-day on" style="--k:3"><span class="sw-bar"><span class="sw-cap" style="--h:2.82;--f:37%"><i></i></span></span><b class="sw-dow">Thu</b><span class="sw-amt sw-num">$22</span></span>
+                  <span class="sw-day"><span class="sw-bar"><span class="sw-cap" style="--h:3.29"></span></span><b class="sw-dow">Fri</b><span class="sw-amt sw-num">$70</span></span>
+                  <span class="sw-day"><span class="sw-bar"><span class="sw-cap" style="--h:3.76"></span></span><b class="sw-dow">Sat</b><span class="sw-amt sw-num">$80</span></span>
+                  <span class="sw-day"><span class="sw-bar"><span class="sw-cap" style="--h:2.59"></span></span><b class="sw-dow">Sun</b><span class="sw-amt sw-num">$55</span></span>
+                </div>
+                <p class="sw-foot sw-t3">Fill = spent, outline = plan. Tap a day.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+      <a class="pcard feat flip" href="#project/whoop" aria-label="Open WHOOP Calendar Sync"><span class="pc-spine" aria-hidden="true"><b>02</b><span>WHOOP Calendar <em>Sync</em></span></span>
+        <div class="pc-info">
+          <span class="pc-cat caps-s"><b>02</b>0&#x2192;1 feature &#xb7; NYU PM Club</span>
           <h3 class="pc-title">WHOOP Calendar <em>Sync</em></h3>
           <p class="pc-desc">Coaching that fits your real schedule.</p>
           <span class="pc-stats caps-s"><b>14</b> screens <i></i> <b>7</b> pain points <i></i> <b>3</b> KPIs</span>
@@ -1094,9 +1278,9 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
         </div>
       </a>
 
-      <a class="pcard feat flip" href="#project/veraitas" aria-label="Open Veraitas"><span class="pc-spine" aria-hidden="true"><b>02</b><span>Veraitas</span></span>
+      <a class="pcard feat" href="#project/veraitas" aria-label="Open Veraitas"><span class="pc-spine" aria-hidden="true"><b>03</b><span>Veraitas</span></span>
         <div class="pc-info">
-          <span class="pc-cat caps-s"><b>02</b>Fintech &#xb7; Tech@NYU Buildathon</span>
+          <span class="pc-cat caps-s"><b>03</b>Fintech &#xb7; Tech@NYU Buildathon</span>
           <h3 class="pc-title">Veraitas</h3>
           <p class="pc-desc">Crypto trading, explained for beginners.</p>
           <span class="pc-stats caps-s">Claude agent <i></i> Live order book <i></i> True Markets API</span>
@@ -1128,9 +1312,9 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
         </div>
       </a>
 
-      <a class="pcard feat" href="#project/cs2" aria-label="Open CS2 Integrity Watch"><span class="pc-spine" aria-hidden="true"><b>03</b><span>CS2 Integrity <em>Watch</em></span></span>
+      <a class="pcard feat flip" href="#project/cs2" aria-label="Open CS2 Integrity Watch"><span class="pc-spine" aria-hidden="true"><b>04</b><span>CS2 Integrity <em>Watch</em></span></span>
         <div class="pc-info">
-          <span class="pc-cat caps-s"><b>03</b>Machine learning &#xb7; IBM Z Datathon</span>
+          <span class="pc-cat caps-s"><b>04</b>Machine learning &#xb7; IBM Z Datathon</span>
           <h3 class="pc-title">CS2 Integrity <em>Watch</em></h3>
           <p class="pc-desc">Flags possible match-fixing, round by round.</p>
           <span class="pc-stats caps-s"><b>42,009</b> rounds <i></i> Brier <b>0.178</b> <i></i> XGBoost benchmark</span>
@@ -1163,7 +1347,67 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     </div>
 
     <div class="projects" id="pvStore">
-        <article class="proj" id="p-whoop" data-n="01">
+        <article class="proj" id="p-swap" data-n="01">
+          <div class="float" role="img" aria-label="Swap project poster">
+            <div class="sheet">
+              <div class="media">
+                <svg viewBox="0 0 200 250" aria-hidden="true">
+                  <line x1="16" y1="134" x2="184" y2="134" stroke="#2a2a28"/>
+                  <g fill="none" stroke="#6e6c67" stroke-width="1.5"><rect x="24" y="68" width="12" height="66" rx="6"/><rect x="48" y="74" width="12" height="60" rx="6"/><rect x="72" y="74" width="12" height="60" rx="6"/><rect x="120" y="50" width="12" height="84" rx="6"/><rect x="144" y="38" width="12" height="96" rx="6"/><rect x="168" y="68" width="12" height="66" rx="6"/></g>
+                  <rect x="96" y="62" width="12" height="72" rx="6" fill="none" stroke="#ebe8e1" stroke-width="2"/><rect x="92.5" y="58.5" width="19" height="79" rx="9.5" fill="none" stroke="#ebe8e1" stroke-width="1" opacity=".35"/>
+                  <rect class="sw-pf" style="--k:0" x="24" y="76" width="12" height="58" rx="6" fill="#2e9e6a"/>
+                  <rect class="sw-pf" style="--k:1" x="48" y="74" width="12" height="60" rx="6" fill="#2e9e6a"/>
+                  <rect class="sw-pf" style="--k:2" x="72" y="74" width="12" height="60" rx="6" fill="#e46c35"/>
+                  <rect class="sw-pf" style="--k:3" x="96" y="108" width="12" height="26" rx="6" fill="#2e9e6a"/>
+                  <g class="sw-ptag"><rect x="16" y="22" width="56" height="16" rx="2" fill="#2e9e6a"/><text x="44" y="33.5" text-anchor="middle" class="sw-px">$38 left</text></g>
+                </svg>
+                <div class="poster"><small>iPhone app</small>Swap</div>
+              </div>
+              <div class="foot"><span>01 / Swap</span><span class="sw"><i style="background:#e46c35"></i><i style="background:#4a5fd8"></i><i style="background:#2e9e6a"></i></span></div>
+            </div>
+            <span class="sticker">Personal finance</span>
+          </div>
+          <div class="proj-body">
+            <h3>Swap</h3>
+            <dl class="tldr">
+              <div><dt class="caps-s">Problem</dt><dd>Food and rides don&#x2019;t look expensive one at a time. They add up, and you only notice weeks later in your bank app.</dd></div>
+              <div><dt class="caps-s">Proposed solution</dt><dd>Connect your bank. Swap turns your usual week, minus what you want to save, into one number to spend today and finds cheaper swaps in your own charges. It suggests, never blocks.</dd></div>
+            </dl>
+            <ol class="steps">
+              <li><span class="k caps-s">Conducted research</span><div><b>13 months of my own charges</b><span>Plus what students say online and survey data, each number checked against a second source. No pilot yet, so it shows the problem, not that the fix works.</span></div></li>
+              <li><span class="k caps-s">Findings</span><div><b>Delivery was only 3% of my spending</b><span>After I moved somewhere with no kitchen and a slow subway, rides went from $13 to about $200 a week. None felt expensive.</span></div></li>
+              <li><span class="k caps-s">Decide</span><div><b>Compare you to you</b><span>Your own usual week is the benchmark. Suggest, never block. Ask when a charge is unclear instead of guessing.</span></div></li>
+              <li><span class="k caps-s">Data</span><div><b>Every dollar counted once</b><span>Plaid pulls about 400 days of history with Python. Card payments, transfers, refunds and paying friends back never double count. 27 offline tests.</span></div></li>
+              <li><span class="k caps-s">Plan</span><div><b>One number for today</b><span>Split by the days you actually spend. Night rides count as spending but are never a swap.</span></div></li>
+              <li><span class="k caps-s">iPhone</span><div><b>SwiftUI app</b><span>An 8:30 AM &#x201c;Today: $X&#x201d; notification, background bank checks and chat that runs on the phone with Apple Intelligence.</span></div></li>
+              <li><span class="k caps-s">Measure</span><div><b>Spend vs. your usual week</b><span>The one number that shows whether Swap works.</span></div></li>
+            </ol>
+            <div class="tags"><span class="tag-k caps-s">Built with</span><span class="tag">Plaid</span><span class="tag">Python</span><span class="tag">JavaScript</span><span class="tag">SwiftUI</span><span class="tag">Apple Intelligence</span><span class="tag">Vercel</span><span class="tag">Claude Code</span></div>
+            <div class="btns">
+              <a class="btn btn-primary" href="https://michaelwang.lol/swap/app/?profile=social" target="_blank" rel="noopener">Try it <span class="arr" aria-hidden="true">&#x2192;</span></a>
+              <a class="btn" href="https://github.com/jialewang0528-gif/swap" target="_blank" rel="noopener">Code <span class="arr" aria-hidden="true">&#x2192;</span></a>
+              <a class="btn" href="https://michaelwang.lol/swap/prototype/" target="_blank" rel="noopener">First prototype <span class="arr" aria-hidden="true">&#x2192;</span></a>
+            </div>
+          </div>
+          <div class="proj-more two">
+            <div class="pains">
+              <span class="caps-s muted">Findings</span>
+              <ol>
+                <li>Spending happens at the same moments: after long days, after the dining hall closes, late at night, when friends pick the plan</li>
+                <li>People find out weeks later, scrolling their bank app</li>
+                <li>Willpower fixes fall apart within days. An easy alternative right then works better</li>
+                <li>People quit budgeting apps over price, broken bank sync and logging everything</li>
+                <li>Bank categories are messy. An Uber ride and Uber Eats can look the same</li>
+              </ol>
+            </div>
+            <div class="mock">
+              <span class="caps-s muted">What it says</span>
+              <div class="notif"><span class="caps-s">Swap &#xb7; 8:30 AM</span><p>Today: $38. Week left $238. Bank checked 7:31 AM.</p></div>
+              <blockquote>I go to NYU and found myself spending wayyy too much money, so I wanted to get to the root of it and figure out how to stop.<cite class="caps-s">Why I made it</cite></blockquote>
+            </div>
+          </div>
+        </article>
+        <article class="proj" id="p-whoop" data-n="02">
           <div class="float" role="img" aria-label="WHOOP Calendar Sync project poster">
             <div class="sheet">
               <div class="media">
@@ -1175,7 +1419,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
                 </svg>
                 <div class="poster"><small>NYU PM Club</small>WHOOP<br>Calendar<br>Sync</div>
               </div>
-              <div class="foot"><span>01 / WHOOP Calendar Sync</span><span class="sw"><i style="background:#3ddc84"></i><i style="background:#f6c544"></i><i style="background:#ff5a4e"></i></span></div>
+              <div class="foot"><span>02 / WHOOP Calendar Sync</span><span class="sw"><i style="background:#3ddc84"></i><i style="background:#f6c544"></i><i style="background:#ff5a4e"></i></span></div>
             </div>
             <span class="sticker">0&#x2192;1 feature</span>
           </div>
@@ -1226,7 +1470,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
           </div>
         </article>
 
-        <article class="proj" id="p-vt" data-n="02">
+        <article class="proj" id="p-vt" data-n="03">
           <div class="vt-demo">
             <div class="vtp paused" id="vtp">
               <div class="vtp-chrome" aria-hidden="true"><i></i><i></i><i></i><span class="vtp-name">Veraitas</span><span class="vtp-len caps-s">0:47</span></div>
@@ -1270,7 +1514,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
                 </svg>
                 <div class="poster"><small>Tech@NYU Buildathon</small><span class="vt-wm">Veraitas</span></div>
               </div>
-              <div class="foot"><span>02 / Veraitas</span><span class="sw"><i style="background:#2ee68a"></i><i style="background:#ebe8e1"></i><i style="background:#ff4d5e"></i></span></div>
+              <div class="foot"><span>03 / Veraitas</span><span class="sw"><i style="background:#2ee68a"></i><i style="background:#ebe8e1"></i><i style="background:#ff4d5e"></i></span></div>
             </div>
             <span class="sticker">Fintech</span>
           </div>
@@ -1295,7 +1539,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
           </div>
         </article>
 
-        <article class="proj" id="p-ibm" data-n="03">
+        <article class="proj" id="p-ibm" data-n="04">
           <div class="float" role="img" aria-label="CS2 Integrity Watch project poster">
             <div class="sheet">
               <div class="media">
@@ -1308,7 +1552,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
                 </svg>
                 <div class="poster"><small>IBM Z Datathon</small>CS2<br>Integrity<br>Watch</div>
               </div>
-              <div class="foot"><span>03 / CS2 Integrity Watch</span><span class="sw"><i style="background:#4f86ff"></i><i style="background:#f5a623"></i><i style="background:#ff5a4e"></i></span></div>
+              <div class="foot"><span>04 / CS2 Integrity Watch</span><span class="sw"><i style="background:#4f86ff"></i><i style="background:#f5a623"></i><i style="background:#ff5a4e"></i></span></div>
             </div>
             <span class="sticker">Machine learning</span>
           </div>
@@ -1407,12 +1651,12 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 
 <footer class="wrap">
   <p class="foot-mark" id="footMark" aria-hidden="true">Michael Wang</p>
-  <div class="foot-row caps-s"><span>New York, NY &#xb7; <span id="nyClock">--:--</span></span><span>Updated Oct 2026</span><span>Product &#xb7; Growth &#xb7; Data &#xb7; AI</span><button class="replay caps-s" type="button" data-replay>Replay intro</button><a href="#top">Back to top &#x2191;</a></div>
+  <div class="foot-row caps-s"><span>New York, NY &#xb7; <span id="nyClock">--:--</span></span><span>Updated Nov 2026</span><span>Product &#xb7; Growth &#xb7; Data &#xb7; AI</span><button class="replay caps-s" type="button" data-replay>Replay intro</button><a href="#top">Back to top &#x2191;</a></div>
 </footer>
 
 <div class="pv" id="pv" role="dialog" aria-modal="true" aria-labelledby="pvName" aria-hidden="true">
   <div class="pv-bar">
-    <span class="pv-idx caps-s" id="pvIdx">01 / 03</span>
+    <span class="pv-idx caps-s" id="pvIdx">01 / 04</span>
     <span class="pv-name" id="pvName">Project</span>
     <div class="pv-ctl">
       <button class="pv-btn" type="button" id="pvPrev" aria-label="Previous project">&#x2190;</button>
@@ -1446,7 +1690,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
   </div>
 </div>
 
-<div class="latest">Latest project <span class="muted">/</span> <a href="#project/veraitas">Veraitas</a></div>
+<div class="latest">Latest project <span class="muted">/</span> <a href="#project/swap">Swap</a></div>
 
 <script src="sandbox/ink.js?v=4"></script>
 <script>
@@ -2029,6 +2273,8 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 
   // projects: cards on the page open a full-screen view with that project's card stream, then its case study
   var PROJ = {
+    swap: { el: "p-swap", name: "Swap", title: "Swap", cat: "Personal finance \u00b7 iPhone app", desc: "One number to spend today, and cheaper swaps.", stats: "<b>13</b> months of data <i></i> <b>5</b> findings <i></i> <b>27</b> tests",
+      cards: [{ poster: 1 }, { src: "sw-p1.jpg", tall: 1, alt: "This week: what is left today and where the money goes, sample student" }, { src: "sw-p2.jpg", tall: 1, alt: "Food and getting around this week against the usual week, sample student" }, { src: "sw-p3.jpg", tall: 1, alt: "A swap card: subway to Thursday dinner, about $15 a week" }] },
     whoop: { el: "p-whoop", name: "WHOOP Calendar Sync", title: "WHOOP Calendar <em>Sync</em>", cat: "0\u21921 feature \u00b7 NYU PM Club", desc: "Coaching that fits your real schedule.", stats: "<b>14</b> screens <i></i> <b>7</b> pain points <i></i> <b>3</b> KPIs",
       cards: [{ poster: 1 }, { src: "pitch-01.jpg", alt: "Pitch deck title slide: Calendar Sync for WHOOP" }, { src: "pitch-07.jpg", alt: "Pitch insight: members check WHOOP every day, but its advice does not fit their schedule" }, { src: "wh-p2.jpg", tall: 1, alt: "Google Calendar integration screen" }, { src: "wh-p5.jpg", tall: 1, alt: "Lock-screen check-in: early start today" }, { src: "wh-p6.jpg", tall: 1, alt: "WHOOP AI morning check-in that fits the schedule" }, { src: "pitch-12.jpg", alt: "Pitch MVP slide with the value-effort matrix" }, { src: "pitch-15.jpg", alt: "Pitch KPI slide" }] },
     veraitas: { el: "p-vt", name: "Veraitas", title: "Veraitas", cat: "Fintech \u00b7 Tech@NYU Buildathon", desc: "Crypto trading, explained for beginners.", stats: "Claude agent <i></i> Live order book <i></i> True Markets API",
@@ -2036,7 +2282,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     cs2: { el: "p-ibm", name: "CS2 Integrity Watch", title: "CS2 Integrity <em>Watch</em>", cat: "Machine learning \u00b7 IBM Z Datathon", desc: "Flags possible match-fixing, round by round.", stats: "<b>42,009</b> rounds <i></i> Brier <b>0.178</b> <i></i> <b>9</b> ms per score",
       cards: [{ poster: 1 }, { src: "reel-cs-1.jpg", alt: "CS2 deck: the NOMERCY match-fixing case" }, { src: "reel-cs-2.jpg", alt: "CS2 deck: system architecture" }, { src: "reel-cs-3.jpg", alt: "CS2 deck: alert on the NOMERCY match" }, { src: "cs2-alert-high.jpg", alt: "Model vs market gap held for 12 rounds" }] }
   };
-  var ORDER = ["whoop", "veraitas", "cs2"];
+  var ORDER = ["swap", "whoop", "veraitas", "cs2"];
   var pv = document.getElementById("pv"), pvScroll = document.getElementById("pvScroll"), pvCase = document.getElementById("pvCase"), pvStore = document.getElementById("pvStore");
   var reel = document.getElementById("reel"), stage = document.getElementById("reelStage");
   var pvKey = null, pvReturn = null, rvRun = false, cards = [], N = 0, fCur = 0, fTarget = 0, lastSlide = -1, bgFlip = false;
@@ -2306,7 +2552,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
   if (pStrip) {
     var pCards = Array.prototype.slice.call(pStrip.querySelectorAll(".pcard"));
     function pOpen(c) { pCards.forEach(function (k) { k.classList.toggle("on", k === c); }); }
-    function pMeasure() { var gaps = 12 * (pCards.length - 1); pStrip.style.setProperty("--ew", ((pStrip.clientWidth - gaps) * 4.2 / (4.2 + pCards.length - 1)).toFixed(1) + "px"); }
+    function pMeasure() { var gaps = 12 * (pCards.length - 1); pStrip.style.setProperty("--ew", ((pStrip.clientWidth - gaps) * 6.3 / (6.3 + pCards.length - 1)).toFixed(1) + "px"); }
     pCards.forEach(function (c) { c.addEventListener("mouseenter", function () { pOpen(c); }); c.addEventListener("mousemove", function () { if (!c.classList.contains("on")) pOpen(c); }); c.addEventListener("focus", function () { pOpen(c); }); });
     pOpen(pCards[0]); pMeasure(); window.addEventListener("resize", pMeasure);
   }
