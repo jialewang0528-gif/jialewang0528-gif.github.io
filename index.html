@@ -313,7 +313,7 @@ html.ready .portrait figcaption { animation: riseIn 300ms ease-out .7s backwards
 .reel-side { position: absolute; top: 104px; right: var(--gutter); color: var(--muted); display: grid; justify-items: end; gap: 10px; z-index: 200; font-variant-numeric: tabular-nums; }
 .reel-bar { display: block; width: 120px; height: 1px; background: var(--line); position: relative; }
 .reel-bar b { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--ink); }
-.reel-info { position: absolute; left: 50%; bottom: 6vh; padding: 28px 40px; background: radial-gradient(closest-side, var(--surface) 72%, transparent); transform: translateX(-50%); width: min(560px, calc(100% - 32px)); display: grid; justify-items: center; gap: 10px; text-align: center; z-index: 200; transition: filter 180ms ease-out, opacity 180ms ease-out, transform 180ms ease-out; }
+.reel-info { position: absolute; left: 50%; bottom: 6vh; padding: 28px 40px; background: radial-gradient(closest-side, var(--surface) 62%, color-mix(in srgb, var(--surface) 82%, transparent) 72%, color-mix(in srgb, var(--surface) 48%, transparent) 84%, color-mix(in srgb, var(--surface) 16%, transparent) 94%, transparent); transform: translateX(-50%); width: min(560px, calc(100% - 32px)); display: grid; justify-items: center; gap: 10px; text-align: center; z-index: 200; transition: filter 180ms ease-out, opacity 180ms ease-out, transform 180ms ease-out; }
 .reel.swap .reel-info { filter: blur(12px); opacity: 0; transform: translateX(-50%) translateY(14px); }
 .reel-cat { color: var(--muted); }
 .reel-title { font: 400 clamp(36px, 4.6vw, 64px)/1 var(--serif); letter-spacing: -.02em; text-decoration: none; color: var(--ink); }
@@ -2278,7 +2278,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 
   // projects: cards on the page open a full-screen view with that project's card stream, then its case study
   var PROJ = {
-    swap: { el: "p-swap", name: "Swap", title: "Swap", cat: "Personal finance \u00b7 iPhone app", desc: "A daily spending number for college kids who live in the city.", stats: "<b>13</b> months of data <i></i> <b>27</b> tests",
+    swap: { el: "p-swap", bg: "sw-bg.jpg", name: "Swap", title: "Swap", cat: "Personal finance \u00b7 iPhone app", desc: "A daily spending number for college kids who live in the city.", stats: "<b>13</b> months of data <i></i> <b>27</b> tests",
       cards: [{ poster: 1 }, { src: "sw-p1.jpg", tall: 1, alt: "This week: what is left today and where the money goes, sample student" }, { src: "sw-p2.jpg", tall: 1, alt: "Food and getting around this week against the usual week, sample student" }, { src: "sw-p3.jpg", tall: 1, alt: "A swap card: subway to Thursday dinner, about $15 a week" }] },
     whoop: { el: "p-whoop", name: "WHOOP Calendar Sync", title: "WHOOP Calendar <em>Sync</em>", cat: "0\u21921 feature \u00b7 NYU PM Club", desc: "Coaching that fits your real schedule.", stats: "<b>14</b> screens <i></i> <b>7</b> pain points <i></i> <b>3</b> KPIs",
       cards: [{ poster: 1 }, { src: "pitch-01.jpg", alt: "Pitch deck title slide: Calendar Sync for WHOOP" }, { src: "pitch-07.jpg", alt: "Pitch insight: members check WHOOP every day, but its advice does not fit their schedule" }, { src: "wh-p2.jpg", tall: 1, alt: "Google Calendar integration screen" }, { src: "wh-p5.jpg", tall: 1, alt: "Lock-screen check-in: early start today" }, { src: "wh-p6.jpg", tall: 1, alt: "WHOOP AI morning check-in that fits the schedule" }, { src: "pitch-12.jpg", alt: "Pitch MVP slide with the value-effort matrix" }, { src: "pitch-15.jpg", alt: "Pitch KPI slide" }] },
@@ -2332,7 +2332,9 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     cards.forEach(function (c, i) {
       var d = i - fCur, ad = Math.abs(d), s = Math.max(0.35, 1 - Math.min(ad, 4) * 0.16), op = Math.max(0, Math.min(1, 3.4 - ad));
       c.style.opacity = op; c.style.zIndex = 100 - Math.round(ad * 10);
-      c.style.filter = ad > 1.4 ? "blur(" + Math.min(6, (ad - 1.4) * 2.2).toFixed(2) + "px)" : "none";
+      // slides away from the current one sit back a step: they blur past 1.4 and dim with distance (light screens stop glaring through the title)
+      var fx = (ad > 1.4 ? "blur(" + Math.min(6, (ad - 1.4) * 2.2).toFixed(2) + "px) " : "") + (ad > 0.02 ? "brightness(" + Math.max(0.66, 1 - ad * 0.24).toFixed(3) + ")" : "");
+      c.style.filter = fx || "none";
       c.style.transform = "translate(-50%,-50%) translate3d(" + (-d * ax).toFixed(1) + "px," + (d * ay).toFixed(1) + "px," + (-ad * 140).toFixed(1) + "px) rotateX(" + (-d * 9).toFixed(2) + "deg) rotateY(" + (d * 24).toFixed(2) + "deg) rotateZ(" + (-d * 6).toFixed(2) + "deg) scale(" + s.toFixed(3) + ")";
       c.style.visibility = op <= 0.01 ? "hidden" : "visible";
     });
@@ -2340,7 +2342,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     if (idx !== lastSlide) {
       lastSlide = idx; rN.textContent = String(idx + 1).padStart(2, "0");
       reel.classList.add("swap"); setTimeout(function () { reel.classList.remove("swap"); }, 180);
-      var im = cards[idx].querySelector("img"), src = (im && !cards[idx].classList.contains("poster")) ? im.getAttribute("src") : firstImg();
+      var im = cards[idx].querySelector("img"), src = PROJ[pvKey].bg || ((im && !cards[idx].classList.contains("poster")) ? im.getAttribute("src") : firstImg());
       var a = bgFlip ? bgA : bgB, b = bgFlip ? bgB : bgA; bgFlip = !bgFlip;
       a.src = src; a.classList.add("on"); b.classList.remove("on");
     }
