@@ -1,0 +1,136 @@
+/* Stand-out build, on top of the cleaned page.
+   1. The page takes each project's color (idea 5).
+   2. Sliding across the rotating word.
+   3. Dragging Swap's day bars.
+   4. Scrubbing the CS2 chart (real series).
+   Nothing here loops; every part answers the visitor. */
+
+/* =====================================================================
+   1. Flood. One flat color per project, sampled from its real screens:
+      WHOOP    #ffde00  recovery yellow (wh-p6.jpg)          ink #0b0c0e
+      Veraitas #3dd186  bid green (vt-01.jpg, vt-03.jpg)     ink #0a0a0a
+      CS2      #2c5471  market line (cs2-alert-*.jpg)        ink #f4f5f6
+      Swap     #e46d35  orange (sw-p1.jpg, sw-p2.jpg)        ink #131629
+   The page tokens are retargeted on <body>; anything with its own dark
+   ground (cards, project view, intro, cursor) keeps the page defaults.
+   ===================================================================== */
+html[data-flood="whoop"] body { --flood: #ffde00; --flood-ink: #0b0c0e; --flood-m: 72%; }
+html[data-flood="veraitas"] body { --flood: #3dd186; --flood-ink: #0a0a0a; --flood-m: 76%; }
+html[data-flood="cs2"] body { --flood: #2c5471; --flood-ink: #f4f5f6; --flood-m: 86%; }
+html[data-flood="swap"] body { --flood: #e46d35; --flood-ink: #131629; --flood-m: 94%; }
+
+html[data-flood] body {
+  --surface: var(--flood);
+  --raised: color-mix(in srgb, var(--flood-ink) 4%, var(--flood));
+  --moss: color-mix(in srgb, var(--flood-ink) 4%, var(--flood));
+  --line: color-mix(in srgb, var(--flood-ink) 22%, var(--flood));
+  --line-strong: color-mix(in srgb, var(--flood-ink) 55%, var(--flood));
+  --ink: var(--flood-ink);
+  --muted: color-mix(in srgb, var(--flood-ink) var(--flood-m), var(--flood));
+  --ghost: color-mix(in srgb, var(--flood-ink) var(--flood-m), var(--flood));
+  --volt: var(--flood-ink);
+  --on-volt: var(--flood);
+  --volt-text: var(--flood-ink);
+  --dot: color-mix(in srgb, var(--flood-ink) 45%, transparent);
+}
+/* islands: their own ground stays near-black, so their text stays light */
+html[data-flood] .pcard, html[data-flood] .pv, html[data-flood] .curtain, html[data-flood] .ring {
+  --surface: #0f0f0e; --raised: #1a1a19; --moss: #2a2a28; --line: #2a2a28; --line-strong: #6e6c67;
+  --ink: #ebe8e1; --muted: #9d9a93; --ghost: #6f6d68; --volt: #ebe8e1; --on-volt: #0f0f0e; --volt-text: #ebe8e1;
+  --dot: rgba(235, 232, 225, .45);
+}
+/* the cursor ring and a focused card sit on the flood, so they take its ink */
+html[data-flood] .ring { border-color: color-mix(in srgb, var(--flood-ink) 55%, var(--flood)); }
+html[data-flood] .ring.big { border-color: var(--flood-ink); }
+html[data-flood] .pcard { color: var(--ink); }
+/* the ??? link drops its white sheen on a flood, where it would wash out */
+html[data-flood] .sbx-q { background-image: none; color: var(--muted); animation: none; }
+html[data-flood] .sbx-w { background-image: none; color: var(--ink); animation: none; }
+html[data-flood] .pcard:focus-visible { outline-color: var(--flood-ink); }
+
+/* One fixed layer behind the page carries the color. In: 300ms strong ease-out. Back to near-black: 150ms.
+   Only this layer and the nav bar animate; the tokens above switch in one step, so there is one restyle
+   per color change and not one per frame. */
+.flood-bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0; background-color: #0f0f0e; transition: opacity 150ms var(--ease-out), background-color 300ms var(--ease-out); }
+.flood-bg.on { opacity: 1; transition: opacity 300ms var(--ease-out), background-color 300ms var(--ease-out); }
+html[data-flood] body { background-color: #0f0f0e; }
+.nav { transition: border-color var(--dur-fast), background-color 150ms var(--ease-out); }
+html[data-flood] .nav { transition: border-color var(--dur-fast), background-color 240ms var(--ease-out); }
+@media (prefers-reduced-motion: reduce) { .flood-bg { display: none; } .nav { transition: border-color var(--dur-fast); } }
+
+/* =====================================================================
+   1b. Name letters swell near the pointer. The line mask is lifted only while they react (.swell),
+       so the letters still rise out of the line on entrance like the live site. The mask is a clip-path
+       that is open at the sides: the italic g keeps its tail, and lifting the mask changes no pixel at rest.
+   ===================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-side .name .ln { overflow: visible; clip-path: inset(0 -.4em 0 -.4em); }
+  .hero-side .name.swell .ln { clip-path: none; }
+  .hero-side .name { touch-action: pan-y pinch-zoom; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
+  .hero-side .name .ch { transform-origin: 50% 62%; }
+}
+
+/* =====================================================================
+   2. The rotating word can be driven: slide on a mouse, tap or drag on touch, arrows on a keyboard
+   ===================================================================== */
+.focus { cursor: default; touch-action: pan-y pinch-zoom; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
+.focus:focus-visible { outline: 2px solid var(--volt-text); outline-offset: 6px; }
+.focus.driven .rot-w { transition: none; }
+.focus.driven .focus-bar b { transition: transform var(--dur-fast) var(--ease-out); }
+@media (prefers-reduced-motion: reduce) { .focus.driven .focus-bar b { transition: none; } }
+
+/* =====================================================================
+   3. Swap: drag a day and the rest of the week rebalances.
+   Capsules become a fixed window with a pill that slides, so only transform changes.
+   ===================================================================== */
+.pc-sw .sw-day.can { touch-action: pan-y pinch-zoom; -webkit-touch-callout: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+@media (hover: hover) and (pointer: fine) { .pc-sw .sw-day.can { cursor: ns-resize; } }
+.pc-sw .sw-bar { position: relative; }
+.pc-sw .sw-cap.sw-win { height: 3.76em; box-shadow: none; border-radius: 0 0 .41em .41em; outline: none; }
+.pc-sw .sw-win::after, .pc-sw .sw-ring::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: .41em; border-radius: 0 0 .41em .41em; box-shadow: inset 0 0 0 1.5px var(--sw-ink4); clip-path: inset(1.5px 0 0 0); }
+.pc-sw .sw-pill { position: absolute; left: 0; right: 0; top: 0; height: 100%; border-radius: 999px; box-shadow: inset 0 0 0 1.5px var(--sw-ink4); transition: transform 200ms var(--ease-out); }
+.pc-sw .sw-win i { border-radius: 999px; z-index: 1; }
+.pc-sw .sw-ring { position: absolute; left: 50%; bottom: -4px; width: calc(.82em + 8px); margin-left: calc(-.41em - 4px); height: calc(3.76em + 8px); overflow: hidden; border-radius: 0 0 calc(.41em + 4px) calc(.41em + 4px); pointer-events: none; }
+.pc-sw .sw-ring .sw-pill { box-shadow: inset 0 0 0 2px var(--sw-ink); }
+.pc-sw .sw-ring::after { height: calc(.41em + 4px); border-radius: 0 0 calc(.41em + 4px) calc(.41em + 4px); box-shadow: inset 0 0 0 2px var(--sw-ink); clip-path: inset(2px 0 0 0); }
+.pc-sw .sw-day.drag .sw-pill { transition: none; }
+.pc-sw .sw-day.drag .sw-amt { color: var(--sw-ink); font-weight: 600; }
+.pc-sw.sw-live .sw-cap i, .pc-sw.sw-live .sw-meter i, .pc-sw.sw-live .sw-track i { animation: none; }
+.pc-sw.sw-live .sw-meter i { width: 100% !important; transition: transform 220ms var(--ease-out); }
+@media (prefers-reduced-motion: reduce) { .pc-sw .sw-pill, .pc-sw.sw-live .sw-meter i { transition: none; } }
+
+/* =====================================================================
+   4. CS2: scrub the chart. Values come from the scoring API snapshot, not the picture.
+   ===================================================================== */
+.scrub { position: relative; display: block; }
+.scrub img { display: block; }
+.scrub-hit { position: absolute; left: 4%; right: 1.5%; top: 21%; height: 44%; touch-action: pan-y pinch-zoom; cursor: crosshair; -webkit-tap-highlight-color: transparent; }
+.scrub-hit:focus-visible { outline: 2px solid #0a0d14; outline-offset: 2px; }
+.scrub-line, .scrub-dot, .scrub-chip { position: absolute; left: 0; top: 0; pointer-events: none; opacity: 0; transition: transform var(--dur-fast) var(--ease-out), opacity var(--dur-fast) ease-out; }
+.scrub.on .scrub-line, .scrub.on .scrub-dot, .scrub.on .scrub-chip { opacity: 1; }
+.scrub-line { width: 1px; background: #0a0d14; }
+.scrub-dot { width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; border: 2px solid #eef0ef; }
+.scrub-dot.m { background: #2c5471; } .scrub-dot.o { background: #866e46; }
+.scrub-chip { display: grid; grid-auto-flow: column; gap: 12px; align-items: baseline; padding: 6px 10px; background: #0a0d14; color: #f4f5f6; border-radius: 6px; font: 500 12px/1.2 var(--sans); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.scrub-chip b { font-weight: 600; }
+.scrub-chip .al { color: #ff8a80; }
+.scrub-hint { display: block; margin-top: 4px; }
+.scrub-tip { display: none; }
+@media (max-width: 760px) {
+  .scrub-hint { display: none; }
+  .scrub:not(.used) .scrub-tip { display: flex; align-items: center; position: absolute; left: 0; right: 0; bottom: 0; height: 44px; pointer-events: none; }
+  .scrub-chip { position: static; opacity: 1; transform: none !important; margin-top: 8px; grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, auto)); justify-content: start; gap: 4px 14px; min-height: 44px; }
+  .scrub:not(.on) .scrub-chip { visibility: hidden; }
+}
+@media (prefers-reduced-motion: reduce) { .scrub-line, .scrub-dot, .scrub-chip { transition: opacity var(--dur-fast) ease-out; } }
+
+/* =====================================================================
+   5. Projects starts on the first screen: less air above the section.
+   ===================================================================== */
+@media (min-width: 641px) { #work { padding-top: 80px; } }
+
+/* =====================================================================
+   6. Folded strip cards: the name starts at the top of the spine, so it is on screen
+      the moment "See projects" lands. Same vertical serif spine as before.
+   ===================================================================== */
+@media (min-width: 1100px) { .pc-spine { justify-content: flex-start; } }

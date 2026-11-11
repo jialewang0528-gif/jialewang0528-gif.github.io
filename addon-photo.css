@@ -1,0 +1,31 @@
+/* addon-photo: the hero portrait opens up into the whole Haleakala photo.
+   At rest nothing here is visible: the wide photo is hidden and sits pixel-aligned over the portrait. */
+
+.portrait.big { transition: z-index 0s linear 320ms; }
+.portrait.big.ph-on { z-index: 6; transition: z-index 0s; }
+
+/* while open the frame lies flat, so the wide photo does not swing with the cursor tilt */
+.portrait.big .frame { transition: transform .6s var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)), border-color 200ms ease; }
+.portrait.big.ph-on .frame { transform: none !important; border-color: transparent; }
+
+.ph-btn { position: absolute; z-index: 2; margin: 0; padding: 0; border: 0; background: none; appearance: none; -webkit-appearance: none; cursor: inherit; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.ph-btn:focus-visible { outline: 2px solid var(--ink, #111); outline-offset: 3px; }
+
+.ph-wide { position: absolute; z-index: 1; overflow: hidden; visibility: hidden; pointer-events: none; -webkit-user-select: none; user-select: none;
+  clip-path: inset(var(--ph-t, 0px) var(--ph-r, 0px) var(--ph-b, 0px) var(--ph-l, 0px));
+  transition: clip-path 320ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)), visibility 0s linear 320ms; }
+.ph-on .ph-wide { visibility: visible; pointer-events: auto; clip-path: inset(0px 0px 0px 0px);
+  transition: clip-path 520ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)), visibility 0s; }
+.ph-wide::after { content: ""; position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 0 1px var(--image-outline, rgba(0, 0, 0, .1)); }
+
+/* beats the page's ".portrait.big .frame img" crop rules; size and position are set inline by the script */
+/* its own fixed filter, the portrait's at rest, and none of the portrait's entrance animation:
+   copying the portrait's computed filter caught it mid-entrance (grey and blurred) after a Sandbox trip */
+.portrait.big .frame .ph-wide img { position: absolute; display: block; max-width: none; max-height: none; aspect-ratio: auto; object-fit: fill; outline: 0; filter: grayscale(.15) contrast(1.02); animation: none; transform: none; }
+
+/* reduced motion: no widening, the whole photo fades in over the portrait and fades back */
+@media (prefers-reduced-motion: reduce) {
+  .portrait.big { transition: z-index 0s linear 200ms; }
+  .ph-wide { clip-path: inset(0px 0px 0px 0px); opacity: 0; transition: opacity 200ms ease, visibility 0s linear 200ms; }
+  .ph-on .ph-wide { opacity: 1; transition: opacity 200ms ease, visibility 0s; }
+}

@@ -78,8 +78,7 @@ a { color: inherit; }
 ::selection { background: var(--volt); color: var(--on-volt); }
 :where(a, button, summary):focus-visible { outline: 2px solid var(--volt-text); outline-offset: 3px; }
 .wrap { padding-inline: var(--gutter); }
-.caps { font: 700 11px/14px var(--sans); letter-spacing: .14em; text-transform: uppercase; }
-.caps-s { font: 500 11px/14px var(--sans); letter-spacing: .16em; text-transform: uppercase; }
+.caps, .caps-s { font: 500 13px/18px var(--sans); letter-spacing: 0; }
 .muted { color: var(--muted); }
 h1, h2, h3 { text-wrap: balance; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -92,10 +91,10 @@ h1, h2, h3 { text-wrap: balance; }
 .cpanel { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: #ebe8e1; will-change: transform; display: grid; place-items: center; box-shadow: -30px 0 60px rgba(0, 0, 0, .35); }
 .cpanel-ui { display: grid; justify-items: center; gap: 14px; color: #0f0f0e; }
 .c-name { font: 400 clamp(40px, 6vw, 84px)/1 var(--serif); letter-spacing: .01em; min-height: 1em; }
-.c-cap { font: 500 11px/14px var(--sans); letter-spacing: .3em; text-transform: uppercase; color: rgba(15, 15, 14, .7); min-height: 14px; }
+.c-cap { font: 500 13px/18px var(--sans); color: rgba(15, 15, 14, .7); min-height: 18px; }
 .kid { position: absolute; left: 0; bottom: 14vh; width: clamp(150px, 17vw, 240px); will-change: transform; }
 .kid-svg { display: block; width: 100%; height: auto; overflow: visible; }
-@media (max-width: 640px) { .kid { width: 40vw; bottom: 14vh; } .c-name { font-size: 13vw; } .c-cap { font-size: 10px; letter-spacing: .26em; } }
+@media (max-width: 640px) { .kid { width: 40vw; bottom: 14vh; } .c-name { font-size: 13vw; } }
 .k-ink { fill: #0f0f0e; } .k-inks { stroke: #0f0f0e; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
 .k-skin { fill: #f6efe4; } .k-paper { fill: #fbf8f1; }
 .kid-svg g { transform-box: view-box; }
@@ -104,7 +103,7 @@ h1, h2, h3 { text-wrap: balance; }
 .kid.ghost { opacity: 0; pointer-events: none; }
 .c-skip.wait { right: 50%; transform: translateX(50%); bottom: 18vh; color: rgba(15, 15, 14, .6); animation: waitPulse 1.6s ease-in-out infinite; }
 @keyframes waitPulse { 50% { opacity: .35; } }
-.c-skip { position: absolute; right: var(--gutter); bottom: 22px; font: 500 11px/14px var(--sans); letter-spacing: .16em; text-transform: uppercase; color: rgba(15, 15, 14, .7); z-index: 3; }
+.c-skip { position: absolute; right: var(--gutter); bottom: 22px; font: 500 13px/18px var(--sans); color: rgba(15, 15, 14, .7); z-index: 3; }
 @keyframes introGone { to { visibility: hidden; } }
 .rot { display: inline-block; border-bottom: 1px solid var(--line-strong); font-variant-ligatures: none; }
 /* hero entrance runs when the intro hands off (html.ready); without JS everything is simply visible */
@@ -118,12 +117,10 @@ html.ready .focus, html.ready .hero-side .btns { animation: riseIn 300ms ease-ou
 html.ready .hero-side .btns { animation-delay: .5s; }
 html.ready .frame { animation: frameIn 600ms var(--ease-inout) .1s backwards; }
 html.ready .frame img { animation: imgIn 900ms var(--ease-out) .1s backwards; }
-html.ready .mark { animation: markIn 300ms ease-out .6s backwards; }
 html.ready .portrait figcaption { animation: riseIn 300ms ease-out .7s backwards; }
 @keyframes riseIn { from { opacity: 0; transform: translateY(12px); filter: blur(4px); } }
 @keyframes frameIn { from { clip-path: inset(50% 50% 50% 50%); } }
 @keyframes imgIn { from { transform: scale(1.12); filter: grayscale(1) blur(4px); } }
-@keyframes markIn { from { opacity: 0; transform: scale(1.6); } }
 
 /* ---------- nav (Kerimov) ---------- */
 .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; padding: calc(env(safe-area-inset-top, 0px) + 18px) var(--gutter) 18px; display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); background: var(--surface); border-bottom: 1px solid transparent; transition: border-color var(--dur-fast); }
@@ -133,8 +130,7 @@ html.ready .portrait figcaption { animation: riseIn 300ms ease-out .7s backwards
 .nav-links a { text-decoration: none; color: var(--muted); transition: color var(--dur-fast); }
 .nav-links a.is-current { color: var(--ink); }
 @media (hover: hover) and (pointer: fine) { .nav-links a:hover { color: var(--ink); } }
-.nav-links sup { color: var(--volt-text); font-size: 8px; margin-left: 3px; letter-spacing: .08em; }
-/* 05 ???: a small door to the Sandbox. Same type as the other links; a sheen runs through the ??? now and then.
+/* ???: a small door to the Sandbox. Same type as the other links; a sheen runs through the ??? now and then.
    Hover rolls ??? up and Sandbox in from below; leaving rolls it back. */
 .nav-sbx { --sbx-c: var(--muted); position: relative; -webkit-tap-highlight-color: transparent; }
 .nav-sbx:focus-visible { outline: none; }
@@ -144,18 +140,15 @@ html.ready .portrait figcaption { animation: riseIn 300ms ease-out .7s backwards
 .sbx-q, .sbx-w { color: transparent; -webkit-background-clip: text; background-clip: text; background-repeat: no-repeat; background-size: 320% 100%; background-position: 100% 0; }
 .sbx-q { background-image: linear-gradient(100deg, var(--sbx-c) 0 42%, #fff 48%, #c8b4ff 52%, var(--sbx-c) 58% 100%); }
 .sbx-w { position: absolute; left: 0; top: 0; white-space: nowrap; background-image: linear-gradient(100deg, var(--ink) 0 42%, #fff 48%, #b99cff 52%, var(--ink) 58% 100%); opacity: 0; transform: translateY(105%); }
-.nav-sbx sup { display: inline-block; transition: transform 240ms var(--ease-out); }
 .nav-sbx.on .sbx-w { transition-delay: 50ms; }
 .nav-sbx.on .sbx-q { opacity: 0; transform: translateY(-105%); }
 .nav-sbx.on .sbx-w { opacity: 1; transform: none; }
-.nav-sbx.on sup { transform: translateX(var(--sbx-dx, 0)); }
 @media (prefers-reduced-motion: no-preference) {
   .sbx-q { animation: sbxSheen 4.8s cubic-bezier(.45, 0, .55, 1) 1.2s infinite; }
   .nav-sbx.on .sbx-w { animation: sbxSheenOnce 700ms cubic-bezier(.45, 0, .55, 1) 80ms both; }
 }
 @media (prefers-reduced-motion: reduce) {
   .sbx-q, .sbx-w { transform: none !important; transition: opacity 150ms ease-out; }
-  .nav-sbx sup { transition: none; }
 }
 @keyframes sbxSheen { 0% { background-position: 100% 0; } 26%, 100% { background-position: 0 0; } }
 @keyframes sbxSheenOnce { from { background-position: 100% 0; } to { background-position: 0 0; } }
@@ -194,7 +187,7 @@ html.ready .portrait figcaption { animation: riseIn 300ms ease-out .7s backwards
 .intro p { margin: 0; font-size: 20px; line-height: 30px; letter-spacing: -.01em; max-width: 34ch; }
 .intro .facts { display: grid; gap: var(--space-2); color: var(--muted); }
 .btns { display: flex; flex-wrap: wrap; gap: var(--space-3); }
-.btn { font: 700 11px/14px var(--sans); letter-spacing: .14em; text-transform: uppercase; display: inline-flex; align-items: center; gap: var(--space-2); height: 44px; padding: 0 var(--space-5); border-radius: var(--radius-pill); border: 1px solid var(--line-strong); background: transparent; color: var(--ink); cursor: pointer; text-decoration: none; transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease, border-color var(--dur-fast) ease, transform var(--dur-base) var(--ease-out), scale 150ms ease-out; -webkit-tap-highlight-color: transparent; }
+.btn { font: 500 13px/18px var(--sans); display: inline-flex; align-items: center; gap: var(--space-2); height: 44px; padding: 0 var(--space-5); border-radius: var(--radius-pill); border: 1px solid var(--line-strong); background: transparent; color: var(--ink); cursor: pointer; text-decoration: none; transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease, border-color var(--dur-fast) ease, transform var(--dur-base) var(--ease-out), scale 150ms ease-out; -webkit-tap-highlight-color: transparent; }
 .btn:has(.arr) { padding-inline-end: 22px; }
 @media (hover: hover) and (pointer: fine) { .btn:hover { background: var(--ink); color: var(--surface); border-color: var(--ink); } }
 .btn-primary { background: var(--volt); border-color: var(--volt); color: var(--on-volt); }
@@ -206,11 +199,6 @@ html.ready .portrait figcaption { animation: riseIn 300ms ease-out .7s backwards
 .frame { position: relative; border: 1px solid var(--line); padding: 10px; }
 .frame img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; filter: grayscale(.15) contrast(1.02); outline: 1px solid var(--image-outline); outline-offset: -1px; }
 @keyframes settle { from { transform: scale(1.06); opacity: .4; } }
-.mark { position: absolute; width: 14px; height: 14px; border-color: var(--ink); border-style: solid; border-width: 0; }
-.mark.m-tl { top: -8px; left: -8px; border-top-width: 1.5px; border-left-width: 1.5px; }
-.mark.m-tr { top: -8px; right: -8px; border-top-width: 1.5px; border-right-width: 1.5px; }
-.mark.m-bl { bottom: -8px; left: -8px; border-bottom-width: 1.5px; border-left-width: 1.5px; }
-.mark.m-br { bottom: -8px; right: -8px; border-bottom-width: 1.5px; border-right-width: 1.5px; }
 .badge { position: absolute; top: -18px; right: -30px; width: 108px; height: 108px; animation: spin 22s linear infinite; z-index: 2; }
 .badge-bg { fill: var(--surface); stroke: var(--line-strong); stroke-width: 1; }
 .badge-t { font: 700 9.4px var(--sans); letter-spacing: .2em; text-transform: uppercase; fill: var(--ink); }
@@ -229,7 +217,10 @@ html.ready .portrait figcaption { animation: riseIn 300ms ease-out .7s backwards
 .hero-side .name { padding: 0; line-height: .86; }
 .focus { display: grid; gap: 14px; border-top: 1px solid var(--line-strong); padding-top: var(--space-4); }
 .focus-top { display: flex; justify-content: space-between; gap: 16px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.focus-word { font: 800 clamp(34px, 4.6vw, 76px)/1 var(--sans); letter-spacing: -.035em; text-transform: uppercase; white-space: nowrap; overflow: hidden; height: 1.05em; font-variant-numeric: tabular-nums; }
+.focus-word { display: grid; font: 500 clamp(34px, 4.6vw, 76px)/1 var(--sans); letter-spacing: -.03em; text-transform: uppercase; white-space: nowrap; overflow: hidden; height: 1.05em; }
+/* two stacked words: the old one is nearly gone before the new one comes up, so they never read on top of each other */
+.rot-w { grid-area: 1 / 1; opacity: 0; transition: opacity 200ms ease-out; }
+.rot-w.on { opacity: 1; transition: opacity 320ms ease-out 140ms; }
 .focus-bar { display: block; height: 2px; background: var(--line); position: relative; overflow: hidden; }
 .focus-bar b { position: absolute; inset: 0; background: var(--ink); transform: scaleX(0); transform-origin: left; }
 .focus-bar b.run { transform: scaleX(1); transition: transform 2.6s linear; }
@@ -253,7 +244,7 @@ html.ready .portrait figcaption { animation: riseIn 300ms ease-out .7s backwards
 .media { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background-color: var(--poster-bg); background-image: radial-gradient(var(--poster-dot) 1px, transparent 1.4px); background-size: 16px 16px; }
 .media svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .poster { position: absolute; left: 14px; right: 14px; bottom: 14px; color: var(--poster-ink); font: 900 clamp(20px, 2.3vw, 30px)/.9 var(--sans); letter-spacing: -.03em; text-transform: uppercase; }
-.poster small { display: block; font: 500 9px/12px var(--sans); letter-spacing: .18em; margin-bottom: 8px; color: #9d9a93; }
+.poster small { display: block; font: 500 11px/14px var(--sans); letter-spacing: 0; text-transform: none; margin-bottom: 8px; color: #9d9a93; }
 .rec { stroke-dasharray: 42 100; animation: rec 5s var(--ease-out) infinite; }
 @keyframes rec { 0% { stroke-dasharray: 0 100; stroke: #ff5a4e; } 30% { stroke: #f6c544; } 45%, 100% { stroke-dasharray: 42 100; stroke: #f6c544; } }
 .rec-n { font: 800 22px var(--sans); fill: #ebe8e1; letter-spacing: -.02em; }
@@ -268,11 +259,11 @@ html.ready .portrait figcaption { animation: riseIn 300ms ease-out .7s backwards
 @keyframes band { 0%, 40% { opacity: 0; } 55%, 100% { opacity: .22; } }
 .ping { transform-box: fill-box; transform-origin: center; animation: ping 6s ease-out infinite; }
 @keyframes ping { 0%, 45% { opacity: 0; transform: scale(.4); } 55% { opacity: 1; transform: scale(1.4); } 70%, 100% { opacity: 1; transform: scale(1); } }
-.foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 10px 2px 12px; color: var(--paper-ink); font: 700 9px/12px var(--sans); letter-spacing: .1em; text-transform: uppercase; }
+.foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 10px 2px 12px; color: var(--paper-ink); font: 500 11px/14px var(--sans); letter-spacing: 0; text-transform: none; }
 .foot > span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sw { display: flex; gap: 4px; }
 .sw i { width: 12px; height: 12px; display: block; }
-.sticker { display: table; margin: -16px 0 0 auto; position: relative; z-index: 1; transform: rotate(-4deg); background: var(--moss); color: var(--ink); padding: 9px 14px; border-radius: var(--radius-sm); font: 700 11px/14px var(--sans); letter-spacing: .14em; text-transform: uppercase; }
+.sticker { display: table; margin: -16px 0 0 auto; position: relative; z-index: 1; transform: rotate(-4deg); background: var(--moss); color: var(--ink); padding: 9px 14px; border-radius: var(--radius-sm); font: 500 13px/18px var(--sans); letter-spacing: 0; text-transform: none; }
 
 @media (max-width: 1020px) {
   .hero-grid { grid-template-columns: minmax(0, 1fr) minmax(200px, 280px); }
@@ -283,15 +274,7 @@ html.ready .portrait figcaption { animation: riseIn 300ms ease-out .7s backwards
   .hero-grid { grid-template-columns: minmax(0, 1fr); }
   .portrait { max-width: 280px; justify-self: center; grid-row: 1; } .badge { right: -14px; width: 88px; height: 88px; }
   .peek { gap: var(--space-4); }
-  .corners .hide-s { display: none; }
 }
-
-/* ---------- ticker (Obys) ---------- */
-.ticker { border-block: 1px solid var(--line); overflow: hidden; padding-block: var(--space-4); color: var(--muted); }
-.ticker-track { display: flex; width: max-content; animation: tick 40s linear infinite; }
-.ticker-track span { padding-right: var(--space-6); white-space: nowrap; }
-.ticker-track b { color: var(--volt-text); font-weight: 700; padding-right: var(--space-6); }
-@keyframes tick { to { transform: translateX(-50%); } }
 
 /* ---------- reel (huyml card stream) ---------- */
 .reel { --cards: 8; position: relative; height: calc(var(--cards) * 32vh + 100vh); margin: 0 calc(var(--gutter) * -1) var(--space-9); }
@@ -321,7 +304,7 @@ html.ready .portrait figcaption { animation: riseIn 300ms ease-out .7s backwards
 @media (hover: hover) and (pointer: fine) { .reel-title:hover { opacity: .75; } }
 .reel-desc { color: var(--muted); max-width: 44ch; }
 .reel-stats { color: var(--muted); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; }
-.reel-stats b { color: var(--ink); font-weight: 700; letter-spacing: .04em; }
+.reel-stats b { color: var(--ink); font-weight: 600; }
 .reel-stats i { width: 4px; height: 4px; border-radius: 50%; background: var(--line-strong); display: inline-block; }
 .reel-read { margin-top: 6px; }
 .reel-tabs { position: absolute; top: 92px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; padding: 5px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--surface); z-index: 210; }
@@ -351,7 +334,6 @@ html.ready .portrait figcaption { animation: riseIn 300ms ease-out .7s backwards
 .wd { display: inline-block; white-space: nowrap; }
 .cr { display: inline-block; opacity: 0; transform: translateY(12px); filter: blur(4px); transition: opacity 300ms ease-out, transform 300ms ease-out, filter 300ms ease-out; transition-delay: calc(min(var(--i), 14) * 22ms); }
 .split.in .cr { opacity: 1; transform: none; filter: none; }
-.ticker-track.js { animation: none; }
 
 /* ---------- section scaffolding ---------- */
 section { padding-block: var(--space-10) 0; }
@@ -413,7 +395,7 @@ section { padding-block: var(--space-10) 0; }
 .steps li.next b { color: var(--muted); }
 .soon { font-style: normal; display: inline-block; margin-left: 8px; padding: 3px 7px; border: 1px solid var(--line-strong); border-radius: var(--radius-pill); color: var(--ink); vertical-align: 2px; font-size: 9px; line-height: 11px; }
 .tags { display: flex; flex-wrap: wrap; gap: var(--space-2); }
-.tag { background: var(--moss); color: var(--ink); padding: 6px 10px; border-radius: var(--radius-sm); font: 700 10px/12px var(--sans); letter-spacing: .14em; text-transform: uppercase; }
+.tag { background: var(--moss); color: var(--ink); padding: 6px 10px; border-radius: var(--radius-sm); font: 500 12px/16px var(--sans); }
 .tag.o { background: none; color: var(--muted); box-shadow: inset 0 0 0 1px var(--line); }
 .slot { border: 1px dashed var(--line-strong); padding: var(--space-5); color: var(--muted); display: grid; gap: var(--space-3); }
 .slot b { color: var(--ink); font-weight: 600; }
@@ -448,12 +430,11 @@ section { padding-block: var(--space-10) 0; }
 .pcard:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 .pc-info { display: grid; justify-items: start; gap: 10px; padding: var(--space-6); }
 .pc-cat { color: var(--muted); display: flex; gap: 12px; }
-.pc-cat b { color: var(--ink); font-weight: 700; }
 .pc-title { margin: 4px 0 0; font: 400 clamp(36px, 4vw, 56px)/1 var(--serif); letter-spacing: -.02em; }
 .pc-title em { font-style: italic; }
 .pc-desc { margin: 0; color: var(--muted); font-size: 18px; line-height: 26px; }
 .pc-stats { color: var(--muted); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.pc-stats b { color: var(--ink); font-weight: 700; letter-spacing: .04em; }
+.pc-stats b { color: var(--ink); font-weight: 600; }
 .pc-stats i { width: 4px; height: 4px; border-radius: 50%; background: var(--line-strong); display: inline-block; }
 .pc-go { margin-top: var(--space-3); pointer-events: none; }
 @media (hover: hover) and (pointer: fine) { .pcard:hover .pc-go { background: var(--ink); color: var(--surface); border-color: var(--ink); } }
@@ -511,8 +492,7 @@ html.js .projects#pvStore { display: none; }
   @media (min-width: 1500px) { .pstrip .pc-ui .ui-stage { transform: scale(.7); } }
   .pstrip .pcard > .pc-info, .pstrip .pcard > .pc-art { transition: opacity 300ms var(--ease-out) 300ms; }
   .pstrip .pcard:not(.on) > .pc-info, .pstrip .pcard:not(.on) > .pc-art { opacity: 0; pointer-events: none; transition-delay: 0s; transition-duration: .2s; }
-  .pc-spine { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 26px 0 30px; pointer-events: none; transition: opacity 200ms var(--ease-out) 200ms; }
-  .pc-spine b { font: 500 13px/1 var(--sans); letter-spacing: .14em; color: var(--muted); }
+  .pc-spine { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 26px 0 30px; pointer-events: none; transition: opacity 200ms var(--ease-out) 200ms; }
   .pc-spine span { writing-mode: vertical-rl; transform: rotate(180deg); font: 400 clamp(30px, 2.8vw, 44px)/1 var(--serif); letter-spacing: -.01em; white-space: nowrap; }
   .pc-spine em { font-style: italic; }
   .pstrip .pcard.on .pc-spine { opacity: 0; transition-delay: 0s; transition-duration: .15s; }
@@ -522,7 +502,6 @@ html.js .projects#pvStore { display: none; }
 .pv { position: fixed; inset: 0; z-index: 80; background: var(--surface); visibility: hidden; clip-path: inset(100% 0 0 0); transition: clip-path 300ms var(--ease-out), visibility 0s linear 300ms; }
 .pv.open { visibility: visible; clip-path: inset(0 0 0 0); transition: clip-path 500ms var(--ease-drawer), visibility 0s; }
 html.pv-lock, html.pv-lock body { overflow: hidden; }
-html.pv-lock .latest { display: none; }
 .pv-scroll { position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; }
 .pv-bar { position: absolute; top: 0; left: 0; right: 0; z-index: 300; display: flex; align-items: center; gap: var(--space-4); padding: calc(env(safe-area-inset-top, 0px) + 14px) var(--gutter) 14px; background: linear-gradient(var(--surface) 60%, rgba(15, 15, 14, 0)); pointer-events: none; }
 .pv-bar > * { pointer-events: auto; }
@@ -530,14 +509,14 @@ html.pv-lock .latest { display: none; }
 .pv-name { font: 400 24px/1 var(--serif); letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .pv-ctl { margin-left: auto; display: flex; gap: 8px; flex: none; }
 .pv-btn { height: 42px; min-width: 42px; padding: 0 14px; border-radius: var(--radius-pill); border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); font: 400 16px/1 var(--sans); cursor: pointer; transition: background-color var(--dur-fast) ease, color var(--dur-fast), scale 150ms ease-out; -webkit-tap-highlight-color: transparent; }
-.pv-btn.caps-s { font: 500 11px/14px var(--sans); letter-spacing: .16em; }
+.pv-btn.caps-s { font: 500 13px/18px var(--sans); }
 @media (hover: hover) and (pointer: fine) { .pv-btn:hover { background: var(--ink); color: var(--surface); } }
 .pv-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 .pv .reel { margin: 0; }
 .pv .reel-bg img { filter: blur(70px) saturate(1.4) brightness(.55); }
 .pv .reel-bg img.on { opacity: .34; }
 .pv .reel-title { pointer-events: none; }
-.reel-skip { font: 500 11px/14px var(--sans); letter-spacing: .16em; cursor: pointer; }
+.reel-skip { font: 500 13px/18px var(--sans); cursor: pointer; }
 .reel-read { cursor: pointer; }
 .rc.tall { width: min(15vw, 220px); }
 .rc.tall img { border-radius: 22px; outline: 5px solid #232322; }
@@ -653,8 +632,8 @@ html.pv-lock .latest { display: none; }
 .ui-chart.tall { height: 110px; margin: 10px 0 8px; }
 .ui-foot { display: flex; align-items: center; gap: 6px; margin-top: 8px; color: var(--muted); font-size: 11px; }
 .ui-live { width: 6px; height: 6px; border-radius: 50%; background: #2ee68a; }
-.ui-k { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; color: var(--muted); font: 700 10px/14px var(--sans); letter-spacing: .14em; text-transform: uppercase; }
-.ui-k span { letter-spacing: .04em; text-transform: none; font-weight: 500; color: var(--ghost); }
+.ui-k { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; color: var(--muted); font: 500 12px/16px var(--sans); }
+.ui-k span { font-weight: 500; color: var(--ghost); }
 .ui-row { display: flex; justify-content: space-between; gap: 10px; padding: 8px 0; border-top: 1px solid #222220; color: var(--muted); }
 .ui-row b { color: #ebe8e1; font: 500 12.5px/18px ui-monospace, "SF Mono", Menlo, monospace; text-align: right; }
 .ui-spark { color: #ebe8e1; letter-spacing: 0; }
@@ -663,11 +642,11 @@ html.pv-lock .latest { display: none; }
 .ui-src { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
 .ui-src span { padding: 3px 8px; border-radius: 999px; border: 1px solid #2c2c2a; color: var(--muted); font-size: 10.5px; }
 .ui-big { margin: 4px 0 8px; font: 500 34px/1 ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: -.03em; }
-.ui-big span { font: 500 11px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-left: 4px; }
+.ui-big span { font: 500 12px var(--sans); letter-spacing: 0; color: var(--muted); margin-left: 4px; }
 .ui-leg { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 11px; }
 .ui-leg i { display: inline-block; width: 10px; height: 2px; margin-right: 6px; vertical-align: middle; }
 .ui-gap { margin-left: auto; color: #ff8a80; }
-.ui-high { padding: 2px 8px; border-radius: 6px; background: rgba(255, 90, 78, .16); color: #ff8a80 !important; font-weight: 700 !important; letter-spacing: .1em !important; text-transform: uppercase !important; }
+.ui-high { padding: 2px 8px; border-radius: 6px; background: rgba(255, 90, 78, .16); color: #ff8a80 !important; font-weight: 500 !important; }
 .ui-draw { stroke-dasharray: 100 100; animation: uiDraw 6s var(--ease-out) infinite; }
 .ui-draw.d2 { animation-delay: .25s; }
 @keyframes uiDraw { 0% { stroke-dashoffset: 100; } 45%, 100% { stroke-dashoffset: 0; } }
@@ -732,7 +711,7 @@ html.pv-lock .latest { display: none; }
 .lg-ms { display: inline-flex; align-items: center; gap: .32em; font: 700 clamp(16px, 2.2vw, 30px)/1 var(--sans); font-size: 10.5cqw; letter-spacing: -.035em; white-space: nowrap; }
 .lg-ms img { width: 1.5em; height: 1.5em; border-radius: 50%; }
 .lg-meta { position: absolute; left: 18px; right: 18px; bottom: 16px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; color: var(--muted); opacity: 0; transform: translateY(10px); transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out); }
-.lg-meta b { color: var(--ink); font-weight: 600; letter-spacing: .1em; }
+.lg-meta b { color: var(--ink); font-weight: 600; }
 .lg:focus-visible .lg-meta { opacity: 1; transform: none; }
 @media (hover: hover) and (pointer: fine) { .lg:hover .lg-meta { opacity: 1; transform: none; } }
 .lg-now { position: absolute; top: 14px; left: 16px; display: inline-flex; align-items: center; gap: 7px; color: var(--muted); }
@@ -741,7 +720,7 @@ html.pv-lock .latest { display: none; }
 @keyframes xpFlash { 0%, 30% { background: rgba(128, 128, 128, .16); } 100% { background: transparent; } }
 @media (hover: none) { .lg-meta { opacity: 1; transform: none; } .lg-mark { top: 40%; } }
 @media (max-width: 900px) { .xp-logos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 480px) { .lg-meta { flex-direction: column; gap: 2px; left: 12px; right: 12px; bottom: 11px; font-size: 9.5px; line-height: 12px; letter-spacing: .1em; } .lg-mark { width: 72%; height: 24%; top: 38%; } }
+@media (max-width: 480px) { .lg-meta { flex-direction: column; gap: 2px; left: 12px; right: 12px; bottom: 11px; font-size: 11px; line-height: 14px; } .lg-now { font-size: 11px; line-height: 14px; } .lg-mark { width: 72%; height: 24%; top: 38%; } }
 @media (prefers-reduced-motion: reduce) { .lg-meta { opacity: 1; transform: none; } }
 /* ---------- experience ---------- */
 .span-line { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); margin-bottom: var(--space-6); color: var(--muted); }
@@ -772,26 +751,24 @@ html.pv-lock .latest { display: none; }
 .xp-group { color: var(--muted); margin: var(--space-8) 0 var(--space-3); }
 .xp { border-top: 1px solid var(--line); }
 .xp:last-of-type { border-bottom: 1px solid var(--line); }
-.xp-head { display: grid; grid-template-columns: 40px 170px minmax(0, 1.3fr) minmax(0, 1fr); gap: var(--space-5); align-items: baseline; padding: var(--space-5) 0; }
-.xp-no { color: var(--volt-text); }
+.xp-head { display: grid; grid-template-columns: 170px minmax(0, 1.3fr) minmax(0, 1fr); gap: var(--space-5); align-items: baseline; padding: var(--space-5) 0; }
 .xp-years { color: var(--muted); }
 .xp-co { font: 400 clamp(26px, 3vw, 36px)/1.05 var(--serif); letter-spacing: -.01em; }
 .xp-role { font-size: 14px; line-height: 22px; color: var(--muted); }
 .xp-role b { display: block; color: var(--ink); font-weight: 600; font-size: 15px; line-height: 22px; }
 .xp-plus { font: 300 26px/1 var(--sans); color: var(--muted); justify-self: end; transition: transform var(--dur-base) var(--ease-out), color var(--dur-fast); }
 .xp[open] .xp-plus { transform: rotate(45deg); color: var(--volt-text); }
-.xp-body { display: grid; grid-template-columns: 40px 170px minmax(0, 1fr); gap: var(--space-5); padding-bottom: var(--space-6); }
-.xp-line { grid-column: 3; margin: 0; max-width: 62ch; font-size: 18px; line-height: 28px; letter-spacing: -.005em; }
-.xp-body ul { grid-column: 3; margin: 0; padding: 0; list-style: none; display: grid; gap: var(--space-3); max-width: 72ch; }
+.xp-body { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: var(--space-5); padding-bottom: var(--space-6); }
+.xp-line { grid-column: 2; margin: 0; max-width: 62ch; font-size: 18px; line-height: 28px; letter-spacing: -.005em; }
+.xp-body ul { grid-column: 2; margin: 0; padding: 0; list-style: none; display: grid; gap: var(--space-3); max-width: 72ch; }
 .xp-body li { position: relative; padding-left: var(--space-5); color: var(--muted); }
 .xp-body li::before { content: "+"; position: absolute; left: 0; color: var(--volt-text); }
 .xp-body strong { color: var(--ink); font-weight: 600; }
-.xp-links { grid-column: 3; display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-6); font: 700 11px/14px var(--sans); letter-spacing: .14em; text-transform: uppercase; }
+.xp-links { grid-column: 2; display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-6); font: 500 13px/18px var(--sans); }
 .mw-link { color: var(--ink); text-decoration: none; background: linear-gradient(var(--ink), var(--ink)) 0 calc(100% - 12px) / 100% 1px no-repeat; padding: 12px 0; display: inline-block; transition: background-size var(--dur-fast) var(--ease-out), color var(--dur-fast); }
 @media (hover: hover) and (pointer: fine) { .mw-link:hover { color: var(--muted); background-size: 0 1px; background-position: 100% calc(100% - 12px); } }
 @media (max-width: 760px) {
   .xp-head { grid-template-columns: minmax(0, 1fr); gap: var(--space-1) var(--space-3); }
-  .xp-no { display: none; }
   .xp-years, .xp-co, .xp-role { grid-column: 1; }
   .xp-plus { grid-row: 1 / span 3; grid-column: 2; align-self: center; }
   .xp-body { grid-template-columns: minmax(0, 1fr); }
@@ -824,24 +801,18 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 .foot-mark { font: 900 12vw/.8 var(--sans); letter-spacing: -.05em; text-transform: uppercase; margin: 0 0 var(--space-5); white-space: nowrap; color: var(--ink); }
 .foot-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-3); color: var(--muted); }
 .foot-row a { text-decoration: none; display: inline-block; padding: 14px 0; }
-.replay { background: none; border: 0; color: var(--ink); padding: 14px 0; cursor: pointer; font: inherit; font-weight: 700; letter-spacing: inherit; text-transform: uppercase; transition: opacity var(--dur-fast) ease, scale 150ms ease-out; -webkit-tap-highlight-color: transparent; }
+.replay { background: none; border: 0; color: var(--ink); padding: 14px 0; cursor: pointer; font: inherit; transition: opacity var(--dur-fast) ease, scale 150ms ease-out; -webkit-tap-highlight-color: transparent; }
 @media (hover: hover) and (pointer: fine) { .replay:hover { opacity: .7; } }
 .corners .replay { position: relative; padding: 0; }
 .corners .replay::after { content: ""; position: absolute; inset: -15px -8px; }
 @media (prefers-reduced-motion: reduce) { .replay { display: none; } }
 @media (hover: hover) and (pointer: fine) { .foot-row a:hover { color: var(--ink); } }
 
-/* ---------- pinned latest project (Kerimov) ---------- */
-.latest { position: fixed; right: var(--gutter); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); z-index: 40; font: 900 12px/14px var(--sans); text-transform: uppercase; display: flex; gap: 6px; background: var(--surface); padding: 6px 10px; border-radius: var(--radius-sm); }
-.latest a { font-weight: 500; letter-spacing: .06em; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--volt-text); }
-.latest { transition: opacity var(--dur-fast), transform var(--dur-fast); }
-.latest.gone { opacity: 0; transform: translateY(12px); pointer-events: none; }
-@media (max-width: 760px) { .latest { display: none; } }
 
 /* ---------- ring cursor (Kerimov) ---------- */
 .ring { position: fixed; left: 0; top: 0; width: 36px; height: 36px; margin: -18px 0 0 -18px; border: 1.5px solid var(--line-strong); border-radius: 50%; pointer-events: none; z-index: 90; opacity: 0; transition: scale var(--dur-base) var(--ease-out), border-color var(--dur-fast) ease, background-color var(--dur-fast) ease, opacity var(--dur-fast) ease; }
 .ring.on { opacity: 1; }
-.ring span { position: absolute; inset: 0; display: grid; place-items: center; font: 700 9px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: #ebe8e1; opacity: 0; transition: opacity var(--dur-fast); }
+.ring span { position: absolute; inset: 0; display: grid; place-items: center; font: 500 12px/1 var(--sans); color: #ebe8e1; opacity: 0; transition: opacity var(--dur-fast); }
 .ring.label { width: auto; height: 30px; margin: 14px 0 0 14px; padding: 0 14px; border-radius: 999px; background: var(--ink); border-color: var(--ink); }
 .ring.label span { position: static; display: block; height: 30px; line-height: 30px; color: var(--surface); white-space: nowrap; }
 .ring.label span { opacity: 1; }
@@ -863,7 +834,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 @media (prefers-reduced-motion: no-preference) {
   :is(.btn, .reel-tab, .reel-arrow, .pv-btn, .vtp-play, .vtp-start, .replay, .menu-btn):not(:disabled):active { scale: .96; }
 }
-/* ---------- Swap (project 01): card art + poster ---------- */
+/* ---------- Swap (project 04): card art + poster ---------- */
 /* ---------- Swap (04): coded cards rebuilt from the real app's CSS (core.css, today.css, money.css, deck.css).
    Light app cards on the dark card art; every size is the app's rem value written as em, so one font-size scales it. ---------- */
 .pc-sw { --glow-c: rgba(228, 108, 53, .2);
@@ -990,6 +961,10 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 @keyframes swPosterTag { 0%, 38% { opacity: 0; transform: translateY(4px); } 50%, 100% { opacity: 1; transform: none; } }
 .sw-px { font: 800 9px var(--sans); fill: #0f0f0e; letter-spacing: .02em; }
 </style>
+<link rel="stylesheet" href="build.css">
+<link rel="stylesheet" href="addon-cursor.css">
+<link rel="stylesheet" href="addon-putt.css">
+<link rel="stylesheet" href="addon-photo.css">
 </head>
 <body>
 <div class="curtain" id="curtain" aria-hidden="true">
@@ -1133,11 +1108,11 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 <nav class="nav caps" id="nav" aria-label="Primary">
   <a class="nav-mark" href="#top">Michael Wang</a>
   <ul class="nav-links" id="navLinks">
-    <li><a href="#work">Projects<sup>01</sup></a></li>
-    <li><a href="#experience">Experience<sup>02</sup></a></li>
-    <li><a href="#resume">Resume<sup>03</sup></a></li>
-    <li><a href="#contact">Reach out<sup>04</sup></a></li>
-    <li><a class="nav-sbx" href="sandbox/" aria-label="Sandbox"><span class="sbx-l"><span class="sbx-q" aria-hidden="true">???</span><span class="sbx-w" aria-hidden="true">Sandbox</span></span><sup>05</sup></a></li>
+    <li><a href="#work">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#resume">Resume</a></li>
+    <li><a href="#contact">Reach out</a></li>
+    <li><a class="nav-sbx" href="sandbox/" aria-label="Sandbox"><span class="sbx-l"><span class="sbx-q" aria-hidden="true">???</span><span class="sbx-w" aria-hidden="true">Sandbox</span></span></a></li>
   </ul>
   <span class="live">Open to work</span>
   <button class="menu-btn caps" id="menuBtn" aria-expanded="false" aria-controls="navLinks">Menu</button>
@@ -1147,23 +1122,21 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
   <header class="hero wrap">
     <div class="corners caps-s">
       <span>Product portfolio</span>
-      <span class="hide-s">NYU, Washington Square &#xb7; 40.7295&#xb0; N, 73.9965&#xb0; W</span>
       <button class="replay caps-s" type="button" data-replay>Replay intro</button>
     </div>
     <div class="hero-main">
       <figure class="portrait big">
         <div class="frame">
           <img src="michael-portrait.jpg" alt="Michael Wang smiling on the summit of Haleakal&#x101; above the clouds" width="900" height="1125">
-          <i class="mark m-tl"></i><i class="mark m-tr"></i><i class="mark m-bl"></i><i class="mark m-br"></i>
         </div>
-        <figcaption class="caps-s"><span>Fig. 01 / Haleakal&#x101;, Maui</span><span>20.71&#xb0; N</span></figcaption>
+        <figcaption class="caps-s"><span>Haleakal&#x101;, Maui</span></figcaption>
       </figure>
 
       <div class="hero-side">
         <h1 class="name" id="heroName" aria-label="Michael Wang"><span class="ln"><span>Michael</span></span> <span class="ln"><span><em>Wang</em></span></span></h1>
-        <div class="focus" aria-hidden="true">
+        <div class="focus">
           <div class="focus-top caps-s"><span id="rotIdx">01 / 08</span><span>NYU &#xb7; Economics &#xb7; Data Science</span></div>
-          <div class="focus-word" id="rot">PRODUCT MANAGEMENT</div>
+          <div class="focus-word" id="rot"><span class="rot-w on">PRODUCT MANAGEMENT</span><span class="rot-w"></span></div>
           <i class="focus-bar"><b id="rotBar"></b></i>
         </div>
         <p class="sr">Michael Wang. Product management, product strategy, user research, growth, go-to-market, data analytics, AI products and fintech.</p>
@@ -1175,39 +1148,99 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     </div>
   </header>
 
-  <div class="ticker caps" aria-hidden="true">
-    <div class="ticker-track" id="ticker">
-      <span>Claude Code</span><b>+</b><span>Codex</span><b>+</b><span>Grok</span><b>+</b><span>Figma</span><b>+</b><span>User interviews</span><b>+</b><span>RICE prioritization</span><b>+</b><span>Go-to-market</span><b>+</b><span>A/B testing</span><b>+</b><span>Power BI</span><b>+</b><span>SQL</span><b>+</b><span>Python</span><b>+</b><span>REST APIs</span><b>+</b>
-    </div>
-  </div>
-
-  <section class="wrap" aria-label="About">
-    <div class="about">
-      <span class="caps muted">(00) About</span>
-      <div>
-        <p class="fill" id="fill" data-accent="michael,wang">I&#x2019;m Michael Wang, an economics student at NYU with a minor in data science.</p>
-      </div>
-      <dl class="about-facts">
-        <div><dt class="caps-s">Studying</dt><dd>B.A. Economics, minor in Data Science, NYU</dd></div>
-        <div><dt class="caps-s">Interested in</dt><dd>Product management and strategy</dd></div>
-        <div><dt class="caps-s">Toolkit</dt><dd>Claude Code, Codex, Grok, Figma, Excel, Power BI, Jira, SQL, Python, REST APIs</dd></div>
-        <div><dt class="caps-s">Languages</dt><dd>English, Mandarin</dd></div>
-        <div><dt class="caps-s">Interests</dt><dd>Weightlifting, basketball, golf, cold brews, anime</dd></div>
-      </dl>
-    </div>
-  </section>
-
   <section class="wrap" id="work">
     <header class="sh">
-      <span class="sh-i caps">(01) Projects</span>
+      <span class="sh-i caps">Projects</span>
       <h2>Selected <em>projects</em></h2>
       <p>Click a project to scroll through it.</p>
     </header>
 
     <div class="pgrid pstrip">
-      <a class="pcard feat" href="#project/swap" aria-label="Open Swap"><span class="pc-spine" aria-hidden="true"><b>01</b><span>Swap</span></span>
+      <a class="pcard feat" href="#project/whoop" aria-label="Open WHOOP Calendar Sync"><span class="pc-spine" aria-hidden="true"><span>WHOOP Calendar <em>Sync</em></span></span>
         <div class="pc-info">
-          <span class="pc-cat caps-s"><b>01</b>Personal finance &#xb7; iPhone app</span>
+          <span class="pc-cat caps-s">0&#x2192;1 feature &#xb7; NYU PM Club</span>
+          <h3 class="pc-title">WHOOP Calendar <em>Sync</em></h3>
+          <p class="pc-desc">Coaching that fits your real schedule.</p>
+          <span class="pc-stats caps-s"><b>14</b> screens <i></i> <b>7</b> pain points <i></i> <b>3</b> KPIs</span>
+          <span class="btn btn-primary pc-go">Open project <span class="arr" aria-hidden="true">&#x2192;</span></span>
+        </div>
+        <div class="pc-art pc-phones" aria-hidden="true">
+          <img class="ph ph1" src="wh-p2.jpg" alt="" width="560" height="1218" loading="lazy">
+          <img class="ph ph3" src="wh-p6.jpg" alt="" width="560" height="1218" loading="lazy">
+          <img class="ph ph2" src="wh-p5.jpg" alt="" width="560" height="1218" loading="lazy">
+        </div>
+      </a>
+
+      <a class="pcard feat flip" href="#project/veraitas" aria-label="Open Veraitas"><span class="pc-spine" aria-hidden="true"><span>Veraitas</span></span>
+        <div class="pc-info">
+          <span class="pc-cat caps-s">Fintech &#xb7; Tech@NYU Buildathon</span>
+          <h3 class="pc-title">Veraitas</h3>
+          <p class="pc-desc">Crypto trading, explained for beginners.</p>
+          <span class="pc-stats caps-s">Claude agent <i></i> Live order book <i></i> True Markets API</span>
+          <span class="btn btn-primary pc-go">Watch the demo <span class="arr" aria-hidden="true">&#x2192;</span></span>
+        </div>
+        <div class="pc-art pc-ui pc-vt" aria-hidden="true">
+          <div class="ui-stage">
+            <div class="ui ui1">
+              <div class="ui-h"><span class="ui-coin"></span><b>Solana</b><span class="ui-chip">SOL</span></div>
+              <div class="ui-px">$102.16 <i class="dn">&#x2212;0.5%</i></div>
+              <svg class="ui-chart" viewBox="0 0 200 74" preserveAspectRatio="none"><defs><linearGradient id="uiFillRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff4d5e" stop-opacity=".32"/><stop offset="1" stop-color="#ff4d5e" stop-opacity="0"/></linearGradient></defs><path d="M0 14 L10 12 L18 16 L26 10 L34 15 L44 13 L52 19 L60 17 L70 24 L80 22 L90 30 L98 28 L106 38 L112 58 L118 66 L124 52 L132 46 L142 40 L152 36 L162 30 L172 26 L182 18 L190 8 L200 10 L200 74 L0 74 Z" fill="url(#uiFillRed)"/><path class="ui-draw" pathLength="100" d="M0 14 L10 12 L18 16 L26 10 L34 15 L44 13 L52 19 L60 17 L70 24 L80 22 L90 30 L98 28 L106 38 L112 58 L118 66 L124 52 L132 46 L142 40 L152 36 L162 30 L172 26 L182 18 L190 8 L200 10" fill="none" stroke="#ff4d5e" stroke-width="1.6" vector-effect="non-scaling-stroke"/></svg>
+              <div class="ui-foot"><i class="ui-live"></i>Live from True Markets</div>
+            </div>
+            <div class="ui ui2">
+              <div class="ui-k">Before you buy <span>$5.00 of SOL</span></div>
+              <div class="ui-row"><span>You get</span><b>~0.048844 SOL</b></div>
+              <div class="ui-row"><span>Fee</span><b>$0.01</b></div>
+              <div class="ui-row"><span>Network fee</span><b>Covered</b></div>
+              <div class="ui-row"><span>Hidden cost</span><b>$0.01</b></div>
+              <div class="ui-row"><span>Sell-back now</span><b>~$4.97</b></div>
+            </div>
+            <div class="ui ui3">
+              <div class="ui-k"><span class="ui-spark">&#x2726;</span> Veraitas Agent</div>
+              <div class="ui-q">Why is SOL moving today?</div>
+              <p class="ui-a">SOL dipped slightly as the wider crypto market fell and borrowed bets were forced to sell.</p>
+              <div class="ui-src"><span>tradingkey.com</span><span>coinmarketcap.com</span></div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a class="pcard feat" href="#project/cs2" aria-label="Open CS2 Integrity Watch"><span class="pc-spine" aria-hidden="true"><span>CS2 Integrity <em>Watch</em></span></span>
+        <div class="pc-info">
+          <span class="pc-cat caps-s">Machine learning &#xb7; IBM Z Datathon</span>
+          <h3 class="pc-title">CS2 Integrity <em>Watch</em></h3>
+          <p class="pc-desc">Flags possible match-fixing, round by round.</p>
+          <span class="pc-stats caps-s"><b>42,009</b> rounds <i></i> Brier <b>0.178</b> <i></i> XGBoost benchmark</span>
+          <span class="btn btn-primary pc-go">Open project <span class="arr" aria-hidden="true">&#x2192;</span></span>
+        </div>
+        <div class="pc-art pc-ui pc-cs" aria-hidden="true">
+          <div class="ui-stage">
+            <div class="ui ui1">
+              <div class="ui-k">Game model</div>
+              <div class="ui-big">0.178 <span>Brier</span></div>
+              <div class="ui-row"><span>Model</span><b>Logistic reg.</b></div>
+              <div class="ui-row"><span>Calibration</span><b>Isotonic</b></div>
+              <div class="ui-row"><span>Benchmark</span><b>XGBoost</b></div>
+              <div class="ui-row"><span>Per score</span><b>~9 ms</b></div>
+            </div>
+            <div class="ui ui2 wide">
+              <div class="ui-k">Win probability <span>Wildcard vs NOMERCY</span></div>
+              <svg class="ui-chart tall" viewBox="0 0 260 110" preserveAspectRatio="none"><path d="M0.0 12 L20.0 11 L40.0 13 L60.0 10 L80.0 12 L100.0 11 L120.0 10 L140.0 12 L160.0 11 L180.0 10 L200.0 11 L220.0 12 L240.0 10 L260.0 11 L260.0 74 L240.0 80 L220.0 76 L200.0 84 L180.0 78 L160.0 86 L140.0 80 L120.0 90 L100.0 84 L80.0 92 L60.0 88 L40.0 99 L20.0 90 L0.0 96 Z" fill="#ff5a4e" opacity=".12"/><line x1="0" y1="55" x2="260" y2="55" stroke="#2a2a28" stroke-dasharray="3 4"/><path class="ui-draw" pathLength="100" d="M0.0 12 20.0 11 40.0 13 60.0 10 80.0 12 100.0 11 120.0 10 140.0 12 160.0 11 180.0 10 200.0 11 220.0 12 240.0 10 260.0 11" fill="none" stroke="#4f86ff" stroke-width="2" vector-effect="non-scaling-stroke"/><path class="ui-draw d2" pathLength="100" d="M0.0 96 20.0 90 40.0 99 60.0 88 80.0 92 100.0 84 120.0 90 140.0 80 160.0 86 180.0 78 200.0 84 220.0 76 240.0 80 260.0 74" fill="none" stroke="#f5a623" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>
+              <div class="ui-leg"><span><i style="background:#4f86ff"></i>Market</span><span><i style="background:#f5a623"></i>Model</span><span class="ui-gap">Gap 47.2 pts &#xb7; 12 rounds</span></div>
+            </div>
+            <div class="ui ui3">
+              <div class="ui-k">Alert <span class="ui-high">High</span></div>
+              <div class="ui-row"><span>Market moved first</span><b>Yes</b></div>
+              <div class="ui-row"><span>Gap held</span><b>12 rounds</b></div>
+              <div class="ui-row"><span>Runs on</span><b>IBM LinuxONE</b></div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a class="pcard feat flip" href="#project/swap" aria-label="Open Swap"><span class="pc-spine" aria-hidden="true"><span>Swap</span></span>
+        <div class="pc-info">
+          <span class="pc-cat caps-s">Personal finance &#xb7; iPhone app</span>
           <h3 class="pc-title">Swap</h3>
           <p class="pc-desc">A daily spending number for college kids who live in the city.</p>
           <span class="pc-stats caps-s"><b>13</b> months of data <i></i> <b>27</b> tests</span>
@@ -1262,89 +1295,8 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
                   <span class="sw-day"><span class="sw-bar"><span class="sw-cap" style="--h:3.76"></span></span><b class="sw-dow">Sat</b><span class="sw-amt sw-num">$80</span></span>
                   <span class="sw-day"><span class="sw-bar"><span class="sw-cap" style="--h:2.59"></span></span><b class="sw-dow">Sun</b><span class="sw-amt sw-num">$55</span></span>
                 </div>
-                <p class="sw-foot sw-t3">Fill = spent, outline = plan. Tap a day.</p>
+                <p class="sw-foot sw-t3">Fill = spent, outline = plan. Drag a day.</p>
               </div>
-            </div>
-          </div>
-        </div>
-      </a>
-      <a class="pcard feat flip" href="#project/whoop" aria-label="Open WHOOP Calendar Sync"><span class="pc-spine" aria-hidden="true"><b>02</b><span>WHOOP Calendar <em>Sync</em></span></span>
-        <div class="pc-info">
-          <span class="pc-cat caps-s"><b>02</b>0&#x2192;1 feature &#xb7; NYU PM Club</span>
-          <h3 class="pc-title">WHOOP Calendar <em>Sync</em></h3>
-          <p class="pc-desc">Coaching that fits your real schedule.</p>
-          <span class="pc-stats caps-s"><b>14</b> screens <i></i> <b>7</b> pain points <i></i> <b>3</b> KPIs</span>
-          <span class="btn btn-primary pc-go">Open project <span class="arr" aria-hidden="true">&#x2192;</span></span>
-        </div>
-        <div class="pc-art pc-phones" aria-hidden="true">
-          <img class="ph ph1" src="wh-p2.jpg" alt="" width="560" height="1218" loading="lazy">
-          <img class="ph ph3" src="wh-p6.jpg" alt="" width="560" height="1218" loading="lazy">
-          <img class="ph ph2" src="wh-p5.jpg" alt="" width="560" height="1218" loading="lazy">
-        </div>
-      </a>
-
-      <a class="pcard feat" href="#project/veraitas" aria-label="Open Veraitas"><span class="pc-spine" aria-hidden="true"><b>03</b><span>Veraitas</span></span>
-        <div class="pc-info">
-          <span class="pc-cat caps-s"><b>03</b>Fintech &#xb7; Tech@NYU Buildathon</span>
-          <h3 class="pc-title">Veraitas</h3>
-          <p class="pc-desc">Crypto trading, explained for beginners.</p>
-          <span class="pc-stats caps-s">Claude agent <i></i> Live order book <i></i> True Markets API</span>
-          <span class="btn btn-primary pc-go">Watch the demo <span class="arr" aria-hidden="true">&#x2192;</span></span>
-        </div>
-        <div class="pc-art pc-ui pc-vt" aria-hidden="true">
-          <div class="ui-stage">
-            <div class="ui ui1">
-              <div class="ui-h"><span class="ui-coin"></span><b>Solana</b><span class="ui-chip">SOL</span></div>
-              <div class="ui-px">$102.16 <i class="dn">&#x2212;0.5%</i></div>
-              <svg class="ui-chart" viewBox="0 0 200 74" preserveAspectRatio="none"><defs><linearGradient id="uiFillRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff4d5e" stop-opacity=".32"/><stop offset="1" stop-color="#ff4d5e" stop-opacity="0"/></linearGradient></defs><path d="M0 14 L10 12 L18 16 L26 10 L34 15 L44 13 L52 19 L60 17 L70 24 L80 22 L90 30 L98 28 L106 38 L112 58 L118 66 L124 52 L132 46 L142 40 L152 36 L162 30 L172 26 L182 18 L190 8 L200 10 L200 74 L0 74 Z" fill="url(#uiFillRed)"/><path class="ui-draw" pathLength="100" d="M0 14 L10 12 L18 16 L26 10 L34 15 L44 13 L52 19 L60 17 L70 24 L80 22 L90 30 L98 28 L106 38 L112 58 L118 66 L124 52 L132 46 L142 40 L152 36 L162 30 L172 26 L182 18 L190 8 L200 10" fill="none" stroke="#ff4d5e" stroke-width="1.6" vector-effect="non-scaling-stroke"/></svg>
-              <div class="ui-foot"><i class="ui-live"></i>Live from True Markets</div>
-            </div>
-            <div class="ui ui2">
-              <div class="ui-k">Before you buy <span>$5.00 of SOL</span></div>
-              <div class="ui-row"><span>You get</span><b>~0.048844 SOL</b></div>
-              <div class="ui-row"><span>Fee</span><b>$0.01</b></div>
-              <div class="ui-row"><span>Network fee</span><b>Covered</b></div>
-              <div class="ui-row"><span>Hidden cost</span><b>$0.01</b></div>
-              <div class="ui-row"><span>Sell-back now</span><b>~$4.97</b></div>
-            </div>
-            <div class="ui ui3">
-              <div class="ui-k"><span class="ui-spark">&#x2726;</span> Veraitas Agent</div>
-              <div class="ui-q">Why is SOL moving today?</div>
-              <p class="ui-a">SOL dipped slightly as the wider crypto market fell and borrowed bets were forced to sell.</p>
-              <div class="ui-src"><span>tradingkey.com</span><span>coinmarketcap.com</span></div>
-            </div>
-          </div>
-        </div>
-      </a>
-
-      <a class="pcard feat flip" href="#project/cs2" aria-label="Open CS2 Integrity Watch"><span class="pc-spine" aria-hidden="true"><b>04</b><span>CS2 Integrity <em>Watch</em></span></span>
-        <div class="pc-info">
-          <span class="pc-cat caps-s"><b>04</b>Machine learning &#xb7; IBM Z Datathon</span>
-          <h3 class="pc-title">CS2 Integrity <em>Watch</em></h3>
-          <p class="pc-desc">Flags possible match-fixing, round by round.</p>
-          <span class="pc-stats caps-s"><b>42,009</b> rounds <i></i> Brier <b>0.178</b> <i></i> XGBoost benchmark</span>
-          <span class="btn btn-primary pc-go">Open project <span class="arr" aria-hidden="true">&#x2192;</span></span>
-        </div>
-        <div class="pc-art pc-ui pc-cs" aria-hidden="true">
-          <div class="ui-stage">
-            <div class="ui ui1">
-              <div class="ui-k">Game model</div>
-              <div class="ui-big">0.178 <span>Brier</span></div>
-              <div class="ui-row"><span>Model</span><b>Logistic reg.</b></div>
-              <div class="ui-row"><span>Calibration</span><b>Isotonic</b></div>
-              <div class="ui-row"><span>Benchmark</span><b>XGBoost</b></div>
-              <div class="ui-row"><span>Per score</span><b>~9 ms</b></div>
-            </div>
-            <div class="ui ui2 wide">
-              <div class="ui-k">Win probability <span>Wildcard vs NOMERCY</span></div>
-              <svg class="ui-chart tall" viewBox="0 0 260 110" preserveAspectRatio="none"><path d="M0.0 12 L20.0 11 L40.0 13 L60.0 10 L80.0 12 L100.0 11 L120.0 10 L140.0 12 L160.0 11 L180.0 10 L200.0 11 L220.0 12 L240.0 10 L260.0 11 L260.0 74 L240.0 80 L220.0 76 L200.0 84 L180.0 78 L160.0 86 L140.0 80 L120.0 90 L100.0 84 L80.0 92 L60.0 88 L40.0 99 L20.0 90 L0.0 96 Z" fill="#ff5a4e" opacity=".12"/><line x1="0" y1="55" x2="260" y2="55" stroke="#2a2a28" stroke-dasharray="3 4"/><path class="ui-draw" pathLength="100" d="M0.0 12 20.0 11 40.0 13 60.0 10 80.0 12 100.0 11 120.0 10 140.0 12 160.0 11 180.0 10 200.0 11 220.0 12 240.0 10 260.0 11" fill="none" stroke="#4f86ff" stroke-width="2" vector-effect="non-scaling-stroke"/><path class="ui-draw d2" pathLength="100" d="M0.0 96 20.0 90 40.0 99 60.0 88 80.0 92 100.0 84 120.0 90 140.0 80 160.0 86 180.0 78 200.0 84 220.0 76 240.0 80 260.0 74" fill="none" stroke="#f5a623" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>
-              <div class="ui-leg"><span><i style="background:#4f86ff"></i>Market</span><span><i style="background:#f5a623"></i>Model</span><span class="ui-gap">Gap 47.2 pts &#xb7; 12 rounds</span></div>
-            </div>
-            <div class="ui ui3">
-              <div class="ui-k">Alert <span class="ui-high">High</span></div>
-              <div class="ui-row"><span>Market moved first</span><b>Yes</b></div>
-              <div class="ui-row"><span>Gap held</span><b>12 rounds</b></div>
-              <div class="ui-row"><span>Runs on</span><b>IBM LinuxONE</b></div>
             </div>
           </div>
         </div>
@@ -1352,67 +1304,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     </div>
 
     <div class="projects" id="pvStore">
-        <article class="proj" id="p-swap" data-n="01">
-          <div class="float" role="img" aria-label="Swap project poster">
-            <div class="sheet">
-              <div class="media">
-                <svg viewBox="0 0 200 250" aria-hidden="true">
-                  <line x1="16" y1="134" x2="184" y2="134" stroke="#2a2a28"/>
-                  <g fill="none" stroke="#6e6c67" stroke-width="1.5"><rect x="24" y="68" width="12" height="66" rx="6"/><rect x="48" y="74" width="12" height="60" rx="6"/><rect x="72" y="74" width="12" height="60" rx="6"/><rect x="120" y="50" width="12" height="84" rx="6"/><rect x="144" y="38" width="12" height="96" rx="6"/><rect x="168" y="68" width="12" height="66" rx="6"/></g>
-                  <rect x="96" y="62" width="12" height="72" rx="6" fill="none" stroke="#ebe8e1" stroke-width="2"/><rect x="92.5" y="58.5" width="19" height="79" rx="9.5" fill="none" stroke="#ebe8e1" stroke-width="1" opacity=".35"/>
-                  <rect class="sw-pf" style="--k:0" x="24" y="76" width="12" height="58" rx="6" fill="#2e9e6a"/>
-                  <rect class="sw-pf" style="--k:1" x="48" y="74" width="12" height="60" rx="6" fill="#2e9e6a"/>
-                  <rect class="sw-pf" style="--k:2" x="72" y="74" width="12" height="60" rx="6" fill="#e46c35"/>
-                  <rect class="sw-pf" style="--k:3" x="96" y="108" width="12" height="26" rx="6" fill="#2e9e6a"/>
-                  <g class="sw-ptag"><rect x="16" y="22" width="56" height="16" rx="2" fill="#2e9e6a"/><text x="44" y="33.5" text-anchor="middle" class="sw-px">$38 left</text></g>
-                </svg>
-                <div class="poster"><small>iPhone app</small>Swap</div>
-              </div>
-              <div class="foot"><span>01 / Swap</span><span class="sw"><i style="background:#e46c35"></i><i style="background:#4a5fd8"></i><i style="background:#2e9e6a"></i></span></div>
-            </div>
-            <span class="sticker">Personal finance</span>
-          </div>
-          <div class="proj-body">
-            <h3>Swap</h3>
-            <dl class="tldr">
-              <div><dt class="caps-s">Problem</dt><dd>College kids spend way too much, especially at NYU, where you live in the city. Food, coffee, rides and late nights are always right there. None of it feels like a lot at the time, but it adds up fast.</dd></div>
-              <div><dt class="caps-s">Proposed solution</dt><dd>Swap connects to your bank, looks at your usual week, takes out what you want to save, then gives you one number to spend today. It also finds cheaper swaps in your own charges, like the subway instead of a daytime ride. It only suggests stuff. Nothing gets blocked.</dd></div>
-            </dl>
-            <ol class="steps">
-              <li><span class="k caps-s">Conducted research</span><div><b>13 months of my own charges</b><span>I also read what students say online and pulled survey data, checking each number against a second source. No pilot yet, and I&#x2019;m the only one who&#x2019;s used it, so it only backs up the problem.</span></div></li>
-              <li><span class="k caps-s">Findings</span><div><b>Delivery was only 3% of my spending</b><span>I thought delivery was the problem. After I moved somewhere with no kitchen and a slow subway, my rides went from $13 to about $200 a week. None of them felt expensive.</span></div></li>
-              <li><span class="k caps-s">Decide</span><div><b>Your own usual week</b><span>That&#x2019;s the benchmark, since comparing yourself to other people just makes you quit. If a charge is unclear, Swap asks instead of guessing.</span></div></li>
-              <li><span class="k caps-s">Plaid API</span><div><b>How it reads your bank</b><span>Plaid Link connects your bank. Python pulls about 400 days of charges with <code>/transactions/sync</code>, and the Check bank button calls <code>/transactions/refresh</code> for new ones. I tested it all on Plaid&#x2019;s fake bank first. Transfers, refunds and paying friends back only count once, and 27 offline tests check that.</span></div></li>
-              <li><span class="k caps-s">Plan</span><div><b>Today&#x2019;s number</b><span>Split by the days you actually spend, so weekends get more. Night rides count as spending, but Swap never suggests a swap for them. Getting home safe isn&#x2019;t something to cut.</span></div></li>
-              <li><span class="k caps-s">iPhone</span><div><b>SwiftUI app</b><span>It sends a &#x201c;Today: $X&#x201d; notification at 8:30 AM and checks your bank in the background. The chat runs on the phone with Apple Intelligence.</span></div></li>
-              <li><span class="k caps-s">Measure</span><div><b>Spend vs. your usual week</b><span>That&#x2019;s the number that shows whether Swap actually works.</span></div></li>
-            </ol>
-            <div class="tags"><span class="tag-k caps-s">Built with</span><span class="tag">Plaid API</span><span class="tag">Python</span><span class="tag">JavaScript</span><span class="tag">SwiftUI</span><span class="tag">Apple Intelligence</span><span class="tag">Vercel</span><span class="tag">Claude Code</span></div>
-            <div class="btns">
-              <a class="btn btn-primary" href="https://michaelwang.lol/swap/app/?profile=social" target="_blank" rel="noopener">Try it <span class="arr" aria-hidden="true">&#x2192;</span></a>
-              <a class="btn" href="https://github.com/jialewang0528-gif/swap" target="_blank" rel="noopener">Code <span class="arr" aria-hidden="true">&#x2192;</span></a>
-              <a class="btn" href="https://michaelwang.lol/swap/prototype/" target="_blank" rel="noopener">First prototype <span class="arr" aria-hidden="true">&#x2192;</span></a>
-            </div>
-          </div>
-          <div class="proj-more two">
-            <div class="pains">
-              <span class="caps-s muted">Findings</span>
-              <ol>
-                <li>Spending happens at the same moments, like after long days, once the dining hall closes, late at night or when friends pick the plan</li>
-                <li>Most people find out weeks later when they scroll their bank app</li>
-                <li>Willpower fixes like deleting apps fall apart within days. An easy option right when you&#x2019;re about to spend works better</li>
-                <li>People quit budgeting apps over price, broken bank sync and having to log everything</li>
-                <li>Bank categories are messy. A ride and a food order from the same company can look identical</li>
-              </ol>
-            </div>
-            <div class="mock">
-              <span class="caps-s muted">What it says</span>
-              <div class="notif"><span class="caps-s">Swap &#xb7; 8:30 AM</span><p>Today: $38. Week left $238. Bank checked 7:31 AM.</p></div>
-              <blockquote>I go to NYU and found myself spending wayyy too much money, so I wanted to get to the root of it and figure out how to stop.<cite class="caps-s">Why I made it</cite></blockquote>
-            </div>
-          </div>
-        </article>
-        <article class="proj" id="p-whoop" data-n="02">
+        <article class="proj" id="p-whoop" data-n="01">
           <div class="float" role="img" aria-label="WHOOP Calendar Sync project poster">
             <div class="sheet">
               <div class="media">
@@ -1424,7 +1316,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
                 </svg>
                 <div class="poster"><small>NYU PM Club</small>WHOOP<br>Calendar<br>Sync</div>
               </div>
-              <div class="foot"><span>02 / WHOOP Calendar Sync</span><span class="sw"><i style="background:#3ddc84"></i><i style="background:#f6c544"></i><i style="background:#ff5a4e"></i></span></div>
+              <div class="foot"><span>01 / WHOOP Calendar Sync</span><span class="sw"><i style="background:#3ddc84"></i><i style="background:#f6c544"></i><i style="background:#ff5a4e"></i></span></div>
             </div>
             <span class="sticker">0&#x2192;1 feature</span>
           </div>
@@ -1475,7 +1367,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
           </div>
         </article>
 
-        <article class="proj" id="p-vt" data-n="03">
+        <article class="proj" id="p-vt" data-n="02">
           <div class="vt-demo">
             <div class="vtp paused" id="vtp">
               <div class="vtp-chrome" aria-hidden="true"><i></i><i></i><i></i><span class="vtp-name">Veraitas</span><span class="vtp-len caps-s">0:47</span></div>
@@ -1519,7 +1411,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
                 </svg>
                 <div class="poster"><small>Tech@NYU Buildathon</small><span class="vt-wm">Veraitas</span></div>
               </div>
-              <div class="foot"><span>03 / Veraitas</span><span class="sw"><i style="background:#2ee68a"></i><i style="background:#ebe8e1"></i><i style="background:#ff4d5e"></i></span></div>
+              <div class="foot"><span>02 / Veraitas</span><span class="sw"><i style="background:#2ee68a"></i><i style="background:#ebe8e1"></i><i style="background:#ff4d5e"></i></span></div>
             </div>
             <span class="sticker">Fintech</span>
           </div>
@@ -1544,7 +1436,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
           </div>
         </article>
 
-        <article class="proj" id="p-ibm" data-n="04">
+        <article class="proj" id="p-ibm" data-n="03">
           <div class="float" role="img" aria-label="CS2 Integrity Watch project poster">
             <div class="sheet">
               <div class="media">
@@ -1557,7 +1449,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
                 </svg>
                 <div class="poster"><small>IBM Z Datathon</small>CS2<br>Integrity<br>Watch</div>
               </div>
-              <div class="foot"><span>04 / CS2 Integrity Watch</span><span class="sw"><i style="background:#4f86ff"></i><i style="background:#f5a623"></i><i style="background:#ff5a4e"></i></span></div>
+              <div class="foot"><span>03 / CS2 Integrity Watch</span><span class="sw"><i style="background:#4f86ff"></i><i style="background:#f5a623"></i><i style="background:#ff5a4e"></i></span></div>
             </div>
             <span class="sticker">Machine learning</span>
           </div>
@@ -1589,12 +1481,89 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
             <figure><img src="cs2-alert-low.jpg" alt="Win probability by round for ex-Zero Tenacity vs RUSTEC: a two-round market spike to 45% with nothing to back it up, graded low severity" width="1440" height="612" loading="lazy"><figcaption class="caps-s muted">A two-round spike with nothing behind it, graded low.</figcaption></figure>
           </div>
         </article>
+
+        <article class="proj" id="p-swap" data-n="04">
+          <div class="float" role="img" aria-label="Swap project poster">
+            <div class="sheet">
+              <div class="media">
+                <svg viewBox="0 0 200 250" aria-hidden="true">
+                  <line x1="16" y1="134" x2="184" y2="134" stroke="#2a2a28"/>
+                  <g fill="none" stroke="#6e6c67" stroke-width="1.5"><rect x="24" y="68" width="12" height="66" rx="6"/><rect x="48" y="74" width="12" height="60" rx="6"/><rect x="72" y="74" width="12" height="60" rx="6"/><rect x="120" y="50" width="12" height="84" rx="6"/><rect x="144" y="38" width="12" height="96" rx="6"/><rect x="168" y="68" width="12" height="66" rx="6"/></g>
+                  <rect x="96" y="62" width="12" height="72" rx="6" fill="none" stroke="#ebe8e1" stroke-width="2"/><rect x="92.5" y="58.5" width="19" height="79" rx="9.5" fill="none" stroke="#ebe8e1" stroke-width="1" opacity=".35"/>
+                  <rect class="sw-pf" style="--k:0" x="24" y="76" width="12" height="58" rx="6" fill="#2e9e6a"/>
+                  <rect class="sw-pf" style="--k:1" x="48" y="74" width="12" height="60" rx="6" fill="#2e9e6a"/>
+                  <rect class="sw-pf" style="--k:2" x="72" y="74" width="12" height="60" rx="6" fill="#e46c35"/>
+                  <rect class="sw-pf" style="--k:3" x="96" y="108" width="12" height="26" rx="6" fill="#2e9e6a"/>
+                  <g class="sw-ptag"><rect x="16" y="22" width="56" height="16" rx="2" fill="#2e9e6a"/><text x="44" y="33.5" text-anchor="middle" class="sw-px">$38 left</text></g>
+                </svg>
+                <div class="poster"><small>iPhone app</small>Swap</div>
+              </div>
+              <div class="foot"><span>04 / Swap</span><span class="sw"><i style="background:#e46c35"></i><i style="background:#4a5fd8"></i><i style="background:#2e9e6a"></i></span></div>
+            </div>
+            <span class="sticker">Personal finance</span>
+          </div>
+          <div class="proj-body">
+            <h3>Swap</h3>
+            <dl class="tldr">
+              <div><dt class="caps-s">Problem</dt><dd>College kids spend way too much, especially at NYU, where you live in the city. Food, coffee, rides and late nights are always right there. None of it feels like a lot at the time, but it adds up fast.</dd></div>
+              <div><dt class="caps-s">Proposed solution</dt><dd>Swap connects to your bank, looks at your usual week, takes out what you want to save, then gives you one number to spend today. It also finds cheaper swaps in your own charges, like the subway instead of a daytime ride. It only suggests stuff. Nothing gets blocked.</dd></div>
+            </dl>
+            <ol class="steps">
+              <li><span class="k caps-s">Conducted research</span><div><b>13 months of my own charges</b><span>I also read what students say online and pulled survey data, checking each number against a second source. No pilot yet, and I&#x2019;m the only one who&#x2019;s used it, so it only backs up the problem.</span></div></li>
+              <li><span class="k caps-s">Findings</span><div><b>Delivery was only 3% of my spending</b><span>I thought delivery was the problem. After I moved somewhere with no kitchen and a slow subway, my rides went from $13 to about $200 a week. None of them felt expensive.</span></div></li>
+              <li><span class="k caps-s">Decide</span><div><b>Your own usual week</b><span>That&#x2019;s the benchmark, since comparing yourself to other people just makes you quit. If a charge is unclear, Swap asks instead of guessing.</span></div></li>
+              <li><span class="k caps-s">Plaid API</span><div><b>How it reads your bank</b><span>Plaid Link connects your bank. Python pulls about 400 days of charges with <code>/transactions/sync</code>, and the Check bank button calls <code>/transactions/refresh</code> for new ones. I tested it all on Plaid&#x2019;s fake bank first. Transfers, refunds and paying friends back only count once, and 27 offline tests check that.</span></div></li>
+              <li><span class="k caps-s">Plan</span><div><b>Today&#x2019;s number</b><span>Split by the days you actually spend, so weekends get more. Night rides count as spending, but Swap never suggests a swap for them. Getting home safe isn&#x2019;t something to cut.</span></div></li>
+              <li><span class="k caps-s">iPhone</span><div><b>SwiftUI app</b><span>It sends a &#x201c;Today: $X&#x201d; notification at 8:30 AM and checks your bank in the background. The chat runs on the phone with Apple Intelligence.</span></div></li>
+              <li><span class="k caps-s">Measure</span><div><b>Spend vs. your usual week</b><span>That&#x2019;s the number that shows whether Swap actually works.</span></div></li>
+            </ol>
+            <div class="tags"><span class="tag-k caps-s">Built with</span><span class="tag">Plaid API</span><span class="tag">Python</span><span class="tag">JavaScript</span><span class="tag">SwiftUI</span><span class="tag">Apple Intelligence</span><span class="tag">Vercel</span><span class="tag">Claude Code</span></div>
+            <div class="btns">
+              <a class="btn btn-primary" href="https://michaelwang.lol/swap/app/?profile=social" target="_blank" rel="noopener">Try it <span class="arr" aria-hidden="true">&#x2192;</span></a>
+              <a class="btn" href="https://github.com/jialewang0528-gif/swap" target="_blank" rel="noopener">Code <span class="arr" aria-hidden="true">&#x2192;</span></a>
+              <a class="btn" href="https://michaelwang.lol/swap/prototype/" target="_blank" rel="noopener">First prototype <span class="arr" aria-hidden="true">&#x2192;</span></a>
+            </div>
+          </div>
+          <div class="proj-more two">
+            <div class="pains">
+              <span class="caps-s muted">Findings</span>
+              <ol>
+                <li>Spending happens at the same moments, like after long days, once the dining hall closes, late at night or when friends pick the plan</li>
+                <li>Most people find out weeks later when they scroll their bank app</li>
+                <li>Willpower fixes like deleting apps fall apart within days. An easy option right when you&#x2019;re about to spend works better</li>
+                <li>People quit budgeting apps over price, broken bank sync and having to log everything</li>
+                <li>Bank categories are messy. A ride and a food order from the same company can look identical</li>
+              </ol>
+            </div>
+            <div class="mock">
+              <span class="caps-s muted">What it says</span>
+              <div class="notif"><span class="caps-s">Swap &#xb7; 8:30 AM</span><p>Today: $38. Week left $238. Bank checked 7:31 AM.</p></div>
+              <blockquote>I go to NYU and found myself spending wayyy too much money, so I wanted to get to the root of it and figure out how to stop.<cite class="caps-s">Why I made it</cite></blockquote>
+            </div>
+          </div>
+        </article>
+    </div>
+  </section>
+
+  <section class="wrap" aria-label="About">
+    <div class="about">
+      <span class="caps muted">About</span>
+      <div>
+        <p class="fill" id="fill" data-accent="michael,wang">I&#x2019;m Michael Wang, an economics student at NYU with a minor in data science.</p>
+      </div>
+      <dl class="about-facts">
+        <div><dt class="caps-s">Studying</dt><dd>B.A. Economics, minor in Data Science, NYU</dd></div>
+        <div><dt class="caps-s">Interested in</dt><dd>Product management and strategy</dd></div>
+        <div><dt class="caps-s">Toolkit</dt><dd>Claude Code, Codex, Grok, Figma, Excel, Power BI, Jira, SQL, Python, REST APIs</dd></div>
+        <div><dt class="caps-s">Languages</dt><dd>English, Mandarin</dd></div>
+        <div><dt class="caps-s">Interests</dt><dd>Weightlifting, basketball, golf, cold brews, anime</dd></div>
+      </dl>
     </div>
   </section>
 
   <section class="wrap" id="experience">
     <header class="sh">
-      <span class="sh-i caps">(02) Experience</span>
+      <span class="sh-i caps">Experience</span>
       <h2>Where I&#x2019;ve <em>worked</em></h2>    </header>
 
     <div class="xp-logos">
@@ -1605,19 +1574,19 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     </div>
 
     <div class="xp" id="xp-patlytics">
-      <div class="xp-head"><span class="xp-no caps-s">01</span><span class="xp-years caps-s">Aug 2026&#x2013;Present</span><span class="xp-co">Patlytics</span><span class="xp-role"><b>Product &amp; Go-to-Market Strategy Intern</b>New York, NY</span></div>
+      <div class="xp-head"><span class="xp-years caps-s">Aug 2026&#x2013;Present</span><span class="xp-co">Patlytics</span><span class="xp-role"><b>Product &amp; Go-to-Market Strategy Intern</b>New York, NY</span></div>
       <div class="xp-body"><p class="xp-line">Tested the AI agent before launch and built the tools that find new government patent-office contracts.</p><div class="xp-links"><a class="mw-link" href="https://www.patlytics.ai/agent" target="_blank" rel="noopener">Patlytics Agent &#x2197;</a><a class="mw-link" href="https://www.patlytics.ai/" target="_blank" rel="noopener">patlytics.ai &#x2197;</a></div></div>
     </div>
     <div class="xp" id="xp-moonshot">
-      <div class="xp-head"><span class="xp-no caps-s">02</span><span class="xp-years caps-s">Aug&#x2013;Oct 2026</span><span class="xp-co">Moonshot (YC S26)</span><span class="xp-role"><b>Product &amp; Growth Intern</b>Remote, part-time</span></div>
+      <div class="xp-head"><span class="xp-years caps-s">Aug&#x2013;Oct 2026</span><span class="xp-co">Moonshot (YC S26)</span><span class="xp-role"><b>Product &amp; Growth Intern</b>Remote, part-time</span></div>
       <div class="xp-body"><p class="xp-line">Turned 20+ user interviews into a shipped AI memory feature, then ran the launch ad tests and creator program.</p><div class="xp-links"><a class="mw-link" href="https://moonshot.computer/" target="_blank" rel="noopener">moonshot.computer &#x2197;</a><a class="mw-link" href="https://www.linkedin.com/company/heymoonshot" target="_blank" rel="noopener">Moonshot on LinkedIn &#x2197;</a></div></div>
     </div>
     <div class="xp" id="xp-yanfeng">
-      <div class="xp-head"><span class="xp-no caps-s">03</span><span class="xp-years caps-s">Jun&#x2013;Aug 2026</span><span class="xp-co">Yanfeng Automotive Interiors</span><span class="xp-role"><b>Commercial Strategy &amp; Operations Intern</b>Novi, MI</span></div>
+      <div class="xp-head"><span class="xp-years caps-s">Jun&#x2013;Aug 2026</span><span class="xp-co">Yanfeng Automotive Interiors</span><span class="xp-role"><b>Commercial Strategy &amp; Operations Intern</b>Novi, MI</span></div>
       <div class="xp-body"><p class="xp-line">Found $1.4M in GM pricing discrepancies and turned a 2&#x2013;3 day document check into an hour with an AI workflow.</p></div>
     </div>
     <div class="xp" id="xp-rockbridge">
-      <div class="xp-head"><span class="xp-no caps-s">04</span><span class="xp-years caps-s">May&#x2013;Jun 2025</span><span class="xp-co">Rockbridge Growth Equity</span><span class="xp-role"><b>Private Equity Intern</b>Detroit, MI</span></div>
+      <div class="xp-head"><span class="xp-years caps-s">May&#x2013;Jun 2025</span><span class="xp-co">Rockbridge Growth Equity</span><span class="xp-role"><b>Private Equity Intern</b>Detroit, MI</span></div>
       <div class="xp-body"><p class="xp-line">Screened deals across 6 subsectors and helped move 2 into partner-reviewed memos.</p></div>
     </div>
 
@@ -1625,7 +1594,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 
   <section class="wrap" id="resume">
     <header class="sh">
-      <span class="sh-i caps">(03) Resume</span>
+      <span class="sh-i caps">Resume</span>
       <h2>Re<em>sume</em></h2>
     </header>
     <div class="resume">
@@ -1642,7 +1611,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 
   <section class="contact" id="contact">
     <div class="wrap">
-      <span class="caps muted">(04) Reach out</span>
+      <span class="caps muted">Reach out</span>
       <h2>Feel free to reach <em>out!</em></h2>
       <div class="c-rows">
         <div class="c-row"><span class="caps-s">Email</span><a class="c-val" href="mailto:michaelwang@nyu.edu">michaelwang@nyu.edu</a><button class="btn copy" type="button" data-copy="michaelwang@nyu.edu">Copy</button></div>
@@ -1695,7 +1664,6 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
   </div>
 </div>
 
-<div class="latest">Latest project <span class="muted">/</span> <a href="#project/swap">Swap</a></div>
 
 <script src="sandbox/ink.js?v=4"></script>
 <script>
@@ -2126,27 +2094,27 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     }
   }
 
-  // hero: big rotating focus headline, same decode, with a counter and a fill bar
+  // hero: big rotating focus headline, crossfaded, with a counter and a fill bar
   var rot = document.getElementById("rot"), rotIdx = document.getElementById("rotIdx"), rotBar = document.getElementById("rotBar");
   var WORDS = ["Product management", "Product strategy", "User research", "Growth", "Go-to-market", "Data analytics", "AI products", "Fintech"];
-  var CAPS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  function decodeCaps(el, text, p) {
-    var out = "", n = text.length, k = Math.floor(p * (n + 5));
-    for (var q = 0; q < n; q++) { var ch = text[q]; out += (ch === " " || ch === "-" || q < k - 5) ? ch : (q < k ? CAPS[(Math.random() * CAPS.length) | 0] : "\u00a0"); }
-    el.textContent = out;
-  }
   if (rot) {
-    var wi = 0;
+    var wi = 0, rotL = rot.querySelectorAll(".rot-w"), rotF = 0, rotDriven = false, rotT = 0;
     function runBar() { if (!rotBar) return; rotBar.classList.remove("run"); void rotBar.offsetWidth; rotBar.classList.add("run"); }
+    function rotCount(k) { rotIdx.textContent = String(k + 1).padStart(2, "0") + " / " + String(WORDS.length).padStart(2, "0"); }
     function show(k) {
-      var w = WORDS[k].toUpperCase(); rotIdx.textContent = String(k + 1).padStart(2, "0") + " / " + String(WORDS.length).padStart(2, "0");
-      if (reduce) { rot.textContent = w; return; }
-      var t0 = performance.now();
-      (function step(now) { var p = clamp01((now - t0) / 700); decodeCaps(rot, w, p); if (p < 1) requestAnimationFrame(step); else rot.textContent = w; })(t0);
+      var nx = rotL[1 - rotF], fo = rot.closest(".focus");
+      rotCount(k);
+      // build.js turns the block into a slider: keep what a screen reader hears in step with the word on screen
+      if (fo && fo.getAttribute("role") === "slider") { fo.setAttribute("aria-valuenow", String(k + 1)); fo.setAttribute("aria-valuetext", WORDS[k]); }
+      nx.textContent = WORDS[k].toUpperCase(); rotL[rotF].classList.remove("on"); nx.classList.add("on"); rotF = 1 - rotF;
       runBar();
     }
-    show(0);
-    if (!reduce) setInterval(function () { if (document.hidden) return; wi = (wi + 1) % WORDS.length; show(wi); }, 2600);
+    function rotAuto() { clearInterval(rotT); if (reduce) return; runBar(); rotT = setInterval(function () { if (document.hidden || rotDriven) return; wi = (wi + 1) % WORDS.length; show(wi); }, 2600); }
+    rotAuto();
+    // the visitor can drive the word (build.js): it swaps at once, the bar shows the position, and the loop picks up again on release
+    window.__rot = { n: WORDS.length, words: WORDS, get: function () { return wi; },
+      drive: function (k) { rotDriven = true; if (k === wi && rotL[rotF].textContent === WORDS[k].toUpperCase()) return; wi = k; rotL[rotF].textContent = WORDS[k].toUpperCase(); rotL[1 - rotF].textContent = ""; rotCount(k); if (rotBar) { rotBar.classList.remove("run"); rotBar.style.transform = "scaleX(" + (k + 1) / WORDS.length + ")"; } },
+      release: function () { if (!rotDriven) return; rotDriven = false; if (rotBar) rotBar.style.transform = ""; rotAuto(); } };
   }
   function clamp01(x) { return Math.max(0, Math.min(1, x)); }
   document.querySelectorAll("[data-replay]").forEach(function (b) { b.addEventListener("click", function () { replayIntro(); }); });
@@ -2171,11 +2139,21 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
   var nav = document.getElementById("nav"), mb = document.getElementById("menuBtn");
   mb.addEventListener("click", function () { var o = nav.classList.toggle("open"); mb.setAttribute("aria-expanded", o); mb.textContent = o ? "Close" : "Menu"; });
   document.querySelectorAll("#navLinks a").forEach(function (a) { a.addEventListener("click", function () { if (a.classList.contains("nav-sbx")) return; nav.classList.remove("open"); mb.setAttribute("aria-expanded", "false"); mb.textContent = "Menu"; }); });
+  // keyboard: the links sit before the button in the page, so Tab from an open Menu goes to them and loops back; Escape closes
+  nav.addEventListener("keydown", function (e) {
+    if (!nav.classList.contains("open")) return;
+    var links = [].slice.call(document.querySelectorAll("#navLinks a")), at = document.activeElement;
+    if (e.key === "Escape") { e.preventDefault(); mb.click(); mb.focus(); return; }
+    if (e.key !== "Tab" || !links.length) return;
+    if (!e.shiftKey && at === mb) { e.preventDefault(); links[0].focus(); }
+    else if (!e.shiftKey && at === links[links.length - 1]) { e.preventDefault(); mb.focus(); }
+    else if (e.shiftKey && at === links[0]) { e.preventDefault(); mb.focus(); }
+  });
 
-  // 05 ???: the door to the Sandbox
+  // ???: the door to the Sandbox
   document.querySelectorAll(".nav-sbx").forEach(function (a) {
     var going = false, hov = false, kbd = false, q = a.querySelector(".sbx-q"), w = a.querySelector(".sbx-w");
-    // how far "05" slides when ??? becomes the word; measured on use, since inside the closed mobile menu it has no width
+    // how much wider the word is than ???, for the focus ring; measured on use, since inside the closed mobile menu it has no width
     var fit = function () { a.style.setProperty("--sbx-dx", Math.max(0, w.offsetWidth - q.offsetWidth) + "px"); };
     var sync = function () { if (hov || kbd || going) { fit(); a.classList.add("on"); } else a.classList.remove("on"); };
     fit(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
@@ -2201,22 +2179,6 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     var em = sp.querySelector("em"), host = em || sp, txt = host.textContent, base = k * 7;
     host.innerHTML = txt.split("").map(function (c, i) { return '<span class="ch" style="--i:' + (base + i) + '">' + c + '</span>'; }).join("");
   });
-
-  // ticker: duplicate the track; JS drives it so scroll speed can kick it
-  var tk = document.getElementById("ticker"); tk.innerHTML += tk.innerHTML;
-  var tkX = 0, tkVel = 0, lastY = window.scrollY;
-  if (!reduce) {
-    tk.classList.add("js");
-    (function tick() {
-      var dy = window.scrollY - lastY; lastY = window.scrollY;
-      tkVel += (dy - tkVel) * 0.12;
-      tkX -= 0.6 + Math.abs(tkVel) * 0.35;
-      var half = tk.scrollWidth / 2; if (half && -tkX > half) tkX += half;
-      var sk = Math.max(-12, Math.min(12, tkVel * 0.35));
-      tk.style.transform = "translate3d(" + tkX + "px,0,0) skewX(" + (-sk) + "deg)";
-      requestAnimationFrame(tick);
-    })();
-  }
 
   // scroll reveals: blur-up blocks, letter-split headings, clip-in images
   if (!reduce && "IntersectionObserver" in window) {
@@ -2287,7 +2249,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     cs2: { el: "p-ibm", name: "CS2 Integrity Watch", title: "CS2 Integrity <em>Watch</em>", cat: "Machine learning \u00b7 IBM Z Datathon", desc: "Flags possible match-fixing, round by round.", stats: "<b>42,009</b> rounds <i></i> Brier <b>0.178</b> <i></i> <b>9</b> ms per score",
       cards: [{ poster: 1 }, { src: "reel-cs-1.jpg", alt: "CS2 deck: the NOMERCY match-fixing case" }, { src: "reel-cs-2.jpg", alt: "CS2 deck: system architecture" }, { src: "reel-cs-3.jpg", alt: "CS2 deck: alert on the NOMERCY match" }, { src: "cs2-alert-high.jpg", alt: "Model vs market gap held for 12 rounds" }] }
   };
-  var ORDER = ["swap", "whoop", "veraitas", "cs2"];
+  var ORDER = ["whoop", "veraitas", "cs2", "swap"];
   var pv = document.getElementById("pv"), pvScroll = document.getElementById("pvScroll"), pvCase = document.getElementById("pvCase"), pvStore = document.getElementById("pvStore");
   var reel = document.getElementById("reel"), stage = document.getElementById("reelStage");
   var pvKey = null, pvReturn = null, rvRun = false, cards = [], N = 0, fCur = 0, fTarget = 0, lastSlide = -1, bgFlip = false;
@@ -2420,6 +2382,14 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
   document.addEventListener("keydown", function (e) {
     if (!pv.classList.contains("open")) return;
     if (e.key === "Escape") { e.preventDefault(); closeProject(); return; }
+    // Tab stays inside the open project: the page behind it is covered
+    if (e.key === "Tab") {
+      var fs = [].filter.call(pv.querySelectorAll('a[href], button:not([disabled]), input, textarea, select, iframe, [tabindex]:not([tabindex="-1"])'), function (el) { return el.getClientRects().length && getComputedStyle(el).visibility !== "hidden"; });
+      if (!fs.length) return;
+      var first = fs[0], lastF = fs[fs.length - 1], at = document.activeElement;
+      if (!pv.contains(at) || (e.shiftKey && at === first) || (!e.shiftKey && at === lastF)) { e.preventDefault(); (e.shiftKey ? lastF : first).focus(); }
+      return;
+    }
     if (e.target.closest && e.target.closest("input, textarea")) return;
     var inReel = pvScroll.scrollTop <= span() + 4;
     if (inReel && e.key === "ArrowRight") { e.preventDefault(); goTo(Math.round(fTarget) + 1); }
@@ -2587,8 +2557,6 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     secs.forEach(function (s, i) { if (s.getBoundingClientRect().top < vh * 0.4) active = i; });
     links.forEach(function (a, i) { a.classList.toggle("is-current", i === active); });
     nav.classList.toggle("scrolled", window.scrollY > 8);
-    var lt = document.querySelector(".latest"), ft = document.querySelector("footer");
-    var rs = document.getElementById("resume"); if (lt && ft) lt.classList.toggle("gone", ft.getBoundingClientRect().top < vh - 40 || (rs && rs.getBoundingClientRect().top < vh * 0.85));
   }
   onScroll(); window.addEventListener("scroll", onScroll, { passive: true }); window.addEventListener("resize", onScroll);
 
@@ -2622,7 +2590,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     document.addEventListener("mouseleave", function () { ring.classList.remove("on"); });
     var ringTxt = ring.querySelector("span");
     curRefresh = function () { if (curLast) curSet(curLast); };
-    var CUR = [[".nav-sbx", "Don't"], [".pcard[href='#project/veraitas']", "Watch the demo"], [".pcard", "Open project"], [".lg", "Jump to role"], [".resume-img", "Open PDF"], [".rc", "View"], [".vtp-screen", function () { return document.getElementById("vtp").classList.contains("paused") ? "Play" : "Pause"; }]];
+    var CUR = [[".sw-day.can", "Drag"], [".focus", "Slide"], [".nav-sbx", "Don't"], [".pcard[href='#project/veraitas']", "Watch the demo"], [".pcard", "Open project"], [".lg", "Jump to role"], [".resume-img", "Open PDF"], [".rc", "View"], [".vtp-screen", function () { return document.getElementById("vtp").classList.contains("paused") ? "Play" : "Pause"; }]];
     function curLabel(t) { for (var q = 0; q < CUR.length; q++) { if (t.closest && t.closest(CUR[q][0])) return typeof CUR[q][1] === "function" ? CUR[q][1]() : CUR[q][1]; } return ""; }
     function curSet(t) { curLast = t; var l = curLabel(t); if (l) ringTxt.textContent = l; ring.classList.toggle("label", !!l); ring.classList.toggle("big", !l && !!(t.closest && t.closest("a, button, summary"))); }
     document.addEventListener("mouseover", function (e) { curSet(e.target); });
@@ -2630,6 +2598,10 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
   }
 })();
 </script>
+<script src="build.js"></script>
+<script src="addon-cursor.js"></script>
+<script src="addon-putt.js" defer></script>
+<script src="addon-photo.js" defer></script>
 
 </body>
 </html>

@@ -1,0 +1,58 @@
+/* addon-putt: a ball on the footer name. The word space is the cup. */
+
+/* Phones: the word space is too narrow to be a cup, so open it up.
+   The site's fit() measures the real width, so the name shrinks to stay in the gutter. */
+@media (max-width: 760px) {
+  .foot-mark { word-spacing: .14em; }
+}
+
+/* Let a lobbed ball fly above the footer without letting the name cause sideways scroll.
+   Browsers without overflow: clip skip the block and keep the site's overflow: hidden. */
+footer.putt-host { position: relative; }
+@supports (overflow: clip) { footer.putt-host { overflow-x: clip; overflow-y: visible; } }
+
+.putt-layer { position: absolute; pointer-events: none; z-index: 2; }
+
+.putt-ball {
+  position: absolute; left: 0; top: 0;
+  border-radius: 50%;
+  background: var(--ink, #ebe8e1);
+  pointer-events: auto;
+  touch-action: none;            /* a drag that starts on the ball never scrolls the page */
+  -webkit-user-select: none; user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 200ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+  will-change: transform;
+}
+/* finger-sized target; the ball itself stays small */
+.putt-ball::after { content: ""; position: absolute; inset: -14px; border-radius: 50%; }
+.putt-ball.is-out { opacity: 0; }
+
+@media (hover: hover) and (pointer: fine) {
+  .putt-ball { cursor: grab; }
+  .putt-ball::after { inset: -8px; }
+  .putt-ball.is-aim { cursor: grabbing; }
+}
+
+/* aim line: points where the ball will go, as long as the pull */
+.putt-aim {
+  position: absolute; left: 0; top: 0;
+  width: 1px; height: 1px;
+  background: var(--muted, #9d9a93);
+  transform-origin: 0 50%;
+  opacity: 0;
+  transition: opacity 120ms ease-out;
+}
+.putt-aim.on { opacity: 1; }
+
+/* stroke count, plain text in the foot row */
+.putt-score { color: var(--ink, #ebe8e1); transition: opacity 200ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)); }
+.putt-score[hidden] { display: none; }
+@starting-style { .putt-score { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  /* no flight: the shot resolves at once and the ball fades to where it ends up */
+  .putt-aim { transition: none; }
+}
+
+.putt-debug { position: absolute; left: 0; top: 0; pointer-events: none; opacity: .9; }

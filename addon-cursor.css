@@ -1,0 +1,19 @@
+/* addon-cursor: (1) interests change how the ring cursor moves, (2) the Sandbox door remembers.
+   Uses the page's own tokens (--ink, --muted, --dur-fast, --ease-out). Nothing here shows until someone engages. */
+
+/* ---------- 1. interests ---------- */
+/* the words look exactly like the text around them; inline-block only so a tap can move them on phones */
+.cx-w { display: inline-block; -webkit-tap-highlight-color: transparent; }
+
+/* while a word is hovered the addon owns the ring's position; !important beats the inline translate the page's loop writes */
+.ring.cx-on { translate: var(--cx-x, -100px) var(--cx-y, -100px) !important; }
+/* weightlifting: same ring, thicker bar */
+.ring.cx-weight { border-width: 3px; border-color: var(--ink); }
+/* golf: the ring shrinks to a ball (36px * .22 = 8px); scale already transitions on .ring */
+.ring.cx-golf { scale: .22; background-color: var(--ink); border-color: var(--ink); }
+
+/* ---------- 2. the door remembers ---------- */
+/* once the visitor has been through, the nav item is a plain link reading Sandbox: no sheen, no roll */
+html.cx-seen .nav-sbx .sbx-q { animation: none; background-image: none; color: var(--sbx-c); -webkit-background-clip: border-box; background-clip: border-box; transition: color var(--dur-fast); }
+html.cx-seen .nav-sbx.on .sbx-q { opacity: 1; transform: none; color: var(--ink); }
+html.cx-seen .nav-sbx .sbx-w, html.cx-seen .nav-sbx.on .sbx-w { opacity: 0; transform: none; animation: none; transition: none; }
