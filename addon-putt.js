@@ -35,7 +35,7 @@
   var score = null;
   if (row) {
     score = document.createElement("span"); score.className = "putt-score"; score.hidden = true;
-    row.insertBefore(score, row.children[1] || null);
+    row.insertBefore(score, row.firstChild);
   }
 
   var T = null;                 // terrain: { S, n, fs, r, base, cupL, cupR, tee }

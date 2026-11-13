@@ -56,3 +56,4 @@ footer.putt-host { position: relative; }
 }
 
 .putt-debug { position: absolute; left: 0; top: 0; pointer-events: none; opacity: .9; }
+.foot-row .putt-score { margin-right: auto; align-self: center; }

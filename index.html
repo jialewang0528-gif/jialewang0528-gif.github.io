@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>document.documentElement.classList.add("js");</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Michael Wang</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 fill=%27%230f0f0e%27/%3E%3Ctext x=%2732%27 y=%2744%27 font-family=%27Georgia,serif%27 font-style=%27italic%27 font-size=%2734%27 fill=%27%23ebe8e1%27 text-anchor=%27middle%27%3EMW%3C/text%3E%3C/svg%3E">
@@ -322,7 +323,7 @@ html.ready .portrait figcaption { animation: riseIn 300ms ease-out .7s backwards
   .reel { height: calc(var(--cards) * 28vh + 100vh); }
   .rc { width: 78vw; top: 36%; } .rc.poster { width: 46vw; }
   .reel-count { top: 76px; } .reel-side { display: none; }
-  .reel-info { bottom: 12vh; } .reel-tabs { top: auto; bottom: 3vh; } .reel-tab { padding: 10px 16px; } .tab-more { display: none; } .reel-arrows, .reel-skip { display: none; } .reel-read { height: 38px; padding: 0 16px; }
+  .reel-info { bottom: 12vh; width: 100%; padding: 44px 20px 18px; background: linear-gradient(to bottom, transparent, var(--surface) 44px); } .reel-tabs { top: auto; bottom: 3vh; } .reel-tab { padding: 10px 16px; } .tab-more { display: none; } .reel-arrows, .reel-skip { display: none; } .reel-read { height: 38px; padding: 0 16px; }
 }
 @media (prefers-reduced-motion: reduce) { .reel { display: none; } }
 
@@ -486,7 +487,7 @@ html.js .projects#pvStore { display: none; }
   .pstrip .pcard.flip .pc-art { order: 0; border-right: 0; border-left: 1px solid var(--line); }
   .pstrip .pcard.feat .pc-info { padding: var(--space-6); }
   .pstrip .pcard.feat .pc-title { font-size: clamp(44px, 4.2vw, 64px); }
-  .pstrip .pc-ui .ui-stage { transform: scale(.5); }
+  .pstrip .pc-ui .ui-stage { transform: scale(.45); }
   .pstrip .pc-ui, .pstrip .pc-phones { min-height: 0; }
   @media (min-width: 1300px) { .pstrip .pc-ui .ui-stage { transform: scale(.6); } }
   @media (min-width: 1500px) { .pstrip .pc-ui .ui-stage { transform: scale(.7); } }
@@ -667,6 +668,7 @@ html.pv-lock, html.pv-lock body { overflow: hidden; }
 @media (hover: hover) and (pointer: fine) { .pcard:hover .pc-cs .ui2 { transform: translate(-50%, -66%) scale(1.03); } }
 @media (hover: hover) and (pointer: fine) { .pcard:hover .pc-cs .ui3 { transform: translate(80%, -20%) rotate(7deg); } }
 @media (max-width: 1240px) { .ui-stage { transform: scale(.84); } }
+@media (min-width: 861px) and (max-width: 1099px) { .ui-stage { transform: scale(.7); } }
 @media (max-width: 860px) {
   .pcard.flip { grid-template-columns: minmax(0, 1fr); }
   .pcard.flip .pc-art { order: 0; border-right: 0; }
@@ -799,7 +801,7 @@ html.pv-lock, html.pv-lock body { overflow: hidden; }
 
 footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset-bottom, 0px)); overflow: hidden; }
 .foot-mark { font: 900 12vw/.8 var(--sans); letter-spacing: -.05em; text-transform: uppercase; margin: 0 0 var(--space-5); white-space: nowrap; color: var(--ink); }
-.foot-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-3); color: var(--muted); }
+.foot-row { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-3); color: var(--muted); }
 .foot-row a { text-decoration: none; display: inline-block; padding: 14px 0; }
 .replay { background: none; border: 0; color: var(--ink); padding: 14px 0; cursor: pointer; font: inherit; transition: opacity var(--dur-fast) ease, scale 150ms ease-out; -webkit-tap-highlight-color: transparent; }
 @media (hover: hover) and (pointer: fine) { .replay:hover { opacity: .7; } }
@@ -835,7 +837,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
   :is(.btn, .reel-tab, .reel-arrow, .pv-btn, .vtp-play, .vtp-start, .replay, .menu-btn):not(:disabled):active { scale: .96; }
 }
 /* ---------- Swap (project 04): card art + poster ---------- */
-/* ---------- Swap (04): coded cards rebuilt from the real app's CSS (core.css, today.css, money.css, deck.css).
+/* ---------- Swap (05): coded cards rebuilt from the real app's CSS (core.css, today.css, money.css, deck.css).
    Light app cards on the dark card art; every size is the app's rem value written as em, so one font-size scales it. ---------- */
 .pc-sw { --glow-c: rgba(228, 108, 53, .2);
   --sw-ink: #14162a; --sw-ink2: #4a4f66; --sw-ink3: #565c74; --sw-ink4: rgba(20, 22, 42, .38);
@@ -1207,7 +1209,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
           <span class="pc-cat caps-s">AI feature &#xb7; NYU PMC &#xd7; Rho</span>
           <h3 class="pc-title">Rho <em>Pilot</em></h3>
           <p class="pc-desc">One date that tells a founder when to start raising.</p>
-          <span class="pc-stats caps-s"><b>3</b> founder interviews <i></i> <b>4</b> pain points <i></i> Live prototype</span>
+          <span class="pc-stats caps-s"><b>3</b> interviews <i></i> <b>4</b> pain points <i></i> Live prototype</span>
           <span class="btn btn-primary pc-go">Open project <span class="arr" aria-hidden="true">&#x2192;</span></span>
         </div>
         <div class="pc-art pc-ui pc-rho" aria-hidden="true">
@@ -1466,7 +1468,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
               <li><span class="k caps-s">Trust</span><div><b>AI reads and explains, math makes every number</b><span>Anything it guesses waits for the founder&#x2019;s yes. Rho never moves money.</span></div></li>
               <li><span class="k caps-s">Measure</span><div><b>Alerts acted on within 7 days</b><span>Target 80%, with two guardrails: date accuracy and undone actions.</span></div></li>
             </ol>
-            <div class="tags"><span class="tag-k caps-s">Built with</span><span class="tag">Figma Slides</span><span class="tag">HTML/CSS</span><span class="tag">JavaScript</span></div>
+            <div class="tags"><span class="tag-k caps-s">Built with</span><span class="tag">HTML/CSS</span><span class="tag">JavaScript</span><span class="tag">Figma Slides</span></div>
             <div class="btns">
               <a class="btn btn-primary" href="https://adonis-umber.vercel.app/" target="_blank" rel="noopener">Try the prototype <span class="arr" aria-hidden="true">&#x2192;</span></a>
             </div>
@@ -1477,21 +1479,67 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
           </div>
         </article>
 
+        <article class="proj" id="p-ibm" data-n="03">
+          <div class="float" role="img" aria-label="CS2 Integrity Watch project poster">
+            <div class="sheet">
+              <div class="media">
+                <svg viewBox="0 0 200 250" aria-hidden="true">
+                  <rect class="band" x="118" y="22" width="40" height="104" fill="#ff5a4e" opacity=".22"/>
+                  <line x1="16" y1="126" x2="184" y2="126" stroke="#2a2a28"/><line x1="16" y1="74" x2="184" y2="74" stroke="#2a2a28" stroke-dasharray="2 4"/>
+                  <polyline class="mkt" pathLength="100" fill="none" stroke="#4f86ff" stroke-width="3" points="16,82 34,78 52,90 70,72 88,96 106,100 124,104 142,40 160,102 184,98"/>
+                  <polyline class="mdl" pathLength="100" fill="none" stroke="#f5a623" stroke-width="3" points="16,76 34,70 52,86 70,92 88,84 106,96 124,108 142,100 160,92 184,104"/>
+                  <circle class="ping" cx="142" cy="40" r="5" fill="#ff5a4e"/>
+                </svg>
+                <div class="poster"><small>IBM Z Datathon</small>CS2<br>Integrity<br>Watch</div>
+              </div>
+              <div class="foot"><span>03 / CS2 Integrity Watch</span><span class="sw"><i style="background:#4f86ff"></i><i style="background:#f5a623"></i><i style="background:#ff5a4e"></i></span></div>
+            </div>
+            <span class="sticker">Machine learning</span>
+          </div>
+          <div class="proj-body">
+            <h3>CS2 Integrity <em>Watch</em></h3>
+            <dl class="tldr">
+              <div><dt class="caps-s">Problem</dt><dd>Match-fixing gets caught late, by someone rewatching hours of video.</dd></div>
+              <div><dt class="caps-s">Proposed solution</dt><dd>Compare a win-probability model with live betting odds every round, and flag maps where the market moves first.</dd></div>
+            </dl>
+            <ol class="steps">
+              <li><span class="k caps-s">Data</span><div><b>1,988 pro maps, 42,009 rounds</b><span>Parsed from demos with <code>demoparser2</code>: money, equipment, armor, buy type, side, score.</span></div></li>
+              <li><span class="k caps-s">Market</span><div><b>12,489 Polymarket events</b><span>1-minute prices and every fill.</span></div></li>
+              <li><span class="k caps-s">Align</span><div><b>One clock for both feeds</b><span>Inferred the 64-tick rate and anchored each map on its market&#x2019;s settlement.</span></div></li>
+              <li><span class="k caps-s">Model</span><div><b>Logistic regression, isotonic calibration</b><span>Match-level holdout. Brier 0.178 on 9,163 rounds vs. 0.25 for a coin flip.</span></div></li>
+              <li><span class="k caps-s">Benchmark</span><div><b>XGBoost</b><span>We kept logistic regression: its coefficients explain each alert exactly, and SHAP has no s390x build.</span></div></li>
+              <li><span class="k caps-s">Deploy</span><div><b>IBM LinuxONE (s390x)</b><span>Ingest, training, scoring and dashboard on one machine. About 9 ms per score, 33 tests.</span></div></li>
+              <li><span class="k caps-s">Alert</span><div><b>15+ point gap for 2+ rounds</b><span>Only when the market moved first. 474 of 1,014 market-matched maps raise nothing.</span></div></li>
+            </ol>
+            <div class="tags"><span class="tag-k caps-s">Built with</span><span class="tag">Python</span><span class="tag">pandas</span><span class="tag">scikit-learn</span><span class="tag">XGBoost</span><span class="tag">IBM LinuxONE</span><span class="tag">Polymarket API</span></div>
+            <div class="btns">
+              <a class="btn btn-primary" href="https://youtu.be/xO6F2ehuW4A" target="_blank" rel="noopener">Watch the video <span class="arr" aria-hidden="true">&#x2192;</span></a>
+              <a class="btn" href="http://148.100.79.57:38888/" target="_blank" rel="noopener">Live dashboard <span class="arr" aria-hidden="true">&#x2192;</span></a>
+              <a class="btn" href="https://www.figma.com/deck/O5UdHDEbmIeoyUa1FUXixK" target="_blank" rel="noopener">Pitch deck <span class="arr" aria-hidden="true">&#x2192;</span></a>
+              <a class="btn" href="https://github.com/jialewang0528-gif/IBMZProject" target="_blank" rel="noopener">GitHub repo <span class="arr" aria-hidden="true">&#x2192;</span></a>
+            </div>
+          </div>
+          <div class="proj-more figs">
+            <figure><img src="cs2-alert-high.jpg" alt="Win probability by round for Wildcard vs NOMERCY: the market sat near 97% while the model started at 50%, a 47.2-point gap held for 12 rounds, graded high severity" width="1440" height="612" loading="lazy"><figcaption class="caps-s muted">NOMERCY: a 47.2-point gap held 12 rounds, graded high.</figcaption></figure>
+            <figure><img src="cs2-alert-low.jpg" alt="Win probability by round for ex-Zero Tenacity vs RUSTEC: a two-round market spike to 45% with nothing to back it up, graded low severity" width="1440" height="612" loading="lazy"><figcaption class="caps-s muted">A two-round spike with nothing behind it, graded low.</figcaption></figure>
+          </div>
+        </article>
+
         <article class="proj" id="p-vt" data-n="04">
           <div class="vt-demo">
             <div class="vtp paused" id="vtp">
               <div class="vtp-chrome" aria-hidden="true"><i></i><i></i><i></i><span class="vtp-name">Veraitas</span><span class="vtp-len caps-s">0:47</span></div>
               <div class="vtp-screen" id="vtpScreen" aria-label="Veraitas walkthrough. Click to pause or play.">
                 <div class="vtp-cam" id="vtpCam">
-                  <img class="vtp-img" src="vt-01.jpg" alt="Portfolio with live profit and loss" width="2160" height="1350">
-                  <img class="vtp-img" src="vt-02.jpg" alt="Trade page with the live chart and order book" width="2160" height="1350">
-                  <img class="vtp-img" src="vt-03.jpg" alt="Beginner Mode turned on" width="2160" height="1350">
-                  <img class="vtp-img" src="vt-04.jpg" alt="Tap to explain: market cap in plain English" width="2160" height="1350">
-                  <img class="vtp-img" src="vt-05.jpg" alt="The agent explaining one point on the chart" width="2160" height="1350">
-                  <img class="vtp-img" src="vt-06.jpg" alt="Before you buy: every cost from a live quote" width="2160" height="1350">
-                  <img class="vtp-img" src="vt-07.jpg" alt="The agent explaining the live order book" width="2160" height="1350">
-                  <img class="vtp-img" src="vt-08.jpg" alt="The agent answering why SOL is moving, with sources" width="2160" height="1350">
-                  <img class="vtp-img" src="vt-09.jpg" alt="Swing Check: a normal day in dollars" width="2160" height="1350">
+                  <img class="vtp-img" loading="lazy" decoding="async" src="vt-01.jpg" alt="Portfolio with live profit and loss" width="2160" height="1350">
+                  <img class="vtp-img" loading="lazy" decoding="async" src="vt-02.jpg" alt="Trade page with the live chart and order book" width="2160" height="1350">
+                  <img class="vtp-img" loading="lazy" decoding="async" src="vt-03.jpg" alt="Beginner Mode turned on" width="2160" height="1350">
+                  <img class="vtp-img" loading="lazy" decoding="async" src="vt-04.jpg" alt="Tap to explain: market cap in plain English" width="2160" height="1350">
+                  <img class="vtp-img" loading="lazy" decoding="async" src="vt-05.jpg" alt="The agent explaining one point on the chart" width="2160" height="1350">
+                  <img class="vtp-img" loading="lazy" decoding="async" src="vt-06.jpg" alt="Before you buy: every cost from a live quote" width="2160" height="1350">
+                  <img class="vtp-img" loading="lazy" decoding="async" src="vt-07.jpg" alt="The agent explaining the live order book" width="2160" height="1350">
+                  <img class="vtp-img" loading="lazy" decoding="async" src="vt-08.jpg" alt="The agent answering why SOL is moving, with sources" width="2160" height="1350">
+                  <img class="vtp-img" loading="lazy" decoding="async" src="vt-09.jpg" alt="Swing Check: a normal day in dollars" width="2160" height="1350">
                 </div>
                 <i class="vtp-spot" id="vtpSpot" aria-hidden="true"></i>
                 <i class="vtp-click" id="vtpClick" aria-hidden="true"></i>
@@ -1543,52 +1591,6 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
             <div class="btns">
               <a class="btn btn-primary" href="https://github.com/jialewang0528-gif/veraitas" target="_blank" rel="noopener">GitHub repo <span class="arr" aria-hidden="true">&#x2192;</span></a>
             </div>
-          </div>
-        </article>
-
-        <article class="proj" id="p-ibm" data-n="03">
-          <div class="float" role="img" aria-label="CS2 Integrity Watch project poster">
-            <div class="sheet">
-              <div class="media">
-                <svg viewBox="0 0 200 250" aria-hidden="true">
-                  <rect class="band" x="118" y="22" width="40" height="104" fill="#ff5a4e" opacity=".22"/>
-                  <line x1="16" y1="126" x2="184" y2="126" stroke="#2a2a28"/><line x1="16" y1="74" x2="184" y2="74" stroke="#2a2a28" stroke-dasharray="2 4"/>
-                  <polyline class="mkt" pathLength="100" fill="none" stroke="#4f86ff" stroke-width="3" points="16,82 34,78 52,90 70,72 88,96 106,100 124,104 142,40 160,102 184,98"/>
-                  <polyline class="mdl" pathLength="100" fill="none" stroke="#f5a623" stroke-width="3" points="16,76 34,70 52,86 70,92 88,84 106,96 124,108 142,100 160,92 184,104"/>
-                  <circle class="ping" cx="142" cy="40" r="5" fill="#ff5a4e"/>
-                </svg>
-                <div class="poster"><small>IBM Z Datathon</small>CS2<br>Integrity<br>Watch</div>
-              </div>
-              <div class="foot"><span>03 / CS2 Integrity Watch</span><span class="sw"><i style="background:#4f86ff"></i><i style="background:#f5a623"></i><i style="background:#ff5a4e"></i></span></div>
-            </div>
-            <span class="sticker">Machine learning</span>
-          </div>
-          <div class="proj-body">
-            <h3>CS2 Integrity <em>Watch</em></h3>
-            <dl class="tldr">
-              <div><dt class="caps-s">Problem</dt><dd>Match-fixing gets caught late, by someone rewatching hours of video.</dd></div>
-              <div><dt class="caps-s">Proposed solution</dt><dd>Compare a win-probability model with live betting odds every round, and flag maps where the market moves first.</dd></div>
-            </dl>
-            <ol class="steps">
-              <li><span class="k caps-s">Data</span><div><b>1,988 pro maps, 42,009 rounds</b><span>Parsed from demos with <code>demoparser2</code>: money, equipment, armor, buy type, side, score.</span></div></li>
-              <li><span class="k caps-s">Market</span><div><b>12,489 Polymarket events</b><span>1-minute prices and every fill.</span></div></li>
-              <li><span class="k caps-s">Align</span><div><b>One clock for both feeds</b><span>Inferred the 64-tick rate and anchored each map on its market&#x2019;s settlement.</span></div></li>
-              <li><span class="k caps-s">Model</span><div><b>Logistic regression, isotonic calibration</b><span>Match-level holdout. Brier 0.178 on 9,163 rounds vs. 0.25 for a coin flip.</span></div></li>
-              <li><span class="k caps-s">Benchmark</span><div><b>XGBoost</b><span>We kept logistic regression: its coefficients explain each alert exactly, and SHAP has no s390x build.</span></div></li>
-              <li><span class="k caps-s">Deploy</span><div><b>IBM LinuxONE (s390x)</b><span>Ingest, training, scoring and dashboard on one machine. About 9 ms per score, 33 tests.</span></div></li>
-              <li><span class="k caps-s">Alert</span><div><b>15+ point gap for 2+ rounds</b><span>Only when the market moved first. 474 of 1,014 market-matched maps raise nothing.</span></div></li>
-            </ol>
-            <div class="tags"><span class="tag-k caps-s">Built with</span><span class="tag">Python</span><span class="tag">pandas</span><span class="tag">scikit-learn</span><span class="tag">XGBoost</span><span class="tag">IBM LinuxONE</span><span class="tag">Polymarket API</span></div>
-            <div class="btns">
-              <a class="btn btn-primary" href="https://youtu.be/xO6F2ehuW4A" target="_blank" rel="noopener">Watch the video <span class="arr" aria-hidden="true">&#x2192;</span></a>
-              <a class="btn" href="http://148.100.79.57:38888/" target="_blank" rel="noopener">Live dashboard <span class="arr" aria-hidden="true">&#x2192;</span></a>
-              <a class="btn" href="https://www.figma.com/deck/O5UdHDEbmIeoyUa1FUXixK" target="_blank" rel="noopener">Pitch deck <span class="arr" aria-hidden="true">&#x2192;</span></a>
-              <a class="btn" href="https://github.com/jialewang0528-gif/IBMZProject" target="_blank" rel="noopener">GitHub repo <span class="arr" aria-hidden="true">&#x2192;</span></a>
-            </div>
-          </div>
-          <div class="proj-more figs">
-            <figure><img src="cs2-alert-high.jpg" alt="Win probability by round for Wildcard vs NOMERCY: the market sat near 97% while the model started at 50%, a 47.2-point gap held for 12 rounds, graded high severity" width="1440" height="612" loading="lazy"><figcaption class="caps-s muted">NOMERCY: a 47.2-point gap held 12 rounds, graded high.</figcaption></figure>
-            <figure><img src="cs2-alert-low.jpg" alt="Win probability by round for ex-Zero Tenacity vs RUSTEC: a two-round market spike to 45% with nothing to back it up, graded low severity" width="1440" height="612" loading="lazy"><figcaption class="caps-s muted">A two-round spike with nothing behind it, graded low.</figcaption></figure>
           </div>
         </article>
 
@@ -1677,14 +1679,14 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       <h2>Where I&#x2019;ve <em>worked</em></h2>    </header>
 
     <div class="xp-logos">
-      <a class="lg" href="#xp-patlytics" style="--c:#57dc2f" aria-label="Patlytics: Product &amp; GTM Strategy, jump to details"><span class="lg-now caps-s"><b></b>Now</span><span class="lg-mark"><svg class="lg-svg" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 162 50"><path fill="currentColor" d="M39.5617981,14.6688995h8.4298019c5.6337013,0,9.0974998,3.0056,9.0974998,7.8061008,0,4.9674988-3.5890007,7.8895988-9.0974998,7.8895988h-5.1329994v9.1000996h-3.3386002c.0417976,0,.0417976-24.7957993.0417976-24.7957993ZM42.9420013,17.4239998v10.269001h4.9660988c3.6724014,0,5.8423996-1.9619999,5.8423996-5.1345005,0-3.0890007-2.2117004-5.1345005-5.7172012-5.1345005h-5.0912971ZM59.467701,26.3987007c.6259995-4.2161007,3.4220009-6.7625008,8.1376991-6.7625008,5.1330032,0,7.6369019,3.0056,7.6369019,7.5555992v7.5974007c0,2.2123985.1669998,3.5900002.7094955,4.6753006h-3.3802948c-.3756027-.7514-.5008011-1.8785019-.5425034-3.0473022-1.6692963,2.4629021-4.2148972,3.4647026-6.5935974,3.4647026-4.0063019,0-6.6771011-1.8783989-6.6771011-5.5101013,0-2.6716003,1.460598-4.5917988,4.2984009-5.5101986,2.629097-.8766003,5.2582016-1.0853004,8.9722977-1.1271v-.4174004c0-3.0890999-1.4606018-4.8006001-4.7574005-4.8006001-2.7960968,0-4.2148972,1.5445995-4.6739998,4.0073986h-3.1716003v-.1251984h.0417023ZM65.7692032,37.0433998c3.5889969,0,6.2597961-2.7969017,6.2597961-6.0946007v-.9183998c-8.1793976.0418015-10.0155983,1.8367004-10.0155983,4.1744003,0,1.8367004,1.5023003,2.8386002,3.7558022,2.8386002ZM79.4989014,22.6417999h-2.7125015v-2.5881004h2.6707993v-5.2598h3.2134018v5.3015003h4.2148972v2.5881004h-4.2148972v11.1872997c0,2.2958984.7093964,3.4230003,3.5470963,3.4230003h.6259995v2.2958984c-.3755951.1669998-1.1684952.2504997-2.0865936.2504997-3.5889053,0-5.2999039-1.9202003-5.2999039-6.011097l.0417023-11.1873016ZM88.5129013,13.2495003h3.2134018v26.2150993h-3.2134018V13.2495003ZM119.5200195,22.6799927v-2.5800171h-4.210022v-5.3099976h-3.2199707v5.2600098h-2.6700439v.0499878h-.8800049l-5.0899658,12.7300415-.8699951,2.5899658-.8800049-2.5899658-5.2600098-12.7300415h-3.460022l7.8900146,18.7000122-.6300049,1.5c-1.9199829,4.2999878-2.5899658,4.7999878-4.9199829,4.7999878h-.960022v2.460022c.3699951.0900269,1.1199951.25,1.960022.25,3.289978,0,4.5899658-1.210022,6.5100098-5.8800049l7.9299927-19.289978h1.3300171v11.1900024c0,4.0899658,1.7099609,6.0100098,5.2999878,6.0100098.9199829,0,1.7099609-.0800171,2.0899658-.25v-2.3000488h-.6300049c-2.8399658,0-3.539978-1.1199951-3.539978-3.4199829v-11.1900024h4.210022ZM121.1050034,13.2495003h3.2139969v4.2579002h-3.2139969v-4.2579002ZM121.1050034,20.0955009h3.2139969v19.3690987h-3.2139969v-19.3690987ZM140.7189941,26.7329006c-.5419922-2.9638004-2.4619904-4.341301-5.048996-4.341301-3.5890045,0-5.4669952,2.6298008-5.4669952,7.3885994,0,4.717001,1.9609985,7.3469028,5.5500031,7.3469028,2.5879974,0,4.423996-1.3775024,5.0499878-4.1326027h3.2130127c-.8760071,4.7588005-4.0480042,6.8459015-8.3040009,6.8459015-5.5090027,0-8.7640076-3.7985992-8.7640076-10.0602016,0-6.5119991,3.3390045-10.1019993,8.7220001-10.1019993,4.2149963,0,7.5950012,2.4211998,8.1790009,7.1382008h-3.1710052v-.0834999h.0410004ZM161.4600067,33.9542999c0,3.5900002-3.2130127,5.8858986-7.7620087,5.8858986-4.5910034,0-7.7619934-2.2123985-8.5130005-6.7624969h3.2129974c.4170074,2.6715965,2.4620056,4.1744003,5.4250031,4.1744003,2.8800049,0,4.423996-1.2941017,4.423996-3.0891037,0-5.2596989-12.4359894-.9182968-12.4359894-8.8913975,0-2.9638004,2.2949982-5.6354008,7.0099945-5.6354008,4.173996,0,7.2619934,1.9619999,7.8880005,6.7625008h-3.2140045c-.5-3.0055008-2.1279907-4.1326008-4.8819885-4.1326008-2.4210052,0-3.7980042,1.1688004-3.7980042,2.7968006.125,5.3431988,12.6450043.9183998,12.6450043,8.8913994Z"/><path fill="currentColor" d="M22.8699951,5.4799805L14.9799805.6799927c-1.4199829-.8699951-3.1699829-.9099731-4.6699829-.0800171-1.5.8400269-2.3800049,2.3400269-2.3800049,4.0500488v1l-.8800049-.5400391c-1.4199829-.8800049-3.1699829-.9199829-4.6699829-.0799561-1.5.8299561-2.3800049,2.3299561-2.3800049,4.039978v27.9299927c0,2.9699707,1.5900269,5.7600098,4.0900269,7.3099976l7.8899536,4.8400269c.75.4599609,1.5800171.6699829,2.4200439.6699829.789978,0,1.5799561-.210022,2.25-.6300049,1.5-.8300171,2.3800049-2.3400269,2.3800049-4.0499878v-10.2600098l.8799438.539978c.75.4500122,1.5800171.6600342,2.4200439.6600342.789978,0,1.539978-.210022,2.25-.6199951,1.5-.8400269,2.3800049-2.3400269,2.3800049-4.0500488V12.789978c0-2.9599609-1.5500488-5.7599487-4.0900269-7.3099976ZM15.8200073,29.0800171l-2.1300049-1.2999878c-1.5900269-.960022-2.5499878-2.7200317-2.5499878-4.5500488v-11.8200073l2.1300049,1.3000488c1.5899658.9599609,2.5499878,2.7099609,2.5499878,4.5499878v11.8200073ZM15.8200073,45.1799927c0,.710022-.5,1.0900269-.710022,1.210022-.2099609.1300049-.7999878.3399658-1.4199829-.0400391l-7.8900146-4.7999878c-1.5899658-.9599609-2.539978-2.7099609-2.539978-4.5499878V9.0700073c0-.7000122.5-1.0800171.7000122-1.210022.1300049-.039978.3800049-.1599731.7099609-.1599731.210022,0,.460022.039978.710022.2099609l2.5499878,1.5500488v13.8099976c0,2.9599609,1.539978,5.7600098,4.0900269,7.2999878l3.7999878,2.3399658v12.2700195ZM23.7000122,31.4099731c0,.710022-.5,1.0800171-.710022,1.210022-.2000122.1199951-.789978.3300171-1.4099731-.039978l-2.5499878-1.5499878v-13.8200073c0-2.960022-1.5400391-5.7600098-4.0900269-7.3000488l-3.7999878-2.3099976v-2.9899902c0-.7099609.5-1.0899658.7099609-1.2099609.1300049-.0400391.3800049-.1700439.710022-.1700439.210022,0,.460022.0400391.710022.210022l7.8899536,4.7999878c1.5800171.960022,2.5400391,2.710022,2.5400391,4.5499878v18.6199951Z"/></svg></span><span class="lg-meta caps-s"><b>Product &amp; GTM</b><span>Aug 2026&#x2013;Present</span></span></a>
+      <a class="lg" href="#xp-patlytics" style="--c:#57dc2f" aria-label="Patlytics: Product &amp; GTM Strategy, jump to details"><span class="lg-mark"><svg class="lg-svg" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 162 50"><path fill="currentColor" d="M39.5617981,14.6688995h8.4298019c5.6337013,0,9.0974998,3.0056,9.0974998,7.8061008,0,4.9674988-3.5890007,7.8895988-9.0974998,7.8895988h-5.1329994v9.1000996h-3.3386002c.0417976,0,.0417976-24.7957993.0417976-24.7957993ZM42.9420013,17.4239998v10.269001h4.9660988c3.6724014,0,5.8423996-1.9619999,5.8423996-5.1345005,0-3.0890007-2.2117004-5.1345005-5.7172012-5.1345005h-5.0912971ZM59.467701,26.3987007c.6259995-4.2161007,3.4220009-6.7625008,8.1376991-6.7625008,5.1330032,0,7.6369019,3.0056,7.6369019,7.5555992v7.5974007c0,2.2123985.1669998,3.5900002.7094955,4.6753006h-3.3802948c-.3756027-.7514-.5008011-1.8785019-.5425034-3.0473022-1.6692963,2.4629021-4.2148972,3.4647026-6.5935974,3.4647026-4.0063019,0-6.6771011-1.8783989-6.6771011-5.5101013,0-2.6716003,1.460598-4.5917988,4.2984009-5.5101986,2.629097-.8766003,5.2582016-1.0853004,8.9722977-1.1271v-.4174004c0-3.0890999-1.4606018-4.8006001-4.7574005-4.8006001-2.7960968,0-4.2148972,1.5445995-4.6739998,4.0073986h-3.1716003v-.1251984h.0417023ZM65.7692032,37.0433998c3.5889969,0,6.2597961-2.7969017,6.2597961-6.0946007v-.9183998c-8.1793976.0418015-10.0155983,1.8367004-10.0155983,4.1744003,0,1.8367004,1.5023003,2.8386002,3.7558022,2.8386002ZM79.4989014,22.6417999h-2.7125015v-2.5881004h2.6707993v-5.2598h3.2134018v5.3015003h4.2148972v2.5881004h-4.2148972v11.1872997c0,2.2958984.7093964,3.4230003,3.5470963,3.4230003h.6259995v2.2958984c-.3755951.1669998-1.1684952.2504997-2.0865936.2504997-3.5889053,0-5.2999039-1.9202003-5.2999039-6.011097l.0417023-11.1873016ZM88.5129013,13.2495003h3.2134018v26.2150993h-3.2134018V13.2495003ZM119.5200195,22.6799927v-2.5800171h-4.210022v-5.3099976h-3.2199707v5.2600098h-2.6700439v.0499878h-.8800049l-5.0899658,12.7300415-.8699951,2.5899658-.8800049-2.5899658-5.2600098-12.7300415h-3.460022l7.8900146,18.7000122-.6300049,1.5c-1.9199829,4.2999878-2.5899658,4.7999878-4.9199829,4.7999878h-.960022v2.460022c.3699951.0900269,1.1199951.25,1.960022.25,3.289978,0,4.5899658-1.210022,6.5100098-5.8800049l7.9299927-19.289978h1.3300171v11.1900024c0,4.0899658,1.7099609,6.0100098,5.2999878,6.0100098.9199829,0,1.7099609-.0800171,2.0899658-.25v-2.3000488h-.6300049c-2.8399658,0-3.539978-1.1199951-3.539978-3.4199829v-11.1900024h4.210022ZM121.1050034,13.2495003h3.2139969v4.2579002h-3.2139969v-4.2579002ZM121.1050034,20.0955009h3.2139969v19.3690987h-3.2139969v-19.3690987ZM140.7189941,26.7329006c-.5419922-2.9638004-2.4619904-4.341301-5.048996-4.341301-3.5890045,0-5.4669952,2.6298008-5.4669952,7.3885994,0,4.717001,1.9609985,7.3469028,5.5500031,7.3469028,2.5879974,0,4.423996-1.3775024,5.0499878-4.1326027h3.2130127c-.8760071,4.7588005-4.0480042,6.8459015-8.3040009,6.8459015-5.5090027,0-8.7640076-3.7985992-8.7640076-10.0602016,0-6.5119991,3.3390045-10.1019993,8.7220001-10.1019993,4.2149963,0,7.5950012,2.4211998,8.1790009,7.1382008h-3.1710052v-.0834999h.0410004ZM161.4600067,33.9542999c0,3.5900002-3.2130127,5.8858986-7.7620087,5.8858986-4.5910034,0-7.7619934-2.2123985-8.5130005-6.7624969h3.2129974c.4170074,2.6715965,2.4620056,4.1744003,5.4250031,4.1744003,2.8800049,0,4.423996-1.2941017,4.423996-3.0891037,0-5.2596989-12.4359894-.9182968-12.4359894-8.8913975,0-2.9638004,2.2949982-5.6354008,7.0099945-5.6354008,4.173996,0,7.2619934,1.9619999,7.8880005,6.7625008h-3.2140045c-.5-3.0055008-2.1279907-4.1326008-4.8819885-4.1326008-2.4210052,0-3.7980042,1.1688004-3.7980042,2.7968006.125,5.3431988,12.6450043.9183998,12.6450043,8.8913994Z"/><path fill="currentColor" d="M22.8699951,5.4799805L14.9799805.6799927c-1.4199829-.8699951-3.1699829-.9099731-4.6699829-.0800171-1.5.8400269-2.3800049,2.3400269-2.3800049,4.0500488v1l-.8800049-.5400391c-1.4199829-.8800049-3.1699829-.9199829-4.6699829-.0799561-1.5.8299561-2.3800049,2.3299561-2.3800049,4.039978v27.9299927c0,2.9699707,1.5900269,5.7600098,4.0900269,7.3099976l7.8899536,4.8400269c.75.4599609,1.5800171.6699829,2.4200439.6699829.789978,0,1.5799561-.210022,2.25-.6300049,1.5-.8300171,2.3800049-2.3400269,2.3800049-4.0499878v-10.2600098l.8799438.539978c.75.4500122,1.5800171.6600342,2.4200439.6600342.789978,0,1.539978-.210022,2.25-.6199951,1.5-.8400269,2.3800049-2.3400269,2.3800049-4.0500488V12.789978c0-2.9599609-1.5500488-5.7599487-4.0900269-7.3099976ZM15.8200073,29.0800171l-2.1300049-1.2999878c-1.5900269-.960022-2.5499878-2.7200317-2.5499878-4.5500488v-11.8200073l2.1300049,1.3000488c1.5899658.9599609,2.5499878,2.7099609,2.5499878,4.5499878v11.8200073ZM15.8200073,45.1799927c0,.710022-.5,1.0900269-.710022,1.210022-.2099609.1300049-.7999878.3399658-1.4199829-.0400391l-7.8900146-4.7999878c-1.5899658-.9599609-2.539978-2.7099609-2.539978-4.5499878V9.0700073c0-.7000122.5-1.0800171.7000122-1.210022.1300049-.039978.3800049-.1599731.7099609-.1599731.210022,0,.460022.039978.710022.2099609l2.5499878,1.5500488v13.8099976c0,2.9599609,1.539978,5.7600098,4.0900269,7.2999878l3.7999878,2.3399658v12.2700195ZM23.7000122,31.4099731c0,.710022-.5,1.0800171-.710022,1.210022-.2000122.1199951-.789978.3300171-1.4099731-.039978l-2.5499878-1.5499878v-13.8200073c0-2.960022-1.5400391-5.7600098-4.0900269-7.3000488l-3.7999878-2.3099976v-2.9899902c0-.7099609.5-1.0899658.7099609-1.2099609.1300049-.0400391.3800049-.1700439.710022-.1700439.210022,0,.460022.0400391.710022.210022l7.8899536,4.7999878c1.5800171.960022,2.5400391,2.710022,2.5400391,4.5499878v18.6199951Z"/></svg></span><span class="lg-meta caps-s"><b>Product &amp; GTM</b><span>Aug 2026&#x2013;Nov 2026</span></span></a>
       <a class="lg" href="#xp-moonshot" style="--c:#c9c7ff" aria-label="Moonshot (YC S26): Product &amp; Growth, jump to details"><span class="lg-mark"><span class="lg-ms"><img src="logo-moonshot.png" alt="" width="192" height="192"><span>moonshot</span></span></span><span class="lg-meta caps-s"><b>Product &amp; Growth</b><span>Aug&#x2013;Oct 2026</span></span></a>
       <a class="lg" href="#xp-yanfeng" style="--c:#2f7bff" aria-label="Yanfeng Automotive Interiors: Commercial Strategy &amp; Ops, jump to details"><span class="lg-mark"><img class="lg-img" src="logo-yanfeng.png" alt="" width="609" height="165"></span><span class="lg-meta caps-s"><b>Strategy &amp; Ops</b><span>Jun&#x2013;Aug 2026</span></span></a>
       <a class="lg" href="#xp-rockbridge" style="--c:#4cb7e4" aria-label="Rockbridge Growth Equity: Private Equity, jump to details"><span class="lg-mark"><svg class="lg-svg" aria-hidden="true" focusable="false" viewBox="0 0 258 70" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M35.568 69.493c-5.325 0-8.738-3.576-8.738-9.115a9.665 9.665 0 0 1 2.268-6.212 8.28 8.28 0 0 1 6.47-2.894c3.919 0 6.967 1.922 8.157 5.148l.12.328-2.836.755-.098-.28c-.772-2.245-2.57-3.386-5.325-3.386-3.741 0-5.698 3.226-5.698 6.408 0 4.93 2.942 6.688 5.698 6.688 3.461 0 5.494-1.722 5.627-4.744h-5.77v-2.57h8.37v9.608H41.27v-1.908c-1.33 1.438-3.221 2.174-5.702 2.174ZM61.076 69.067l-4.513-7.1h-3.785v7.1h-2.85V51.685h7.89c3.68 0 5.708 1.829 5.708 5.143 0 2.579-1.332 4.345-3.68 4.882l4.67 7.34-3.44.017Zm-3.608-9.67c2.22 0 3.209-.789 3.209-2.569 0-1.779-.99-2.573-3.209-2.573h-4.69v5.143h4.69ZM76.771 69.494c-5.325 0-8.738-3.577-8.738-9.115s3.43-9.115 8.738-9.115 8.738 3.577 8.738 9.115-3.413 9.115-8.738 9.115Zm0-15.798c-2.756 0-5.702 1.775-5.702 6.687 0 4.913 2.946 6.688 5.702 6.688s5.702-1.775 5.702-6.688c0-4.912-2.942-6.687-5.702-6.687ZM104.67 69.067l-4.118-13.015-4.091 13.015h-2.658l-5.348-17.382h3.049L95.2 64.08l3.99-12.395h2.747l3.989 12.395 3.701-12.395h3.044l-5.343 17.382h-2.658ZM119.426 69.067V54.255h-5.033v-2.57h12.914v2.57h-5.032v14.812h-2.849ZM143.416 69.067v-7.712h-8.578v7.712h-2.849V51.685h2.849v7.105h8.578v-7.105h2.849v17.382h-2.849ZM161.104 69.067V51.685h12.399v2.57h-9.55v4.535h8.303v2.565h-8.303v5.148h9.781v2.564h-12.63ZM191.547 67.843a8.846 8.846 0 0 1-5.383 1.65c-5.325 0-8.738-3.576-8.738-9.114s3.431-9.115 8.738-9.115c5.307 0 8.738 3.577 8.738 9.115a10.09 10.09 0 0 1-1.425 5.37l2.521 2.09-1.775 2.156-2.676-2.152Zm-5.383-14.147c-2.756 0-5.702 1.775-5.702 6.687 0 4.913 2.946 6.688 5.702 6.688s5.702-1.775 5.702-6.688c0-4.912-2.946-6.687-5.702-6.687ZM206.44 69.494c-4.194 0-6.692-2.335-6.692-6.249v-11.56h2.849v11.188c0 2.8 1.185 4.051 3.843 4.051s3.843-1.251 3.843-4.051V51.685h2.849v11.56c0 3.914-2.503 6.249-6.692 6.249ZM222.939 51.685h-2.849v17.382h2.849V51.685ZM232.461 69.067V54.255h-5.032v-2.57h12.913v2.57h-5.032v14.812h-2.849ZM248.854 69.067v-7.934l-6.297-9.448h3.426l4.295 6.67 4.292-6.67H258l-6.297 9.448v7.934h-2.849ZM41.572 44.376l-5.45-8.586H31.45v8.586h-3.31V23.52h9.465c2.547 0 6.82.798 6.82 6.141 0 1.86-.594 5.024-4.482 5.88l5.627 8.835h-3.998ZM37.179 32.84c2.724 0 3.94-.977 3.94-3.173 0-2.197-1.216-3.173-3.94-3.173h-5.73v6.346h5.73ZM61.062 44.878c-6.372 0-10.486-4.296-10.486-10.939s4.114-10.943 10.486-10.943c6.373 0 10.486 4.296 10.486 10.943 0 6.648-4.096 10.939-10.486 10.939Zm0-19.082c-5.13 0-6.95 4.384-6.95 8.143 0 3.759 1.802 8.143 6.95 8.143s6.95-4.389 6.95-8.143c0-3.754-1.82-8.143-6.95-8.143ZM87.733 44.878c-6.373 0-10.491-4.296-10.491-10.939s4.118-10.943 10.49-10.943c4.74 0 8.281 2.423 9.48 6.479l.097.337-3.426.63-.071-.266c-.635-2.57-3.137-4.358-6.08-4.358-5.134-.022-6.967 4.358-6.967 8.121 0 3.763 1.82 8.143 6.954 8.143 3.306 0 5.836-2.299 6.297-5.715l.045-.316 3.46.444-.061.338a9.812 9.812 0 0 1-9.727 8.045ZM117.469 44.368l-6.918-9.767-2.592 2.538v7.229h-3.31V23.507h3.31v9.336l9.173-9.336h4.184l-8.462 8.702 8.64 12.159h-4.025ZM127.542 44.376V23.52h9.763c4.966 0 6.737 2.88 6.737 5.573a4.827 4.827 0 0 1-2.428 4.256c1.935.79 3.027 2.64 3.027 5.2a6.216 6.216 0 0 1-1.105 3.52c-1.087 1.522-2.898 2.307-5.339 2.307h-10.655Zm10.176-2.968c1.549-.023 3.399-.555 3.399-2.974 0-3.106-1.895-3.372-4.366-3.372h-5.902v6.346h6.869Zm-1.038-9.324c2.684 0 3.829-.887 3.829-2.889 0-2.72-1.775-2.72-3.856-2.72h-5.804v5.61h5.831ZM166.31 44.376l-5.454-8.586h-4.65v8.586h-3.329V23.52h9.461c2.552 0 6.826.798 6.826 6.141 0 1.86-.599 5.024-4.482 5.88l5.622 8.835h-3.994Zm-4.398-11.537c2.725 0 3.941-.977 3.941-3.173 0-2.197-1.216-3.173-3.941-3.173h-5.706v6.346h5.706ZM180.692 23.506h-3.306v20.857h3.306V23.506ZM190.224 44.376V23.52h7.957c5.889 0 9.266 3.843 9.266 10.543 0 6.462-3.466 10.318-9.266 10.318l-7.957-.005Zm7.504-2.968c4.158 0 6.182-2.486 6.182-7.602 0-4.881-2.002-7.322-5.956-7.322h-4.437v14.915l4.211.009ZM224.51 44.878c-6.373 0-10.486-4.295-10.486-10.938a11.558 11.558 0 0 1 2.72-7.469 9.93 9.93 0 0 1 7.766-3.475c4.699 0 8.356 2.308 9.785 6.173l.12.328-3.298.888-.093-.284c-.932-2.698-3.186-4.127-6.514-4.127-4.567 0-6.954 3.923-6.954 7.801 0 3.76 1.824 8.144 6.954 8.144 4.18 0 6.718-2.184 6.86-5.863h-6.98V33.08h10.007v11.458h-2.965v-2.419c-1.562 1.815-3.874 2.76-6.922 2.76ZM242.82 44.368V23.507h14.839v2.968H246.13v5.61h10.025v2.968H246.13V41.4h11.813v2.969H242.82Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M126.846 18.332S107.467 0 65.899 0C28.623 0 5.707 16.113 0 21.82l.68.772S26.887 4.047 65.845 4.047c40.067 0 52.999 11.591 60.259 15.035l.741-.75Z" fill="currentColor"/></svg></span><span class="lg-meta caps-s"><b>Private Equity</b><span>May&#x2013;Jun 2025</span></span></a>
     </div>
 
     <div class="xp" id="xp-patlytics">
-      <div class="xp-head"><span class="xp-years caps-s">Aug 2026&#x2013;Present</span><span class="xp-co">Patlytics</span><span class="xp-role"><b>Product &amp; Go-to-Market Strategy Intern</b>New York, NY</span></div>
+      <div class="xp-head"><span class="xp-years caps-s">Aug 2026&#x2013;Nov 2026</span><span class="xp-co">Patlytics</span><span class="xp-role"><b>Product &amp; Go-to-Market Strategy Intern</b>New York, NY</span></div>
       <div class="xp-body"><p class="xp-line">Tested the AI agent before launch and built the tools that find new government patent-office contracts.</p><div class="xp-links"><a class="mw-link" href="https://www.patlytics.ai/agent" target="_blank" rel="noopener">Patlytics Agent &#x2197;</a><a class="mw-link" href="https://www.patlytics.ai/" target="_blank" rel="noopener">patlytics.ai &#x2197;</a></div></div>
     </div>
     <div class="xp" id="xp-moonshot">
@@ -1724,8 +1726,8 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       <span class="caps muted">Reach out</span>
       <h2>Feel free to reach <em>out!</em></h2>
       <div class="c-rows">
-        <div class="c-row"><span class="caps-s">Email</span><a class="c-val" href="mailto:michaelwang@nyu.edu">michaelwang@nyu.edu</a><button class="btn copy" type="button" data-copy="michaelwang@nyu.edu">Copy</button></div>
-        <div class="c-row"><span class="caps-s">Phone</span><span class="c-val">(248) 949-0121</span><button class="btn copy" type="button" data-copy="(248) 949-0121">Copy</button></div>
+        <div class="c-row"><span class="caps-s">Email</span><a class="c-val" href="mailto:michaelwang@nyu.edu">michaelwang@nyu.edu</a><button class="btn copy" type="button" aria-label="Copy email" data-copy="michaelwang@nyu.edu">Copy</button></div>
+        <div class="c-row"><span class="caps-s">Phone</span><span class="c-val">(248) 949-0121</span><button class="btn copy" type="button" aria-label="Copy phone number" data-copy="(248) 949-0121">Copy</button></div>
         <div class="c-row"><span class="caps-s">GitHub</span><a class="c-val" href="https://github.com/jialewang0528-gif" target="_blank" rel="noopener">github.com/jialewang0528-gif</a><a class="btn" href="https://github.com/jialewang0528-gif" target="_blank" rel="noopener">Open <span class="arr" aria-hidden="true">&#x2192;</span></a></div>
         <div class="c-row"><span class="caps-s">LinkedIn</span><a class="c-val" id="linkedin" href="https://www.linkedin.com/in/michael-wang28/" target="_blank" rel="noopener">linkedin.com/in/michael-wang28</a><a class="btn" href="https://www.linkedin.com/in/michael-wang28/" id="linkedinBtn" target="_blank" rel="noopener">Open <span class="arr" aria-hidden="true">&#x2192;</span></a></div>
       </div>
@@ -1735,10 +1737,10 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 
 <footer class="wrap">
   <p class="foot-mark" id="footMark" aria-hidden="true">Michael Wang</p>
-  <div class="foot-row caps-s"><span>New York, NY &#xb7; <span id="nyClock">--:--</span></span><span>Updated Nov 2026</span><span>Product &#xb7; Growth &#xb7; Data &#xb7; AI</span><button class="replay caps-s" type="button" data-replay>Replay intro</button><a href="#top">Back to top &#x2191;</a></div>
+  <div class="foot-row caps-s"><a href="#top">Back to top &#x2191;</a></div>
 </footer>
 
-<div class="pv" id="pv" role="dialog" aria-modal="true" aria-labelledby="pvName" aria-hidden="true">
+<div class="pv" id="pv" data-lenis-prevent role="dialog" aria-modal="true" aria-labelledby="pvName" aria-hidden="true">
   <div class="pv-bar">
     <span class="pv-idx caps-s" id="pvIdx">01 / 05</span>
     <span class="pv-name" id="pvName">Project</span>
@@ -2321,6 +2323,17 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       });
     });
     document.querySelectorAll(".figs figure, .resume-img, .proj > .float").forEach(function (el) { el.classList.add("rv-clip"); io.observe(el); });
+    // backup: the observer sees a fully clipped element as zero-size, so a scrollbar jump past it can leave it hidden.
+    // On page scroll, reveal anything visible on the page that is already in or above the screen.
+    var rvPend = [].slice.call(document.querySelectorAll(".rv-clip"));
+    function rvSweep() {
+      rvPend = rvPend.filter(function (el) {
+        if (el.classList.contains("in")) return false;
+        if (el.offsetParent && el.getBoundingClientRect().top < window.innerHeight) { el.classList.add("in"); io.unobserve(el); return false; }
+        return true;
+      });
+    }
+    window.addEventListener("scroll", rvSweep, { passive: true });
   }
 
   // portrait: gentle 3D tilt toward the cursor, with the sheen following it
@@ -2352,7 +2365,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
   var PROJ = {
     swap: { el: "p-swap", bg: "sw-bg.jpg", name: "Swap", title: "Swap", cat: "Personal finance \u00b7 iPhone app", desc: "A daily spending number for college kids who live in the city.", stats: "<b>13</b> months of data <i></i> <b>27</b> tests",
       cards: [{ poster: 1 }, { src: "sw-p1.jpg", tall: 1, alt: "This week: what is left today and where the money goes, sample student" }, { src: "sw-p2.jpg", tall: 1, alt: "Food and getting around this week against the usual week, sample student" }, { src: "sw-p3.jpg", tall: 1, alt: "A swap card: subway to Thursday dinner, about $15 a week" }] },
-    rho: { el: "p-rho", name: "Rho Pilot", title: "Rho <em>Pilot</em>", cat: "AI feature \u00b7 NYU PMC \u00d7 Rho", desc: "One date that tells a founder when to start raising.", stats: "<b>3</b> founder interviews <i></i> <b>4</b> pain points <i></i> Live prototype",
+    rho: { el: "p-rho", name: "Rho Pilot", title: "Rho <em>Pilot</em>", cat: "AI feature \u00b7 NYU PMC \u00d7 Rho", desc: "One date that tells a founder when to start raising.", stats: "<b>3</b> interviews <i></i> <b>4</b> pain points <i></i> Live prototype",
       cards: [{ poster: 1 }, { src: "rho-01.jpg", alt: "The raise-by date: start raising by mid-April 2027" }, { src: "rho-02.jpg", alt: "A $60,000 HubSpot renewal, every option priced in days" }, { src: "rho-03.jpg", alt: "Trust: what it knows, what it won't guess, and who is in control" }, { src: "rho-04.jpg", alt: "A possible duplicate charge: Rho asks instead of acting" }] },
     whoop: { el: "p-whoop", name: "WHOOP Calendar Sync", title: "WHOOP Calendar <em>Sync</em>", cat: "0\u21921 feature \u00b7 NYU PM Club", desc: "Coaching that fits your real schedule.", stats: "<b>14</b> screens <i></i> <b>7</b> pain points <i></i> <b>3</b> KPIs",
       cards: [{ poster: 1 }, { src: "pitch-01.jpg", alt: "Pitch deck title slide: Calendar Sync for WHOOP" }, { src: "pitch-07.jpg", alt: "Pitch insight: members check WHOOP every day, but its advice does not fit their schedule" }, { src: "wh-p2.jpg", tall: 1, alt: "Google Calendar integration screen" }, { src: "wh-p5.jpg", tall: 1, alt: "Lock-screen check-in: early start today" }, { src: "wh-p6.jpg", tall: 1, alt: "WHOOP AI morning check-in that fits the schedule" }, { src: "pitch-12.jpg", alt: "Pitch MVP slide with the value-effort matrix" }, { src: "pitch-15.jpg", alt: "Pitch KPI slide" }] },
@@ -2450,7 +2463,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     if (!pv.classList.contains("open")) {
       pvReturn = document.activeElement; pvFill(key);
       root.classList.add("pv-lock"); pv.classList.add("open"); pv.setAttribute("aria-hidden", "false");
-      setTimeout(function () { document.getElementById("pvClose").focus({ preventScroll: true }); }, 60);
+      setTimeout(function () { if (pv.classList.contains("open")) document.getElementById("pvClose").focus({ preventScroll: true }); }, 60);
     } else {
       pvPending = key; pv.classList.add("swapping"); clearTimeout(pvSwapT);
       pvSwapT = setTimeout(function () { var k2 = pvPending; pvPending = null; pvFill(k2); pv.classList.remove("swapping"); }, 260);
@@ -2476,7 +2489,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       rvRun = false; if (rvRaf) { cancelAnimationFrame(rvRaf); rvRaf = 0; } if (pvKey) { var a = document.getElementById(PROJ[pvKey].el); if (a) pvStore.appendChild(a); } pvKey = null;
     }, 900);
   }
-  function fromHash() { var m = /^#project\/([a-z0-9]+)/.exec(location.hash); if (m) openProject(m[1]); else { pvPushed = false; closeProject(true); } }
+  function fromHash() { var m = /^#project\/([a-z0-9]+)/.exec(location.hash); if (m && PROJ[m[1]]) openProject(m[1]); else { pvPushed = false; closeProject(true); } }
   window.addEventListener("hashchange", fromHash);
   document.addEventListener("click", function (e) {
     var a = e.target.closest && e.target.closest('a[href^="#project/"]'); if (!a) return;
@@ -2597,7 +2610,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
       var secs = Math.floor(T / 1000); vTime.textContent = Math.floor(secs / 60) + ":" + String(secs % 60).padStart(2, "0");
     }
     function vSeek(T) { vT0 = Math.max(0, Math.min(VEND, T)); vClicked = Math.floor(vT0 / VD) - (vT0 % VD > VD - 330 ? 0 : 1); vtp.classList.remove("ended"); vRender(vT0); }
-    function vPlay() { if (!vReady) return; if (vT0 >= VEND - 1 || vtp.classList.contains("ended")) vSeek(0); vPlaying = true; vLast = 0; vtp.classList.add("started"); vtp.classList.remove("paused"); document.getElementById("vtpPlay").setAttribute("aria-label", "Pause walkthrough");  curRefresh(); }
+    function vPlay() { if (!vReady) { vAuto = true; vPrime(); return; } if (vT0 >= VEND - 1 || vtp.classList.contains("ended")) vSeek(0); vPlaying = true; vLast = 0; vtp.classList.add("started"); vtp.classList.remove("paused"); document.getElementById("vtpPlay").setAttribute("aria-label", "Pause walkthrough");  curRefresh(); }
     function vPause() { vPlaying = false; vtp.classList.add("paused"); document.getElementById("vtpPlay").setAttribute("aria-label", "Play walkthrough"); curRefresh(); }
     function vFrame(now) {
       if (vPlaying && vVisible && !document.hidden) {
@@ -2614,15 +2627,23 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     vScreen.addEventListener("click", function (e) { if (e.target.closest(".vtp-end")) return; if (vPlaying) vPause(); else vPlay(); });
     if (window.ResizeObserver) new ResizeObserver(function () { vMeasure(); vRender(vT0); }).observe(vScreen); else window.addEventListener("resize", function () { vMeasure(); vRender(vT0); });
     var vAuto = true;
-    if ("IntersectionObserver" in window) new IntersectionObserver(function (es) {
-      es.forEach(function (e) { vVisible = e.isIntersecting; if (vVisible && vAuto && vReady && !reduce) { vAuto = false; vPlay(); } });
-    }, { threshold: 0.6 }).observe(vScreen);
-    else vVisible = true;
-    // decode every screen before the first frame so nothing pops in mid-move
-    Promise.race([Promise.all(Array.prototype.map.call(vImgs, function (im) { im.loading = "eager"; return im.decode ? im.decode().catch(function () {}) : Promise.resolve(); })), new Promise(function (r) { setTimeout(r, 2500); })]).then(function () {
-      vReady = true; vMeasure(); vRender(0);
-      if (vVisible && vAuto && !reduce) { vAuto = false; vPlay(); }
-    });
+    // decode every screen before the first frame so nothing pops in mid-move,
+    // but only once the player is near the screen: the 9 screens are 2.5MB and most visitors never open Veraitas
+    var vPrimed = false;
+    function vPrime() {
+      if (vPrimed) return; vPrimed = true;
+      Promise.race([Promise.all(Array.prototype.map.call(vImgs, function (im) { im.loading = "eager"; return im.decode ? im.decode().catch(function () {}) : Promise.resolve(); })), new Promise(function (r) { setTimeout(r, 2500); })]).then(function () {
+        vReady = true; vMeasure(); vRender(0);
+        if (vVisible && vAuto && !reduce) { vAuto = false; vPlay(); }
+      });
+    }
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) { vVisible = e.isIntersecting; if (vVisible) vPrime(); if (vVisible && vAuto && vReady && !reduce) { vAuto = false; vPlay(); } });
+      }, { threshold: 0.6 }).observe(vScreen);
+      var vNear = new IntersectionObserver(function (es) { if (es.some(function (e) { return e.isIntersecting; })) { vNear.disconnect(); vPrime(); } }, { rootMargin: "1200px 0px" });
+      vNear.observe(vScreen);
+    } else { vVisible = true; vPrime(); }
     vRender(0); requestAnimationFrame(vFrame);
   }
 
