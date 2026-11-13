@@ -960,6 +960,37 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 .sw-ptag { animation: swPosterTag 6s var(--ease-out) infinite; }
 @keyframes swPosterTag { 0%, 38% { opacity: 0; transform: translateY(4px); } 50%, 100% { opacity: 1; transform: none; } }
 .sw-px { font: 800 9px var(--sans); fill: #0f0f0e; letter-spacing: .02em; }
+
+/* Rho Pilot card: Rho's mint, measured from the prototype */
+.pc-rho { --glow-c: rgba(106, 243, 217, .13); }
+.pc-rho .ui { width: 220px; }
+.pc-rho .ui.wide { width: 286px; }
+.pc-rho .ui-big { color: #6af3d9; }
+.pc-rho .ui-row b { font-size: 12px; }
+.rho-new { padding: 2px 7px; border-radius: 6px; background: rgba(106, 243, 217, .14); color: #6af3d9 !important; font-size: 10.5px; }
+.rho-line { height: 60px; margin: 6px 0 10px; }
+.rho-bar { height: 8px; border-radius: 4px; background: repeating-linear-gradient(135deg, #2a2a28 0 4px, #1c1c1b 4px 8px); overflow: hidden; margin-bottom: 10px; }
+.rho-bar i { display: block; width: var(--w); height: 100%; background: #6af3d9; }
+.rho-up { color: #6af3d9 !important; }
+.rho-dot { background: #6af3d9; }
+.pc-rho .ui1 { transform: translate(-150%, -6%) rotate(-5deg); }
+.pc-rho .ui2 { transform: translate(-50%, -84%); z-index: 2; }
+.pc-rho .ui3 { transform: translate(50%, -14%) rotate(5deg); z-index: 3; }
+@media (hover: hover) and (pointer: fine) { .pcard:hover .pc-rho .ui1 { transform: translate(-156%, -8%) rotate(-7deg); } }
+@media (hover: hover) and (pointer: fine) { .pcard:hover .pc-rho .ui2 { transform: translate(-50%, -88%) scale(1.03); } }
+@media (hover: hover) and (pointer: fine) { .pcard:hover .pc-rho .ui3 { transform: translate(56%, -12%) rotate(7deg); } }
+@media (max-width: 640px) {
+  .pc-rho .ui1 { display: none; }
+  .pc-rho .ui2 { transform: translate(-50%, -96%) rotate(-2deg); z-index: 1; }
+  @media (hover: hover) and (pointer: fine) { .pcard:hover .pc-rho .ui2 { transform: translate(-50%, -96%) rotate(-2deg); z-index: 1; } }
+  .pc-rho .ui3 { transform: translate(-32%, 6%) rotate(3deg); z-index: 2; }
+  @media (hover: hover) and (pointer: fine) { .pcard:hover .pc-rho .ui3 { transform: translate(-32%, 6%) rotate(3deg); z-index: 2; } }
+}
+.rho-lbl { font: 600 9px/1 var(--sans); letter-spacing: .14em; fill: #6e6c67; }
+.rho-date { font: 600 13px/1 var(--sans); letter-spacing: .08em; fill: #6af3d9; }
+.rho-move { stroke-dasharray: 100 100; animation: rhoMove 5s var(--ease-out) infinite; }
+@keyframes rhoMove { 0% { stroke-dashoffset: 100; } 40%, 100% { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .rho-move { animation: none; } }
 </style>
 <link rel="stylesheet" href="build.css">
 <link rel="stylesheet" href="addon-cursor.css">
@@ -1171,35 +1202,35 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
         </div>
       </a>
 
-      <a class="pcard feat flip" href="#project/veraitas" aria-label="Open Veraitas"><span class="pc-spine" aria-hidden="true"><span>Veraitas</span></span>
+      <a class="pcard feat flip" href="#project/rho" aria-label="Open Rho Pilot"><span class="pc-spine" aria-hidden="true"><span>Rho <em>Pilot</em></span></span>
         <div class="pc-info">
-          <span class="pc-cat caps-s">Fintech &#xb7; Tech@NYU Buildathon</span>
-          <h3 class="pc-title">Veraitas</h3>
-          <p class="pc-desc">Crypto trading, explained for beginners.</p>
-          <span class="pc-stats caps-s">Claude agent <i></i> Live order book <i></i> True Markets API</span>
-          <span class="btn btn-primary pc-go">Watch the demo <span class="arr" aria-hidden="true">&#x2192;</span></span>
+          <span class="pc-cat caps-s">AI feature &#xb7; NYU PMC &#xd7; Rho</span>
+          <h3 class="pc-title">Rho <em>Pilot</em></h3>
+          <p class="pc-desc">One date that tells a founder when to start raising.</p>
+          <span class="pc-stats caps-s"><b>3</b> founder interviews <i></i> <b>4</b> pain points <i></i> Live prototype</span>
+          <span class="btn btn-primary pc-go">Open project <span class="arr" aria-hidden="true">&#x2192;</span></span>
         </div>
-        <div class="pc-art pc-ui pc-vt" aria-hidden="true">
+        <div class="pc-art pc-ui pc-rho" aria-hidden="true">
           <div class="ui-stage">
             <div class="ui ui1">
-              <div class="ui-h"><span class="ui-coin"></span><b>Solana</b><span class="ui-chip">SOL</span></div>
-              <div class="ui-px">$102.16 <i class="dn">&#x2212;0.5%</i></div>
-              <svg class="ui-chart" viewBox="0 0 200 74" preserveAspectRatio="none"><defs><linearGradient id="uiFillRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff4d5e" stop-opacity=".32"/><stop offset="1" stop-color="#ff4d5e" stop-opacity="0"/></linearGradient></defs><path d="M0 14 L10 12 L18 16 L26 10 L34 15 L44 13 L52 19 L60 17 L70 24 L80 22 L90 30 L98 28 L106 38 L112 58 L118 66 L124 52 L132 46 L142 40 L152 36 L162 30 L172 26 L182 18 L190 8 L200 10 L200 74 L0 74 Z" fill="url(#uiFillRed)"/><path class="ui-draw" pathLength="100" d="M0 14 L10 12 L18 16 L26 10 L34 15 L44 13 L52 19 L60 17 L70 24 L80 22 L90 30 L98 28 L106 38 L112 58 L118 66 L124 52 L132 46 L142 40 L152 36 L162 30 L172 26 L182 18 L190 8 L200 10" fill="none" stroke="#ff4d5e" stroke-width="1.6" vector-effect="non-scaling-stroke"/></svg>
-              <div class="ui-foot"><i class="ui-live"></i>Live from True Markets</div>
+              <div class="ui-k">Raise-by <span class="rho-new">New</span></div>
+              <div class="ui-big">Apr 11</div>
+              <div class="ui-row"><span>Plan said</span><b>Jul 12</b></div>
+              <div class="ui-row"><span>Range</span><b>Mar 1 &#x2013; Apr 28</b></div>
+              <div class="ui-row"><span>Cash after renewal</span><b>$2.04M</b></div>
             </div>
-            <div class="ui ui2">
-              <div class="ui-k">Before you buy <span>$5.00 of SOL</span></div>
-              <div class="ui-row"><span>You get</span><b>~0.048844 SOL</b></div>
-              <div class="ui-row"><span>Fee</span><b>$0.01</b></div>
-              <div class="ui-row"><span>Network fee</span><b>Covered</b></div>
-              <div class="ui-row"><span>Hidden cost</span><b>$0.01</b></div>
-              <div class="ui-row"><span>Sell-back now</span><b>~$4.97</b></div>
+            <div class="ui ui2 wide">
+              <div class="ui-k">Why your date moved <span>3.0 months earlier</span></div>
+              <svg class="ui-chart rho-line" viewBox="0 0 260 60" preserveAspectRatio="none"><line x1="4" y1="30" x2="256" y2="30" stroke="#2a2a28" stroke-width="2"/><rect x="104" y="23" width="56" height="14" rx="2" fill="#6af3d9" opacity=".22"/><line class="ui-draw" pathLength="100" x1="214" y1="30" x2="142" y2="30" stroke="#ebe8e1" stroke-width="2" vector-effect="non-scaling-stroke"/><circle cx="214" cy="30" r="6" fill="#141413" stroke="#a8a59e" stroke-width="2"/><circle cx="142" cy="30" r="6" fill="#6af3d9"/></svg>
+              <div class="rho-bar"><i style="--w:13%"></i></div>
+              <div class="ui-leg"><span><i style="background:#6af3d9"></i>0.4 signed</span><span><i style="background:#4a4a46"></i>2.6 not certain yet</span></div>
             </div>
             <div class="ui ui3">
-              <div class="ui-k"><span class="ui-spark">&#x2726;</span> Veraitas Agent</div>
-              <div class="ui-q">Why is SOL moving today?</div>
-              <p class="ui-a">SOL dipped slightly as the wider crypto market fell and borrowed bets were forced to sell.</p>
-              <div class="ui-src"><span>tradingkey.com</span><span>coinmarketcap.com</span></div>
+              <div class="ui-k">HubSpot renewal <span>$60K</span></div>
+              <div class="ui-row"><span>Approve as is</span><b>Apr 11</b></div>
+              <div class="ui-row"><span>Ask for monthly</span><b>Apr 12</b></div>
+              <div class="ui-row"><span>Cancel</span><b class="rho-up">Apr 20</b></div>
+              <div class="ui-foot"><i class="ui-live rho-dot"></i>9 days left to change it</div>
             </div>
           </div>
         </div>
@@ -1238,7 +1269,41 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
         </div>
       </a>
 
-      <a class="pcard feat flip" href="#project/swap" aria-label="Open Swap"><span class="pc-spine" aria-hidden="true"><span>Swap</span></span>
+      <a class="pcard feat flip" href="#project/veraitas" aria-label="Open Veraitas"><span class="pc-spine" aria-hidden="true"><span>Veraitas</span></span>
+        <div class="pc-info">
+          <span class="pc-cat caps-s">Fintech &#xb7; Tech@NYU Buildathon</span>
+          <h3 class="pc-title">Veraitas</h3>
+          <p class="pc-desc">Crypto trading, explained for beginners.</p>
+          <span class="pc-stats caps-s">Claude agent <i></i> Live order book <i></i> True Markets API</span>
+          <span class="btn btn-primary pc-go">Watch the demo <span class="arr" aria-hidden="true">&#x2192;</span></span>
+        </div>
+        <div class="pc-art pc-ui pc-vt" aria-hidden="true">
+          <div class="ui-stage">
+            <div class="ui ui1">
+              <div class="ui-h"><span class="ui-coin"></span><b>Solana</b><span class="ui-chip">SOL</span></div>
+              <div class="ui-px">$102.16 <i class="dn">&#x2212;0.5%</i></div>
+              <svg class="ui-chart" viewBox="0 0 200 74" preserveAspectRatio="none"><defs><linearGradient id="uiFillRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff4d5e" stop-opacity=".32"/><stop offset="1" stop-color="#ff4d5e" stop-opacity="0"/></linearGradient></defs><path d="M0 14 L10 12 L18 16 L26 10 L34 15 L44 13 L52 19 L60 17 L70 24 L80 22 L90 30 L98 28 L106 38 L112 58 L118 66 L124 52 L132 46 L142 40 L152 36 L162 30 L172 26 L182 18 L190 8 L200 10 L200 74 L0 74 Z" fill="url(#uiFillRed)"/><path class="ui-draw" pathLength="100" d="M0 14 L10 12 L18 16 L26 10 L34 15 L44 13 L52 19 L60 17 L70 24 L80 22 L90 30 L98 28 L106 38 L112 58 L118 66 L124 52 L132 46 L142 40 L152 36 L162 30 L172 26 L182 18 L190 8 L200 10" fill="none" stroke="#ff4d5e" stroke-width="1.6" vector-effect="non-scaling-stroke"/></svg>
+              <div class="ui-foot"><i class="ui-live"></i>Live from True Markets</div>
+            </div>
+            <div class="ui ui2">
+              <div class="ui-k">Before you buy <span>$5.00 of SOL</span></div>
+              <div class="ui-row"><span>You get</span><b>~0.048844 SOL</b></div>
+              <div class="ui-row"><span>Fee</span><b>$0.01</b></div>
+              <div class="ui-row"><span>Network fee</span><b>Covered</b></div>
+              <div class="ui-row"><span>Hidden cost</span><b>$0.01</b></div>
+              <div class="ui-row"><span>Sell-back now</span><b>~$4.97</b></div>
+            </div>
+            <div class="ui ui3">
+              <div class="ui-k"><span class="ui-spark">&#x2726;</span> Veraitas Agent</div>
+              <div class="ui-q">Why is SOL moving today?</div>
+              <p class="ui-a">SOL dipped slightly as the wider crypto market fell and borrowed bets were forced to sell.</p>
+              <div class="ui-src"><span>tradingkey.com</span><span>coinmarketcap.com</span></div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a class="pcard feat" href="#project/swap" aria-label="Open Swap"><span class="pc-spine" aria-hidden="true"><span>Swap</span></span>
         <div class="pc-info">
           <span class="pc-cat caps-s">Personal finance &#xb7; iPhone app</span>
           <h3 class="pc-title">Swap</h3>
@@ -1367,7 +1432,52 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
           </div>
         </article>
 
-        <article class="proj" id="p-vt" data-n="02">
+        <article class="proj" id="p-rho" data-n="02">
+          <div class="float" role="img" aria-label="Rho Pilot project poster">
+            <div class="sheet">
+              <div class="media">
+                <svg viewBox="0 0 200 250" aria-hidden="true">
+                  <text x="16" y="34" class="rho-lbl">PLAN</text><text x="184" y="34" text-anchor="end" class="rho-lbl">JUL 12</text>
+                  <line x1="16" y1="58" x2="184" y2="58" stroke="#2a2a28" stroke-width="4"/>
+                  <rect x="70" y="50" width="52" height="16" rx="2" fill="#6af3d9" opacity=".2"/>
+                  <line class="rho-move" x1="168" y1="58" x2="96" y2="58" stroke="#ebe8e1" stroke-width="4" pathLength="100"/>
+                  <circle cx="168" cy="58" r="8" fill="#0f0f0e" stroke="#6e6c67" stroke-width="3"/>
+                  <circle class="rho-dotp" cx="96" cy="58" r="9" fill="#6af3d9"/>
+                  <text x="96" y="92" text-anchor="middle" class="rho-date">APR 11</text>
+                </svg>
+                <div class="poster"><small>NYU PMC &#xd7; Rho</small>Rho<br>Pilot</div>
+              </div>
+              <div class="foot"><span>02 / Rho Pilot</span><span class="sw"><i style="background:#6af3d9"></i><i style="background:#ebe8e1"></i><i style="background:#6e6c67"></i></span></div>
+            </div>
+            <span class="sticker">AI feature</span>
+          </div>
+          <div class="proj-body">
+            <h3>Rho <em>Pilot</em></h3>
+            <dl class="tldr">
+              <div><dt class="caps-s">Problem</dt><dd>First-time founders lose runway the day they sign a contract, and the money only leaves weeks later.</dd></div>
+              <div><dt class="caps-s">Proposed solution</dt><dd>One date to start raising, built from what the founder has already signed. It stays quiet until that date moves.</dd></div>
+            </dl>
+            <ol class="steps">
+              <li><span class="k caps-s">Research</span><div><b>Talked to 3 first-time founders</b><span>Plus founder threads, studies, and Mercury and Ramp side by side.</span></div></li>
+              <li><span class="k caps-s">ICP</span><div><b>First-time founder, pre-seed or seed</b><span>First year after raising, a team of about four, no finance hire.</span></div></li>
+              <li><span class="k caps-s">Synthesize</span><div><b>4 pain points</b><span>Founders find out too late, and most don&#x2019;t know where they stand.</span></div></li>
+              <li><span class="k caps-s">Insight</span><div><b>Warn when it&#x2019;s signed, not when it&#x2019;s charged</b><span>Alerts right before a charge change what people do. Budgets don&#x2019;t.</span></div></li>
+              <li><span class="k caps-s">Prototype</span><div><b>Coded prototype on Rho&#x2019;s data</b><span>The raise-by date, a renewal priced in days, and a what-if on the same math.</span></div></li>
+              <li><span class="k caps-s">Trust</span><div><b>AI reads and explains, math makes every number</b><span>Anything it guesses waits for the founder&#x2019;s yes. Rho never moves money.</span></div></li>
+              <li><span class="k caps-s">Measure</span><div><b>Alerts acted on within 7 days</b><span>Target 80%, with two guardrails: date accuracy and undone actions.</span></div></li>
+            </ol>
+            <div class="tags"><span class="tag-k caps-s">Built with</span><span class="tag">Figma Slides</span><span class="tag">HTML/CSS</span><span class="tag">JavaScript</span></div>
+            <div class="btns">
+              <a class="btn btn-primary" href="https://adonis-umber.vercel.app/" target="_blank" rel="noopener">Try the prototype <span class="arr" aria-hidden="true">&#x2192;</span></a>
+            </div>
+          </div>
+          <div class="proj-more figs pitch">
+            <figure><img src="rho-01.jpg" alt="Prototype: start raising by mid-April 2027, three months earlier than the plan said" width="1600" height="1000" loading="lazy"><figcaption class="caps-s muted">The raise-by date, with the math on screen.</figcaption></figure>
+            <figure><img src="rho-02.jpg" alt="Prototype: a $60,000 HubSpot renewal with three options, each priced in days" width="1600" height="1000" loading="lazy"><figcaption class="caps-s muted">A renewal, priced in days.</figcaption></figure>
+          </div>
+        </article>
+
+        <article class="proj" id="p-vt" data-n="04">
           <div class="vt-demo">
             <div class="vtp paused" id="vtp">
               <div class="vtp-chrome" aria-hidden="true"><i></i><i></i><i></i><span class="vtp-name">Veraitas</span><span class="vtp-len caps-s">0:47</span></div>
@@ -1411,7 +1521,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
                 </svg>
                 <div class="poster"><small>Tech@NYU Buildathon</small><span class="vt-wm">Veraitas</span></div>
               </div>
-              <div class="foot"><span>02 / Veraitas</span><span class="sw"><i style="background:#2ee68a"></i><i style="background:#ebe8e1"></i><i style="background:#ff4d5e"></i></span></div>
+              <div class="foot"><span>04 / Veraitas</span><span class="sw"><i style="background:#2ee68a"></i><i style="background:#ebe8e1"></i><i style="background:#ff4d5e"></i></span></div>
             </div>
             <span class="sticker">Fintech</span>
           </div>
@@ -1482,7 +1592,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
           </div>
         </article>
 
-        <article class="proj" id="p-swap" data-n="04">
+        <article class="proj" id="p-swap" data-n="05">
           <div class="float" role="img" aria-label="Swap project poster">
             <div class="sheet">
               <div class="media">
@@ -1498,7 +1608,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
                 </svg>
                 <div class="poster"><small>iPhone app</small>Swap</div>
               </div>
-              <div class="foot"><span>04 / Swap</span><span class="sw"><i style="background:#e46c35"></i><i style="background:#4a5fd8"></i><i style="background:#2e9e6a"></i></span></div>
+              <div class="foot"><span>05 / Swap</span><span class="sw"><i style="background:#e46c35"></i><i style="background:#4a5fd8"></i><i style="background:#2e9e6a"></i></span></div>
             </div>
             <span class="sticker">Personal finance</span>
           </div>
@@ -1630,7 +1740,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
 
 <div class="pv" id="pv" role="dialog" aria-modal="true" aria-labelledby="pvName" aria-hidden="true">
   <div class="pv-bar">
-    <span class="pv-idx caps-s" id="pvIdx">01 / 04</span>
+    <span class="pv-idx caps-s" id="pvIdx">01 / 05</span>
     <span class="pv-name" id="pvName">Project</span>
     <div class="pv-ctl">
       <button class="pv-btn" type="button" id="pvPrev" aria-label="Previous project">&#x2190;</button>
@@ -2242,6 +2352,8 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
   var PROJ = {
     swap: { el: "p-swap", bg: "sw-bg.jpg", name: "Swap", title: "Swap", cat: "Personal finance \u00b7 iPhone app", desc: "A daily spending number for college kids who live in the city.", stats: "<b>13</b> months of data <i></i> <b>27</b> tests",
       cards: [{ poster: 1 }, { src: "sw-p1.jpg", tall: 1, alt: "This week: what is left today and where the money goes, sample student" }, { src: "sw-p2.jpg", tall: 1, alt: "Food and getting around this week against the usual week, sample student" }, { src: "sw-p3.jpg", tall: 1, alt: "A swap card: subway to Thursday dinner, about $15 a week" }] },
+    rho: { el: "p-rho", name: "Rho Pilot", title: "Rho <em>Pilot</em>", cat: "AI feature \u00b7 NYU PMC \u00d7 Rho", desc: "One date that tells a founder when to start raising.", stats: "<b>3</b> founder interviews <i></i> <b>4</b> pain points <i></i> Live prototype",
+      cards: [{ poster: 1 }, { src: "rho-01.jpg", alt: "The raise-by date: start raising by mid-April 2027" }, { src: "rho-02.jpg", alt: "A $60,000 HubSpot renewal, every option priced in days" }, { src: "rho-03.jpg", alt: "Trust: what it knows, what it won't guess, and who is in control" }, { src: "rho-04.jpg", alt: "A possible duplicate charge: Rho asks instead of acting" }] },
     whoop: { el: "p-whoop", name: "WHOOP Calendar Sync", title: "WHOOP Calendar <em>Sync</em>", cat: "0\u21921 feature \u00b7 NYU PM Club", desc: "Coaching that fits your real schedule.", stats: "<b>14</b> screens <i></i> <b>7</b> pain points <i></i> <b>3</b> KPIs",
       cards: [{ poster: 1 }, { src: "pitch-01.jpg", alt: "Pitch deck title slide: Calendar Sync for WHOOP" }, { src: "pitch-07.jpg", alt: "Pitch insight: members check WHOOP every day, but its advice does not fit their schedule" }, { src: "wh-p2.jpg", tall: 1, alt: "Google Calendar integration screen" }, { src: "wh-p5.jpg", tall: 1, alt: "Lock-screen check-in: early start today" }, { src: "wh-p6.jpg", tall: 1, alt: "WHOOP AI morning check-in that fits the schedule" }, { src: "pitch-12.jpg", alt: "Pitch MVP slide with the value-effort matrix" }, { src: "pitch-15.jpg", alt: "Pitch KPI slide" }] },
     veraitas: { el: "p-vt", name: "Veraitas", title: "Veraitas", cat: "Fintech \u00b7 Tech@NYU Buildathon", desc: "Crypto trading, explained for beginners.", stats: "Claude agent <i></i> Live order book <i></i> True Markets API",
@@ -2249,7 +2361,7 @@ footer { padding-block: var(--space-8) calc(var(--space-6) + env(safe-area-inset
     cs2: { el: "p-ibm", name: "CS2 Integrity Watch", title: "CS2 Integrity <em>Watch</em>", cat: "Machine learning \u00b7 IBM Z Datathon", desc: "Flags possible match-fixing, round by round.", stats: "<b>42,009</b> rounds <i></i> Brier <b>0.178</b> <i></i> <b>9</b> ms per score",
       cards: [{ poster: 1 }, { src: "reel-cs-1.jpg", alt: "CS2 deck: the NOMERCY match-fixing case" }, { src: "reel-cs-2.jpg", alt: "CS2 deck: system architecture" }, { src: "reel-cs-3.jpg", alt: "CS2 deck: alert on the NOMERCY match" }, { src: "cs2-alert-high.jpg", alt: "Model vs market gap held for 12 rounds" }] }
   };
-  var ORDER = ["whoop", "veraitas", "cs2", "swap"];
+  var ORDER = ["whoop", "rho", "cs2", "veraitas", "swap"];
   var pv = document.getElementById("pv"), pvScroll = document.getElementById("pvScroll"), pvCase = document.getElementById("pvCase"), pvStore = document.getElementById("pvStore");
   var reel = document.getElementById("reel"), stage = document.getElementById("reelStage");
   var pvKey = null, pvReturn = null, rvRun = false, cards = [], N = 0, fCur = 0, fTarget = 0, lastSlide = -1, bgFlip = false;

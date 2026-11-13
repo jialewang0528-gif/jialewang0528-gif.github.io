@@ -18,7 +18,7 @@
   safe(function flood() {
     var strip = document.querySelector(".pstrip"); if (!strip || reduce) return;
     var cards = [].slice.call(strip.querySelectorAll(".pcard"));
-    var COLORS = { whoop: "#ffde00", veraitas: "#3dd186", cs2: "#2c5471", swap: "#e46d35" };
+    var COLORS = { whoop: "#ffde00", rho: "#6af3d9", veraitas: "#3dd186", cs2: "#2c5471", swap: "#e46d35" };
     var meta = document.querySelector('meta[name="theme-color"]'), base = meta ? meta.getAttribute("content") : "";
     var wide = matchMedia("(min-width: 1100px)");
     var layer = document.createElement("div"); layer.className = "flood-bg"; layer.setAttribute("aria-hidden", "true");

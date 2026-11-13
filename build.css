@@ -15,6 +15,7 @@
    ground (cards, project view, intro, cursor) keeps the page defaults.
    ===================================================================== */
 html[data-flood="whoop"] body { --flood: #ffde00; --flood-ink: #0b0c0e; --flood-m: 72%; }
+html[data-flood="rho"] body { --flood: #6af3d9; --flood-ink: #0b0c0e; --flood-m: 74%; }
 html[data-flood="veraitas"] body { --flood: #3dd186; --flood-ink: #0a0a0a; --flood-m: 76%; }
 html[data-flood="cs2"] body { --flood: #2c5471; --flood-ink: #f4f5f6; --flood-m: 86%; }
 html[data-flood="swap"] body { --flood: #e46d35; --flood-ink: #131629; --flood-m: 94%; }
